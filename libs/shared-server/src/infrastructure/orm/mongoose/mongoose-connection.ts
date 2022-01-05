@@ -25,7 +25,7 @@ export function connectToMongo(): Promise<Connection> {
 	// eslint-disable-next-line no-async-promise-executor
 	global._efe_mongoosePromise = new Promise(async (resolve) => {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const _mongoose = await mongoose.connect(process.env.ECOMMERCE_DEMO_DB_CONNECTION_URL!, {
+		const _mongoose = await mongoose.connect(process.env.DATABASE_URL!, {
 			autoIndex: process.env.NODE_ENV !== 'production'
 		});
 		console.log('MongooseConnection::connectToMongo# CONNECTED to DB!');

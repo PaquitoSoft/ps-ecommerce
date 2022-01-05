@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import cx from 'classnames';
 
-import useShopCart from '@hooks/use-shop-cart';
-import useWishlist from '@hooks/use-wishlist';
+import useShopCart from '../../../../../hooks/use-shop-cart';
+import useWishlist from '../../../../../hooks/use-wishlist';
 
 import { Badge, ProfileIcon, FavoriteIcon, MiniCartIcon } from '@ps-ecommerce/design-system';
 

@@ -1,6 +1,6 @@
 import { RefObject, useCallback, useEffect, useState } from "react";
 
-import useWishlist from '@hooks/use-wishlist';
+import useWishlist from '../../hooks/use-wishlist';
 
 import { Product } from "@ps-ecommerce/types";
 

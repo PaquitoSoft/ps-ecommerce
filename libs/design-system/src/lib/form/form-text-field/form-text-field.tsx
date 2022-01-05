@@ -1,7 +1,7 @@
 import cx from 'classnames';
 
-import CheckmarkIcon from '@icons/checkmark-icon';
-import CrossIcon from '@icons/cross-icon';
+import CheckmarkIcon from '../../iconography/checkmark-icon';
+import CrossIcon from '../../iconography/cross-icon';
 
 import styles from './form-text-field.module.css';
 

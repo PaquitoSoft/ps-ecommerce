@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { Category } from '@ps-ecommerce/types';
 
+import { LogoIcon } from '@ps-ecommerce/design-system';
 import HeaderCategories from './header-categories/header-categories';
 import HeaderActions from './header-actions/header-actions';
 
@@ -17,11 +18,7 @@ function Header({ categories }: Props) {
 			<div className="app-header__logo">
 				<Link href="/">
 					<a>
-						<img
-							src="/images/icon-adidas-logo.svg"
-							alt="Adidas logo"
-							width={70}
-						/>
+						<LogoIcon width={70} />
 					</a>
 				</Link>
 			</div>

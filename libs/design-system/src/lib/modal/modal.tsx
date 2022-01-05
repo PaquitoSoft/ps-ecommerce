@@ -1,6 +1,6 @@
 import cx from 'classnames';
 
-import CloseIcon from '@icons/close-icon';
+import CloseIcon from '../iconography/close-icon';
 import SectionTitle from '../section-title/section-title';
 import IconButton from '../icon-button/icon-button';
 

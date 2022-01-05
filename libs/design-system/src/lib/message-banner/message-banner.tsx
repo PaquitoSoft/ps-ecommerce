@@ -1,6 +1,6 @@
 import cx from 'classnames';
 
-import CheckmarkCircleIcon from '@icons/checkmark-circle-icon';
+import CheckmarkCircleIcon from '../iconography/checkmark-circle-icon';
 
 import styles from './message-banner.module.css';
 

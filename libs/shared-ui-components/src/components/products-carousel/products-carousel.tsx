@@ -3,13 +3,12 @@ import cx from 'classnames';
 
 import { Product } from '@ps-ecommerce/types';
 
-import { SectionTitle } from '@ps-ecommerce/design-system';
+import { SectionTitle, utilStyles } from '@ps-ecommerce/design-system';
 import ProductSummary from '../product-summary/product-summary';
 
 import useProductsCarousel from './use-products-carousel';
 
 import styles from './products-carousel.module.css';
-import utilStyles from '@ds/utilities.module.css';
 
 export type MoveDirection = 'left' | 'right';
 

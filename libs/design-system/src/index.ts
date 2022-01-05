@@ -29,3 +29,4 @@ export * from './lib/iconography/profile-icon';
 export * from './lib/iconography/search-icon';
 export * from './lib/iconography/shipping-icon';
 export * from './lib/iconography/warehouse-icon';
+export * from './lib/iconography/logo-icon';

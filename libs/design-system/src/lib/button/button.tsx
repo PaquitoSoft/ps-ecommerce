@@ -1,6 +1,6 @@
 import cx from 'classnames';
 
-import ArrowIcon from '@icons/arrow-right-icon';
+import ArrowIcon from '../iconography/arrow-right-icon';
 
 import styles from './button.module.css';
 

@@ -6,6 +6,7 @@ export { default as LinksGrid } from './components/links-grid/links-grid';
 export { default as ProductImage } from './components/product-image/product-image';
 export { default as ProductSummary } from './components/product-summary/product-summary';
 export { default as ProductsCarousel } from './components/products-carousel/products-carousel';
+export { default as EcommerceApp } from './components/app/app';
 
 export { default as useApolloClient } from './hooks/use-apollo-client';
 export { default as useShopCart, ShopCartFragment, ShopCartQuery } from './hooks/use-shop-cart';
