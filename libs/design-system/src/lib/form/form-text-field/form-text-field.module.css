@@ -1,0 +1,67 @@
+.formTextField {
+	position: relative;
+	margin: var(--spacer-020) 0 var(--spacer-015) 0;
+}
+
+.formTextFieldLabel {
+	position: absolute;
+	top: 20px;
+	left: var(--spacer-015);
+	font-size: var(--font-size-l);
+	text-transform: capitalize;
+	color: var(--color-dark-grey);
+	transition-duration: 0.3s;
+}
+
+.formTextFieldInput {
+	appearance: none;
+	left: var(--spacer-015);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-2xl);
+	padding: var(--spacer-015) 55px var(--spacer-015) var(--spacer-015);
+	width: 100%;
+	border: 1px solid var(--color-dark-grey);
+}
+
+/*
+	Hack to avoid blue background color for autocompleted inputs
+	Reference: https://stackoverflow.com/a/14205976/213855
+*/
+.formTextFieldInput:-webkit-autofill{
+	box-shadow: 0 0 0 30px var(--color-white) inset !important;
+}
+
+.formTextFieldInput:focus + .formTextFieldLabel,
+.formTextFieldLabel_active {
+	background-color: var(--color-white);
+	padding: var(--spacer-005) var(--spacer-005);
+	transform: translateY(calc(-32px)) scale(0.9);
+}
+
+.formTextFieldInput_valid {
+	border-bottom: 2px solid var(--color-green);
+}
+
+.formTextFieldInput_invalid {
+	border-bottom: 2px solid var(--color-red);
+}
+
+.formTextFieldErrorMsg {
+	color: var(--color-red);
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+	margin: var(--spacer-005) 0 0 var(--spacer-015);
+}
+
+.formTextFieldIcon {
+	position: absolute;
+	right: var(--spacer-020);
+	top: 15px;	
+}
+.formTextFieldSuccessIcon {
+	color: var(--color-green);
+}
+.formTextFieldErrorIcon {
+	color: var(--color-red);
+}

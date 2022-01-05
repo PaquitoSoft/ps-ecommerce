@@ -1,0 +1,16 @@
+{
+	"version": 2,
+	"projects": {
+		"checkout": "apps/checkout",
+		"checkout-e2e": "apps/checkout-e2e",
+		"customer": "apps/customer",
+		"customer-e2e": "apps/customer-e2e",
+		"design-system": "libs/design-system",
+		"shared-server": "libs/shared-server",
+		"shared-ui-components": "libs/shared-ui-components",
+		"shared-ui-logic": "libs/shared-ui-logic",
+		"shell": "apps/shell",
+		"shell-e2e": "apps/shell-e2e",
+		"types": "libs/types"
+	}
+}

@@ -1,0 +1,17 @@
+.paymentSelectionFormTitle {
+	font-size: var(--font-size-s);
+	font-weight: var(--font-weight-04);
+	margin-bottom: var(--spacer-020);
+}
+
+.paymentSelectionFormSubmit {
+	margin: var(--spacer-020) 0 var(--spacer-010) 0;
+}
+
+.paymentSelectionFormTerms {
+	font-size: var(--font-size-xs);
+}
+
+.paymentSelectionFormTermsLink {
+	text-decoration: underline;
+}

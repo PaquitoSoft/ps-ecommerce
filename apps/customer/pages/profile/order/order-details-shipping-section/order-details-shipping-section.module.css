@@ -1,0 +1,5 @@
+.orderDetailsShippingSection {
+	padding: var(--spacer-040) 0;
+	border-bottom: 1px solid var(--color-dark-grey);
+	line-height: var(--line-height-xl);
+}

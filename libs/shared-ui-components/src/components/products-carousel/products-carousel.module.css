@@ -1,0 +1,31 @@
+.productsCarousel {
+	position: relative;
+}
+
+.productsCarouselContainer {
+	display: flex;
+	flex-flow: row;
+	gap: var(--spacer-005);
+	overflow-x: hidden;
+}
+
+.carouselButton {
+	position: absolute;
+	top: 40%;
+	height: 50px;
+	width: 56px;
+	background-color: var(--color-white);
+	border: 1px solid var(--color-black);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.carouselButton_left {
+	left: var(--spacer-010);
+}
+
+.carouselButton_right {
+	right: var(--spacer-010);
+}

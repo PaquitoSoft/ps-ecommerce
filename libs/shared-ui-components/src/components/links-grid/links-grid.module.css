@@ -1,0 +1,25 @@
+.linksGrid {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.linksGridCentered {
+	justify-content: space-around;
+}
+
+.linksGrid__sectionTitle {
+	font-size: var(--font-size-xl);
+	line-height: var(--line-height-l);
+	font-weight: var(--font-weight-03);
+	margin-bottom: var(--spacer-010);
+}
+
+.linksGrid__sectionLink {
+	font-size: var(--font-size-s);
+	line-height: 23px;
+}
+
+.linksGrid__link:hover {
+	text-decoration: underline;
+}

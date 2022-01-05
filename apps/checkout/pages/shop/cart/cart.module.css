@@ -1,0 +1,34 @@
+.shopCartPage {
+	display: flex;
+	width: 90%;
+	margin: var(--spacer-040) auto;
+	min-height: 400px;
+}
+
+.shopCartTotals {
+	margin-left: 4%;
+	flex: 0 0 37%;
+}
+
+.shopCartSubtitle {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-2xl);
+	margin: var(--spacer-020) 0 var(--spacer-040) 0;
+}
+
+.shopCartTotalAmount {
+	font-weight: var(--font-weight-04);
+}
+
+@media (min-width: 1280px) {
+	.shopCartTotals {
+		flex: 0 0 29%;
+	}
+}
+
+@media (min-width: 1600px) {
+	.shopCartTotals {
+		flex: 0 0 25%;
+	}
+}

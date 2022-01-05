@@ -1,0 +1,35 @@
+.shopCartItemSummaryTitle {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-03);
+	line-height: var(--line-height-l);
+	font-family: var(--font-family-pro);
+	margin-bottom: var(--spacer-010);
+}
+
+.itemSummary {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin-bottom: var(--spacer-015);
+}
+
+.itemImage {
+	width: 25%;
+}
+
+.itemSummaryInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+	padding-left: var(--spacer-010);
+	width: 74%;
+}
+
+.itemText {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

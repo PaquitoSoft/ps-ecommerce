@@ -1,0 +1,17 @@
+.messageBanner {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: var(--spacer-010);
+
+	background-color: var(--color-light-grey);
+
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+
+	padding: var(--spacer-030);
+}
+
+.messageBanner_success .messageBannerIcon {
+	color: var(--color-green);
+}

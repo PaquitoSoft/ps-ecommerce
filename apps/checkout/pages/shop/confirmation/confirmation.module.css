@@ -1,0 +1,42 @@
+.confirmationPage {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-2xl);
+}
+
+.confirmationPageUserEmail {
+	font-weight: var(--font-weight-04);
+}
+
+.confirmationPageNextStep {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-start;
+	margin-bottom: var(--spacer-015);
+}
+
+.confirmationPageNextStepIcon {
+	width: 24px;
+	margin-right: var(--spacer-020);
+}
+
+.confirmationPageNextStepTitle {
+	font-weight: var(--font-weight-04);
+	line-height: var(--line-height-2xl);
+}
+
+.confirmationPageHelpPageLink {
+	text-decoration: underline;
+}
+
+@media (min-width: 1280px) {
+	.confirmationPage {
+		grid-template-columns: auto 29%;
+	}
+}
+
+@media (min-width: 1600px) {
+	.confirmationPage {
+		grid-template-columns: auto 25%;
+	}
+}

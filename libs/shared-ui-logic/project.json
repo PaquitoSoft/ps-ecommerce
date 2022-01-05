@@ -1,0 +1,23 @@
+{
+	"root": "libs/shared-ui-logic",
+	"sourceRoot": "libs/shared-ui-logic/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/shared-ui-logic/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/shared-ui-logic"],
+			"options": {
+				"jestConfig": "libs/shared-ui-logic/jest.config.js",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": []
+}

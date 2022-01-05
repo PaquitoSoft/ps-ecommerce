@@ -1,0 +1,28 @@
+.orderDetailsPage {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+}
+
+.orderDetailsContentSection {
+	padding-right: var(--spacer-080);
+}
+
+.orderDetailsDelivery {
+	margin-top: var(--spacer-020);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacer-010);
+}
+
+.orderDetailsItemsList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacer-015);
+	margin: var(--spacer-020) 0 var(--spacer-080) 0;
+}
+
+.orderDetailsTotals {
+	margin: var(--spacer-040) 0 var(--spacer-080) 0;
+	width: 50%;
+}

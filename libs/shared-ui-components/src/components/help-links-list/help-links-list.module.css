@@ -1,0 +1,14 @@
+.helpLinksList {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+}
+
+.helpLinksListLink {
+	text-decoration: underline;
+}
+
+.helpLinksListLink:hover {
+	background-color: var(--color-black);
+	color: var(--color-white);
+}

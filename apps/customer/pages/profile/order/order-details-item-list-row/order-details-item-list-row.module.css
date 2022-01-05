@@ -1,0 +1,14 @@
+.orderDetailsItemListRow {
+	display: flex;
+	flex-direction: row;
+}
+
+.orderDetailsItemListRowImage {
+	width: 105px;
+	margin-right: var(--spacer-015);
+}
+
+.orderDetailsItemListRowProductName {
+	text-transform: uppercase;
+	margin-bottom: var(--spacer-010);
+}

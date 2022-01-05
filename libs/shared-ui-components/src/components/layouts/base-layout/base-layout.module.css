@@ -1,0 +1,7 @@
+.baseLayout {
+	padding: var(--spacer-020) var(--spacer-040);
+}
+
+.baseLayoutMainContent {
+	margin: var(--spacer-040) 0;
+}

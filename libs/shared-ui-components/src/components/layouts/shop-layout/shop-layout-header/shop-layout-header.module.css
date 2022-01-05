@@ -1,0 +1,62 @@
+.shopLayoutHeader {
+	border-bottom: 2px solid var(--color-light-grey);
+}
+
+.headerTop {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--spacer-020);
+}
+
+.headerInfo {
+	text-align: right;
+}
+
+.headerPhoneIcon {
+	margin-right: var(--spacer-010);
+	position: relative;
+	top: 4px;
+}
+
+.headerInfoPhone {
+	display: inline-block;
+	text-decoration: underline;
+	margin: 0 0 var(--spacer-005) var(--spacer-005);
+}
+
+.headerBreadcrumbs {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacer-020);
+}
+
+.breadcrumbItem {
+	padding-bottom: var(--spacer-010);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-04);
+	line-height: 16px;
+	text-transform: uppercase;
+}
+
+.breadcrumbItem_selected {
+	border-bottom: 2px solid var(--color-black);
+}
+
+.breadcrumbItem_disabled {
+	color: var(--color-dark-grey);
+}
+
+.breadcrumbItem_disabled .breadcrumbItemLink {
+	pointer-events: none;
+}
+
+.breadcrumbIndex {
+	display: inline-flex;
+	background-color: var(--color-black);
+	margin-right: var(--spacer-005);
+}
+.breadcrumbItem_disabled .breadcrumbIndex {
+	background-color: var(--color-dark-grey);
+}

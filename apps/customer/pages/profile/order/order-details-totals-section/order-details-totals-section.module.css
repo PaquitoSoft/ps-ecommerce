@@ -1,0 +1,10 @@
+.orderDetailsTotalsSectionRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.orderDetailsTotalsSectionTotalRow {
+	font-weight: var(--font-weight-04);
+	margin-top: var(--spacer-010);
+}

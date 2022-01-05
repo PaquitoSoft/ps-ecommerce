@@ -1,0 +1,10 @@
+.paymentPageSubtitle {
+	font-size: var(--font-size-s);
+	margin-top: var(--spacer-015);
+}
+
+.paymentPageSeparator {
+	border-top: 1px solid var(--color-light-grey);
+	border-width: 1px 0 0 0;
+	margin: var(--spacer-020) 0;
+}

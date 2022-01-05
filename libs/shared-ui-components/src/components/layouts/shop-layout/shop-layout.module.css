@@ -1,0 +1,28 @@
+.shopLayoutHeaderContainer {
+	width: 90%;
+	margin: var(--spacer-010) auto;
+}
+
+.shopLayoutMainContent {
+	margin-top: var(--spacer-040);
+}
+
+.shopLayoutSidebar {
+	margin-top: var(--spacer-020);
+}
+
+.shopLayoutFooter {
+	margin: var(--spacer-150) auto 0 auto;	
+}
+
+.shopLayoutSeparator {
+	border-top: 1px solid var(--color-light-grey);
+	border-width: 1px 0 0 0;
+	margin: var(--spacer-040) 0;
+}
+
+.shopLayoutShippingSeparator {
+	border-top: 1px solid var(--color-dark-grey);
+	border-width: 1px 0 0 0;
+	margin: var(--spacer-005) 0 var(--spacer-015) 0;
+}

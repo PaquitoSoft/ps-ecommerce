@@ -1,0 +1,18 @@
+.deliverySummaryTitleContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--spacer-010);
+}
+
+.deliverySummaryTitle {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-04);
+}
+
+.deliverySummaryInfo {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+}

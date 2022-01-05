@@ -1,0 +1,20 @@
+.appHeader {
+	display: grid;
+	grid-template-columns: 100px auto 150px;
+	width: 100%;
+	padding-bottom: 4px;
+	border-bottom: 1px solid var(--color-light-grey);
+	position: relative;
+}
+
+.appHeader__categories {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.appHeader__actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}

@@ -1,0 +1,38 @@
+.shopCartTotals {
+	border: 1px solid var(--color-light-grey);
+	padding: var(--spacer-030) var(--spacer-015);
+}
+
+.totalsLabel {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-03);
+	line-height: var(--line-height-l);
+	margin-bottom: var(--spacer-020);
+	text-transform: uppercase;
+}
+
+.totalsItem {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--font-size-m);
+	line-height: var(--line-height-xl);
+	margin-bottom: var(--spacer-015);
+	text-transform: uppercase;
+}
+
+.totalsGrandTotal {
+	display: flex;
+	justify-content: space-between;
+}
+
+.grandTotalLabel {
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-04);
+	line-height: var(--line-height-xl);
+	text-transform: uppercase;
+}
+
+.grandTotalAmount {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-04);
+}

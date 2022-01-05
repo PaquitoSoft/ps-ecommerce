@@ -1,0 +1,6 @@
+.formSelect {
+	font-size: var(--font-size-l);
+	border-radius: 0;
+	border: 1px solid var(--color-black);
+	padding: var(--spacer-015) var(--spacer-020);
+}
