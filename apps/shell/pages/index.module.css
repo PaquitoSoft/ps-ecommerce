@@ -1,2 +1,11 @@
-.page {
+.homePage {
+	position: relative;
+}
+
+.marketingHeroTitleImage {
+	position: relative;
+	height: 80px;
+	width: 20vw;
+	top: -7vw;
+	left: var(--spacer-020);
 }

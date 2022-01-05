@@ -1,0 +1,58 @@
+.addToCartConfirmationModal {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	font-size: var(--font-size-m);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-xl);
+}
+
+.modalProductInfoSection {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: flex-start;
+	width: 50%;
+}
+
+.modalProductInfoImage {
+	padding-right: var(--spacer-020);
+	width: 50%;
+}
+
+.modalProductInfoData {
+	padding-right: var(--spacer-020);
+	width: 50%;
+}
+
+.modalProductName {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-01);
+	line-height: var(--line-height-l);
+	text-transform: uppercase;
+	margin-bottom: var(--spacer-015);
+}
+
+.modalProductPrice {
+	font-size: var(--font-size-l);
+	font-weight: var(--font-weight-04);
+}
+
+.modalShopCartInfoSection {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding-left: var(--spacer-020);
+	border-left: 1px solid var(--color-black);
+	width: 50%;
+}
+
+.modalShopCartTotalRow {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.modalShopCartTotalAmount {
+	font-weight: var(--font-weight-04);
+}

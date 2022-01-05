@@ -1,0 +1,61 @@
+.categoryTitle {
+	display: inline-block;
+	font-family: var(--font-family-base-condensed);
+	font-size: var(--font-size-4xl);
+	line-height: var(--line-height-4xl);
+	font-style: normal;
+	font-weight: var(--font-weight-02);
+	margin-bottom: var(--spacer-020);
+	text-rendering: optimizeLegibility;
+	text-transform: uppercase;
+}
+
+.totalProductsCount {
+	color: var(--color-dark-grey);
+	font-size: var(--font-size-xs);
+	font-weight: var(--font-weight-01);
+	margin-left: var(--spacer-005);
+	text-rendering: optimizeLegibility;
+}
+
+.productsGridContainer {
+	display: flex;
+	flex-direction: row;
+	gap: var(--spacer-005);
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin-bottom: var(--spacer-040);
+}
+
+.productsGridItem {
+	width: 300px;
+}
+
+.gridPaginator {
+	display: flex;
+	justify-content: space-between;
+	font-size: var(--font-size-m);
+	line-height: var(--line-height-xl);
+	font-weight: var(--font-weight-01);
+}
+
+.gridLink {
+	font-size: var(--font-size-s);
+	letter-spacing: 2px;
+	line-height: var(--line-height-m);
+	font-weight: var(--font-weight-04);
+	text-transform: uppercase;
+	text-decoration: underline;
+}
+
+.gridLink:hover {
+	background-color: var(--color-black);
+	color: var(--color-white);
+	text-decoration: underline;
+}
+
+.gridPaginatorCurrentPage {
+	margin: 0 var(--spacer-010);
+	font-size: 24px;
+	font-weight: var(--font-weight-04);
+}

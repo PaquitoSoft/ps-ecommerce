@@ -10,6 +10,7 @@ const nextConfig = {
 		// See: https://github.com/gregberge/svgr
 		svgr: false,
 	},
+	basePath: '/profile',
 	poweredByHeader: false,
 	pageExtensions: ['page.tsx', 'route.ts', 'mid.ts'],
 	images: {

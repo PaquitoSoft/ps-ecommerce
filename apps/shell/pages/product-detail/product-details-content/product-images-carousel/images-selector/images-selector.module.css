@@ -1,0 +1,24 @@
+.imagesSelector {
+	position: absolute;
+	bottom: var(--spacer-020);
+	width: 100%;
+}
+
+.imagesContainer {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	gap: var(--spacer-010);
+}
+
+.imageItem {
+	height: 32px;
+	width: 32px;
+	box-sizing: border-box;
+	border: 1px solid var(--color-black);
+	cursor: pointer;
+}
+
+.imageItem_selected {
+	border-bottom: 2px solid var(--color-black);
+}

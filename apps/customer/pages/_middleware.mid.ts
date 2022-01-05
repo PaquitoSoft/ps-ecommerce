@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { USER_COOKIE_NAME } from '@plugins/constants';
-import { generateId } from '@plugins/utils';
 import { CookieSerializeOptions } from 'next/dist/server/web/types';
+
+import { constants, utils } from '@ps-ecommerce/shared-ui-logic';
 
 
 export function middleware(request: NextRequest) {
-	let userId = request.cookies[USER_COOKIE_NAME];
+	let userId = request.cookies[constants.USER_COOKIE_NAME];
 	const cookieAttributes: CookieSerializeOptions = {
 		httpOnly: true
 	};
@@ -16,8 +16,10 @@ export function middleware(request: NextRequest) {
 	}
 
 	if (!userId) {
-		userId = generateId();
-		return NextResponse.rewrite(request.nextUrl).cookie(USER_COOKIE_NAME, userId, cookieAttributes);
+		userId = utils.generateId();
+		return NextResponse
+			.rewrite(request.nextUrl)
+			.cookie(constants.USER_COOKIE_NAME, userId, cookieAttributes);
 	}
 
 	request.nextUrl.searchParams.set('userId', userId);

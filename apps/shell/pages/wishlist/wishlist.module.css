@@ -1,0 +1,15 @@
+.wishlistPageEmptyMsg {
+	margin: var(--spacer-030) var(--spacer-020);
+}
+
+.wishlistItemsList {
+	margin-top: var(--spacer-030);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: var(--spacer-010);
+}
+
+.wishlistItem {
+	width: 180px;
+}

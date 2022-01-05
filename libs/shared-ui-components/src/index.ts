@@ -9,4 +9,4 @@ export { default as ProductsCarousel } from './components/products-carousel/prod
 
 export { default as useApolloClient } from './hooks/use-apollo-client';
 export { default as useShopCart, ShopCartFragment, ShopCartQuery } from './hooks/use-shop-cart';
-export { default as useWishlist } from './hooks/use-wishlist';
+export { default as useWishlist, WishlistQuery } from './hooks/use-wishlist';
