@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 import { Category } from '@ps-ecommerce/types';
 
 import { LogoIcon } from '@ps-ecommerce/design-system';
@@ -16,11 +14,9 @@ function Header({ categories }: Props) {
 	return (
 		<header className={styles.appHeader}>
 			<div className="app-header__logo">
-				<Link href="/">
-					<a>
-						<LogoIcon width={70} />
-					</a>
-				</Link>
+				<a href="/">
+					<LogoIcon width={70} />
+				</a>
 			</div>
 			<div className={styles.appHeader__categories}>
 				<HeaderCategories categories={categories} />

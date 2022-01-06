@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { Breadcrumb } from '@ps-ecommerce/types';
 
-import { Badge, PhoneIcon } from '@ps-ecommerce/design-system';
+import { Badge, PhoneIcon, LogoIcon } from '@ps-ecommerce/design-system';
 
 import styles from './shop-layout-header.module.css';
 
@@ -38,15 +38,9 @@ function ShopLayoutHeader({ className, selectedBreadcrumb }: Props) {
 	return (
 		<header className={cx(styles.shopLayoutHeader, className)}>
 			<div className={styles.headerTop}>
-				<Link href="/">
-					<a>
-						<img
-							src="/images/icon-adidas-logo.svg"
-							alt="Adidas logo"
-							width={70}
-						/>
-					</a>
-				</Link>
+				<a href="/">
+					<LogoIcon width={70} />
+				</a>
 				<div className={styles.headerInfo}>
 					<p>
 						<PhoneIcon className={styles.headerPhoneIcon} />

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import cx from 'classnames';
 
 import useShopCart from '../../../../../hooks/use-shop-cart';
@@ -16,35 +15,38 @@ function HeaderActions() {
 
 	return (
 		<div className="header-actions">
-			<Link href="/profile">
-				<a
-					className={styles.headerActions__item}
-					title="Access your profile information"
-					data-test-id="profile-link"
-				>
-					<ProfileIcon/>
-				</a>
-			</Link>
-			<Link href="/wishlist">
-				<a className={styles.headerActions__item} title="Take a look at your wishlist">
-					<FavoriteIcon className={cx({
-						[styles.headerActions__favoritesActive]: !isWishlistEmpty
-					})} />
-					{
-						!isWishlistEmpty &&
-						<Badge className={styles.headerActions__cartItemsCount} value={wishlist?.products.length || 0} />
-					}
-				</a>
-			</Link>
-			<Link href="/shop/cart">
-				<a className={styles.headerActions__item} title="Go to the shopping cart">
-					<MiniCartIcon />
-					{
-						shopCart.totalUnits > 0 &&
-						<Badge className={styles.headerActions__cartItemsCount} value={shopCart.totalUnits} />
-					}
-				</a>
-			</Link>
+			<a
+				href="/profile"
+				className={styles.headerActions__item}
+				title="Access your profile information"
+				data-test-id="profile-link"
+			>
+				<ProfileIcon/>
+			</a>
+
+			<a
+				href="/wishlist"
+				className={styles.headerActions__item}
+				title="Take a look at your wishlist">
+				<FavoriteIcon className={cx({
+					[styles.headerActions__favoritesActive]: !isWishlistEmpty
+				})} />
+				{
+					!isWishlistEmpty &&
+					<Badge className={styles.headerActions__cartItemsCount} value={wishlist?.products.length || 0} />
+				}
+			</a>
+			<a
+				href="/shop/cart"
+				className={styles.headerActions__item}
+				title="Go to the shopping cart"
+			>
+				<MiniCartIcon />
+				{
+					shopCart.totalUnits > 0 &&
+					<Badge className={styles.headerActions__cartItemsCount} value={shopCart.totalUnits} />
+				}
+			</a>
 		</div>
 	);
 }
