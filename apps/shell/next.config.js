@@ -15,6 +15,11 @@ const nextConfig = {
 		// See: https://github.com/gregberge/svgr
 		svgr: false
 	},
+	poweredByHeader: false,
+	pageExtensions: ['page.tsx', 'route.ts', 'mid.ts'],
+	images: {
+		domains: ['assets.adidas.com']
+	},
 	rewrites: () => [
 		{
 			source: '/:path*',

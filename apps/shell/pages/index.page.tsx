@@ -11,8 +11,8 @@ import { ProductsCarousel } from '@ps-ecommerce/shared-ui-components';
 import heroMainImage from '../images/hero-1_big.webp';
 import heroTitleImage from '../images/hero-2.webp';
 
+import { utilStyles } from '@ps-ecommerce/design-system';
 import styles from './index.module.css';
-import utilStyles from '@ds/utilities.module.css';
 
 type Props = {
 	featuredProducts: {
@@ -21,7 +21,7 @@ type Props = {
 		trending: Product[];
 	}
 }
-// 91778577
+
 const FeaturedProductsQuery = gql`
 	query FeaturedProductsQuery($count: Int) {
 		featuredProducts(count: $count) {

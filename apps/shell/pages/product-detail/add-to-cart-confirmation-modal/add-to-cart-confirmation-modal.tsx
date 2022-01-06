@@ -6,6 +6,7 @@ import {
 	Divider,
 	Modal,
 	SectionTitle,
+	utilStyles
 } from '@ps-ecommerce/design-system';
 
 import { ProductImage } from '@ps-ecommerce/shared-ui-components';
@@ -13,7 +14,6 @@ import { ProductImage } from '@ps-ecommerce/shared-ui-components';
 import { Product, Size, ShopCart } from '@ps-ecommerce/types';
 
 import styles from './add-to-cart-confirmation-modal.module.css';
-import utilStyles from '@ds/utilities.module.css';
 
 type Props = {
 	addedProduct: Product;

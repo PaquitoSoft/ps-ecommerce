@@ -10,7 +10,7 @@ function useDelivery() {
 
 	const onFormSubmit = async (shippingAddress: ShippingAddress) => {
 		await saveShippingAddress(shippingAddress);
-		router.push("/shop/payment");
+		router.push("/payment");
 	};
 
 	return {

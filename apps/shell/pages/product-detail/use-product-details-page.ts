@@ -1,9 +1,8 @@
 import { useMemo, useState } from "react";
 
-import Product, { Size } from "@app-types/product";
+import { Product, Size } from "@ps-ecommerce/types";
 
-import useShopCart from '@hooks/use-shop-cart';
-import useWishlist from '@hooks/use-wishlist';
+import { useShopCart, useWishlist } from '@ps-ecommerce/shared-ui-components';
 
 function useProductDetailsPage(product: Product) {
 	const [isAddToCartConfirmationModalOpen, setIsAddToCartConfirmationModalOpen] = useState(false);
@@ -12,8 +11,8 @@ function useProductDetailsPage(product: Product) {
 		state: { shopCart },
 		actions: { addToCart }
 	} = useShopCart();
-	const { 
-		actions: { isProductInWishlist, handleProductSelection } 
+	const {
+		actions: { isProductInWishlist, handleProductSelection }
 	} = useWishlist();
 
 	const isWishlistedProduct = useMemo<boolean>(() => isProductInWishlist(product.id), [isProductInWishlist, product]);

@@ -46,7 +46,7 @@ function CheckoutButton({ className, isFullWidth = false }: { className?: string
 		<Button
 			className={className}
 			isFullWidth={isFullWidth}
-			onClick={() => router.push('/shop/delivery')}
+			onClick={() => router.push('/delivery')}
 			testId="checkout-button"
 		>
 			CHECKOUT

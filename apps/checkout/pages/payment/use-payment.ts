@@ -10,7 +10,7 @@ function usePayment() {
 
 	const onFormSubmit = async (paymentData: PaymentData) => {
 		await checkout(paymentData);
-		router.push("/shop/confirmation");
+		router.push("/confirmation");
 	};
 
 	return {

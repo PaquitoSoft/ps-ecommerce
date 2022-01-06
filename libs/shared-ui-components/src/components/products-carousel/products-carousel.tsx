@@ -3,7 +3,12 @@ import cx from 'classnames';
 
 import { Product } from '@ps-ecommerce/types';
 
-import { SectionTitle, utilStyles } from '@ps-ecommerce/design-system';
+import {
+	SectionTitle,
+	ArrowLeftIcon,
+	ArrowRightIcon,
+	utilStyles
+} from '@ps-ecommerce/design-system';
 import ProductSummary from '../product-summary/product-summary';
 
 import useProductsCarousel from './use-products-carousel';
@@ -23,14 +28,10 @@ function CarouselButton(
 	{ direction, onClick }:
 	{ direction: MoveDirection, onClick: (direction: MoveDirection) => void }
 ) {
+	const Icon = direction === 'left' ? ArrowLeftIcon : ArrowRightIcon;
 	return (
 		<button className={cx(styles.carouselButton, styles[`carouselButton_${direction}`])} onClick={() => onClick(direction)}>
-			<img
-				src={`/images/icons/arrow-${direction}-icon.svg`}
-				alt={`Move carousel to the ${direction}`}
-				height={24}
-				width={24}
-			/>
+			<Icon />
 		</button>
 	);
 }
