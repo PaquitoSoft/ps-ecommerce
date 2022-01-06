@@ -2,10 +2,9 @@ import cx from 'classnames';
 
 import { Order } from '@ps-ecommerce/types';
 
-import { SectionTitle } from '@ps-ecommerce/design-system';
+import { SectionTitle, utilStyles } from '@ps-ecommerce/design-system';
 
 import styles from './order-details-totals-section.module.css';
-import utilStyles from '@ds/utilities.module.css';
 
 type Props = {
 	order: Order;
