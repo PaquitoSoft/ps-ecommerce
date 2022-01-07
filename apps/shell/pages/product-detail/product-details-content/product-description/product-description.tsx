@@ -8,7 +8,7 @@ type Props = {
 	description: ProductDescription;
 };
 
-function ProductDescription({ description }: Props) {
+function ProductDescriptionComponent({ description }: Props) {
 	return (
 		<div className={styles.productDescription}>
 			<div className={styles.descriptionInfo}>
@@ -26,4 +26,4 @@ function ProductDescription({ description }: Props) {
 	);
 }
 
-export default ProductDescription;
+export default ProductDescriptionComponent;
