@@ -22,7 +22,7 @@ function BreadcrumbItem(
 			{ [styles.breadcrumbItem_selected]: isSelected },
 			{ [styles.breadcrumbItem_disabled]: isDisabled}
 		)}>
-			<Link href={`/shop/${breadcrumb.toLocaleLowerCase()}`}>
+			<Link href={`/${breadcrumb.toLocaleLowerCase()}`}>
 				<a className={styles.breadcrumbItemLink}>
 					<Badge className={styles.breadcrumbIndex} value={index + 1} />
 					<span>{breadcrumb}</span>
@@ -38,9 +38,9 @@ function ShopLayoutHeader({ className, selectedBreadcrumb }: Props) {
 	return (
 		<header className={cx(styles.shopLayoutHeader, className)}>
 			<div className={styles.headerTop}>
-				<a href="/">
-					<LogoIcon width={70} />
-				</a>
+					<a href="/">
+						<LogoIcon width={70} />
+					</a>
 				<div className={styles.headerInfo}>
 					<p>
 						<PhoneIcon className={styles.headerPhoneIcon} />

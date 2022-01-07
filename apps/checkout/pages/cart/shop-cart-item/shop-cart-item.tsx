@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import cx from 'classnames';
 
 import { utils } from '@ps-ecommerce/shared-ui-logic';
@@ -30,23 +29,22 @@ function ShopCartItemComponent({
 	return (
 		<div className={cx(styles.shopCartItem, className)}>
 			<div className={styles.itemImage}>
-				<Link href={`/product-detail/${item.product.code}`}>
-					<a>
-						<ProductImage
-							imageUrl={item.product.imageUrl}
-							alt={item.product.name}
-						/>
-					</a>
-				</Link>
+				<a href={`/product-detail/${item.product.code}`}>
+					<ProductImage
+						imageUrl={item.product.imageUrl}
+						alt={item.product.name}
+					/>
+				</a>
 			</div>
 			<div className={styles.itemDetails}>
 				<div className={styles.itemDetailsInfo}>
 					<div className={styles.itemDetailsInfoRow}>
-						<Link href={`/product-detail/${item.product.code}`}>
-							<a className={styles.itemDetailsName}>
-								<span>{item.product.name}</span>
-							</a>
-						</Link>
+						<a
+							className={styles.itemDetailsName}
+							href={`/product-detail/${item.product.code}`}
+						>
+							<span>{item.product.name}</span>
+						</a>
 						<span className={styles.itemDetailsPrice}>{item.quantity * item.product.price} €</span>
 					</div>
 					<div>
