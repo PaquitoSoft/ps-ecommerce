@@ -19,7 +19,7 @@ type Props = {
 	onWishlistSelectionUpdate(item: ShopCartItem): void;
 }
 
-function ShopCartItem({
+function ShopCartItemComponent({
 	item,
 	isInWishlist,
 	className,
@@ -83,4 +83,4 @@ function ShopCartItem({
 	);
 }
 
-export default ShopCartItem;
+export default ShopCartItemComponent;
