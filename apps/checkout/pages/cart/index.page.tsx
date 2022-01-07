@@ -7,7 +7,7 @@ import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { SectionTitle, Button, utilStyles } from '@ps-ecommerce/design-system';
 
-import ShopCartItem from './shop-cart-item/shop-cart-item';
+import ShopCartItemComponent from './shop-cart-item/shop-cart-item';
 
 import { ShopCartTotals, ShopCartFragment } from '@ps-ecommerce/shared-ui-components';
 import useCart from './use-cart';
@@ -92,7 +92,7 @@ function ShopCartPage() {
 				<ul className={styles.shopCartItems}>
 					{shopCart.items.map((item) => (
 						<li key={item.id} className={utilStyles.marginBottom_40}>
-							<ShopCartItem
+							<ShopCartItemComponent
 								item={item}
 								onUpdateItem={onUpdateItem}
 								onRemoveItem={onRemoveItem}

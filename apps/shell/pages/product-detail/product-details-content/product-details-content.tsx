@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Product } from '@ps-ecommerce/types';
 
 import ProductColorSelector from './product-color-selector/product-color-selector';
-import ProductDescription from './product-description/product-description';
+import ProductDescriptionComponent from './product-description/product-description';
 import ProductImagesCarousel from './product-images-carousel/product-images-carousel';
 import ProductRelatedProducts from './product-related-products/product-related-products';
 import ProductSpecs from './product-specs/product-specs';
@@ -25,7 +25,7 @@ function ProductDetailsContent({ product, relatedProducts, className, categoryCo
 				product.colors.length > 1 &&
 				<ProductColorSelector key={`${product.code}_colors`} colors={product.colors} categoryCode={categoryCode} />
 			}
-			<ProductDescription key={`${product.code}_description`} description={product.description} />
+			<ProductDescriptionComponent key={`${product.code}_description`} description={product.description} />
 			<ProductSpecs specs={product.specs} />
 			{
 				relatedProducts && relatedProducts.length > 0 &&

@@ -1,6 +1,7 @@
-import { gql, useQuery, useMutation } from '@apollo/client';
-import Wishlist from '@app-types/wishlist';
 import { useCallback } from 'react';
+import { gql, useQuery, useMutation } from '@apollo/client';
+
+import { Wishlist } from '@ps-ecommerce/types';
 
 const WishlistFragment = gql`
 	fragment WishlistFields on Wishlist {
