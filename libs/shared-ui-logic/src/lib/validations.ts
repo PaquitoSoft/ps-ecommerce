@@ -31,5 +31,6 @@ export function validate(validators: Validator | Validator[]): Validator {
 				return error;
 			}
 		}
+		return undefined; // just to please typescript
 	};
 }

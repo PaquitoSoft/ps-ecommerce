@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
