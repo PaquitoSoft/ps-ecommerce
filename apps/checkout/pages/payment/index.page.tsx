@@ -3,7 +3,7 @@ import { GetServerSideProps } from "next";
 
 import { createApolloClient } from "@ps-ecommerce/shared-server";
 
-import { Breadcrumb } from "@ps-ecommerce/types";
+import { Breadcrumb, ShopCart } from "@ps-ecommerce/types";
 
 import { SectionTitle } from "@ps-ecommerce/design-system";
 import { ShopLayout } from "@ps-ecommerce/shared-ui-components";
@@ -42,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	};
 }
 
-PaymentPage.getLayout = function getLayout(page: ReactElement, pageProps: any) {
+PaymentPage.getLayout = function getLayout(page: ReactElement, pageProps: { shopCart: ShopCart }) {
 	return (
 		<ShopLayout shopCart={pageProps.shopCart} selectedBreadcrumb={Breadcrumb.PAYMENT}>
 			{page}
