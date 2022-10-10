@@ -2,8 +2,10 @@
 	"version": 2,
 	"projects": {
 		"checkout": "apps/checkout",
+		"checkout-backend": "libs/checkout-backend",
 		"checkout-e2e": "apps/checkout-e2e",
 		"customer": "apps/customer",
+		"customer-backend": "libs/customer-backend",
 		"customer-e2e": "apps/customer-e2e",
 		"design-system": "libs/design-system",
 		"shared-server": "libs/shared-server",

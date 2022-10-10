@@ -1,0 +1,23 @@
+{
+	"root": "libs/checkout-backend",
+	"sourceRoot": "libs/checkout-backend/src",
+	"projectType": "library",
+	"targets": {
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["libs/checkout-backend/**/*.ts"]
+			}
+		},
+		"test": {
+			"executor": "@nrwl/jest:jest",
+			"outputs": ["coverage/libs/checkout-backend"],
+			"options": {
+				"jestConfig": "libs/checkout-backend/jest.config.js",
+				"passWithNoTests": true
+			}
+		}
+	},
+	"tags": []
+}

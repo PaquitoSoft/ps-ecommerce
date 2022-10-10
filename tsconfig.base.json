@@ -15,6 +15,12 @@
 		"skipDefaultLibCheck": true,
 		"baseUrl": ".",
 		"paths": {
+			"@ps-ecommerce/checkout-backend": [
+				"libs/checkout-backend/src/index.ts"
+			],
+			"@ps-ecommerce/customer-backend": [
+				"libs/customer-backend/src/index.ts"
+			],
 			"@ps-ecommerce/design-system": ["libs/design-system/src/index.ts"],
 			"@ps-ecommerce/shared-server": ["libs/shared-server/src/index.ts"],
 			"@ps-ecommerce/shared-ui-components": [
