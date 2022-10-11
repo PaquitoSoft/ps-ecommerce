@@ -75,6 +75,8 @@ function ProfilePage({ orders }: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userId = context.query.userId as string;
 
+	console.log('User Profile page# Headers:', context.req.headers);
+
 	const apolloClient = createApolloClient({ userId });
 	const apolloQueryData = await apolloClient.query({
 		query: OrdersListQuery

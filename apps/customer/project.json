@@ -20,6 +20,7 @@
 			"options": {
 				"buildTarget": "customer:build",
 				"dev": true,
+				"hostname": "localhost",
 				"port": 4202
 			},
 			"configurations": {

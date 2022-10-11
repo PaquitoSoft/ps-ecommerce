@@ -20,8 +20,7 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
-	console.trace();
-	console.log('Middleware# Original request:', request.nextUrl.toString());
+	console.log('Shell Middleware# Original request:', request.nextUrl.toString());
 	const response = NextResponse.next();
 
 	if (request.nextUrl.pathname.includes('/_next/')) {

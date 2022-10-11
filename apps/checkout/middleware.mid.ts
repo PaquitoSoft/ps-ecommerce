@@ -12,7 +12,8 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
-	console.log('Middleware# Original request:', request.nextUrl.toString());
+	console.log('Checkout Middleware# Original URL request:', request.url.toString());
+	console.log('Checkout Middleware# Next URL request:', request.nextUrl.toString());
 	const response = NextResponse.next();
 
 	let userId = request.cookies.get(constants.USER_COOKIE_NAME);

@@ -13,7 +13,7 @@ export const config = {
 };
 
 export function middleware(request: NextRequest) {
-	console.log('Middleware# Original request:', request.nextUrl.toString());
+	console.log('Customer Middleware# Original request:', request.nextUrl.toString());
 	const response = NextResponse.next();
 
 	let userId = request.cookies.get(constants.USER_COOKIE_NAME);
@@ -29,9 +29,9 @@ export function middleware(request: NextRequest) {
 		});
 	}
 
-	// console.log('Middleware# Setting userId value in an incoming request header:', userId);
-	// request.headers.append(constants.USER_ID_HEADER, userId);
-	// console.log('Middleware# Incoming request headers:', request.headers);
+	console.log('Middleware# Setting userId value in an incoming request header:', userId);
+	request.headers.append('x-user-id', userId);
+	console.log('Middleware# Incoming request headers:', request.headers);
 
 	request.nextUrl.searchParams.set('userId', userId);
 	console.log('Middleware# Rewriting request to:', request.nextUrl.toString());
