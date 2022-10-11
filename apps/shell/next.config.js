@@ -34,13 +34,13 @@ const nextConfig = {
 			destination: `${CHECKOUT_URL}/shop/:path*`
 		},
 		{
-			source: '/profile',
+			source: '/profile*',
 			destination: `${CUSTOMER_URL}/profile`
 		},
-		{
-			source: '/profile/:path*',
-			destination: `${CUSTOMER_URL}/profile/:path*`
-		}
+		// {
+		// 	source: '/profile/:path*',
+		// 	destination: `${CUSTOMER_URL}/profile/:path*`
+		// }
 	]
 };
 
