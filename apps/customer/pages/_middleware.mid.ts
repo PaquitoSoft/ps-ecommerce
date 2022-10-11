@@ -5,7 +5,7 @@ import { constants, utils } from '@ps-ecommerce/shared-ui-logic';
 
 
 export function middleware(request: NextRequest) {
-	console.log('Middleware# Original request:', request.nextUrl);
+	console.log('Middleware# Original request:', request.nextUrl.toString());
 	const response = NextResponse.next();
 
 	let userId = request.cookies[constants.USER_COOKIE_NAME];
@@ -36,7 +36,7 @@ export function middleware(request: NextRequest) {
 	// console.log('Middleware# Incoming request headers:', request.headers);
 
 	request.nextUrl.searchParams.set('userId', userId);
-	console.log('Middleware# Rewriting request to:', request.nextUrl);
+	console.log('Middleware# Rewriting request to:', request.nextUrl.toString());
 	return NextResponse.rewrite(request.nextUrl);
 	// return response;
 }
