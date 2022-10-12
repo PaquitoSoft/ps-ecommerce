@@ -7,21 +7,26 @@ import useApolloClient from '../../hooks/use-apollo-client';
 
 import BaseLayout from '../layouts/base-layout/base-layout';
 
+type PageProps = {
+	initialApolloState?: unknown
+};
+
 type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement, pageProps: unknown) => ReactChild
 }
 
-type AppPropsWithLayout = AppProps & {
+type AppPropsWithLayout = AppProps<PageProps> & {
 	Component: NextPageWithLayout
 }
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
-	const apolloClient = useApolloClient(pageProps.initialApolloState);
+	const { initialApolloState, ...componentProps } = pageProps;
+	const apolloClient = useApolloClient(initialApolloState);
 	const child = Component.getLayout ?
-		Component.getLayout(<Component {...pageProps} />, pageProps) :
+		Component.getLayout(<Component {...componentProps} />, componentProps) :
 		(
 			<BaseLayout>
-				<Component {...pageProps} />
+				<Component {...componentProps} />
 			</BaseLayout>
 		);
 
