@@ -26,16 +26,8 @@ const nextConfig = {
 			destination: '/:path*'
 		},
 		{
-			source: '/shop',
-			destination: `${CHECKOUT_URL}/shop`
-		},
-		{
 			source: '/shop/:path*',
 			destination: `${CHECKOUT_URL}/shop/:path*`
-		},
-		{
-			source: '/profile',
-			destination: `${CUSTOMER_URL}/profile`
 		},
 		{
 			source: '/profile/:path*',
