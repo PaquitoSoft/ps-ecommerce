@@ -1,5 +1,5 @@
 {
-	"root": "apps/customer",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "apps/customer",
 	"projectType": "application",
 	"targets": {
@@ -12,7 +12,10 @@
 				"outputPath": "dist/apps/customer"
 			},
 			"configurations": {
-				"production": {}
+				"production": {},
+				"development": {
+					"outputPath": "apps/customer"
+				}
 			}
 		},
 		"serve": {
@@ -26,8 +29,13 @@
 				"production": {
 					"buildTarget": "customer:build:production",
 					"dev": false
+				},
+				"development": {
+					"buildTarget": "customer:build:development",
+					"dev": true
 				}
-			}
+			},
+			"defaultConfiguration": "development"
 		},
 		"export": {
 			"executor": "@nrwl/next:export",
@@ -39,7 +47,7 @@
 			"executor": "@nrwl/jest:jest",
 			"outputs": ["coverage/apps/customer"],
 			"options": {
-				"jestConfig": "apps/customer/jest.config.js",
+				"jestConfig": "apps/customer/jest.config.ts",
 				"passWithNoTests": true
 			}
 		},

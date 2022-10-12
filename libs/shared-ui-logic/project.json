@@ -1,5 +1,5 @@
 {
-	"root": "libs/shared-ui-logic",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "libs/shared-ui-logic/src",
 	"projectType": "library",
 	"targets": {
@@ -14,7 +14,7 @@
 			"executor": "@nrwl/jest:jest",
 			"outputs": ["coverage/libs/shared-ui-logic"],
 			"options": {
-				"jestConfig": "libs/shared-ui-logic/jest.config.js",
+				"jestConfig": "libs/shared-ui-logic/jest.config.ts",
 				"passWithNoTests": true
 			}
 		}

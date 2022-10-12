@@ -121,6 +121,8 @@ function ShopCartPage() {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userId = context.query.userId as string;
+	console.log('ShopCartView# Loading cart for user:', userId);
+
 
 	const apolloClient = createApolloClient({ userId });
 	await apolloClient.query({

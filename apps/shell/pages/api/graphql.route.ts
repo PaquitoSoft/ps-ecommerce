@@ -11,7 +11,7 @@ const apolloServer = new ApolloServer({
 	schema: apolloGraphqlSchema,
 	context: ({ req }: { req: NextApiRequest }) => {
 		return {
-			userId: req.cookies.uid
+			userId: req.query.userId || req.cookies.uid
 		};
 	}
 });

@@ -1,0 +1,189 @@
+telemaco@LAPTOP-ERLK74S3 MINGW64 /d/Development/JS/ps-ecommerce (main)
+$ npx nx migrate --run-migrations
+
+ >  NX   Running 'npm install' to make sure necessary packages are installed
+
+
+up to date, audited 1732 packages in 3s
+
+194 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+ >  NX   Running migrations from 'migrations.json'
+
+Ran 14-0-6-remove-root from nx
+  Remove root property from project.json files
+
+  UPDATE apps/checkout/project.json
+  UPDATE workspace.json
+  UPDATE apps/checkout-e2e/project.json
+  UPDATE apps/customer/project.json
+  UPDATE apps/customer-e2e/project.json
+  UPDATE libs/design-system/project.json
+  UPDATE libs/shared-server/project.json
+  UPDATE libs/shared-ui-components/project.json
+  UPDATE libs/shared-ui-logic/project.json
+  UPDATE apps/shell/project.json
+  UPDATE apps/shell-e2e/project.json
+  UPDATE libs/types/project.json
+---------------------------------------------------------
+Ran 14-2-0-add-json-schema from nx
+  Add JSON Schema to Nx configuration files
+
+  UPDATE nx.json
+  UPDATE workspace.json
+  UPDATE apps/checkout/project.json
+  UPDATE apps/checkout-e2e/project.json
+  UPDATE apps/customer/project.json
+  UPDATE apps/customer-e2e/project.json
+  UPDATE libs/design-system/project.json
+  UPDATE libs/shared-server/project.json
+  UPDATE libs/shared-ui-components/project.json
+  UPDATE libs/shared-ui-logic/project.json
+  UPDATE apps/shell/project.json
+  UPDATE apps/shell-e2e/project.json
+  UPDATE libs/types/project.json
+---------------------------------------------------------
+Ran 14-2-0-remove-default-collection from nx
+  Remove default collection from configuration to switch to prompts for collection
+
+  UPDATE nx.json
+---------------------------------------------------------
+Ran 14.3.4-create-target-defaults from nx
+  Replace targetDependencies with targetDefaults
+
+  UPDATE nx.json
+---------------------------------------------------------
+Ran update-jest-config-extensions from @nrwl/jest
+  Update move jest config files to .ts files.
+
+  DELETE jest.config.js
+  CREATE jest.config.ts
+  DELETE apps/checkout/jest.config.js
+  CREATE apps/checkout/jest.config.ts
+  UPDATE apps/checkout/tsconfig.json
+  UPDATE apps/checkout/project.json
+  DELETE apps/customer/jest.config.js
+  CREATE apps/customer/jest.config.ts
+  UPDATE apps/customer/tsconfig.json
+  UPDATE apps/customer/project.json
+  DELETE libs/design-system/jest.config.js
+  CREATE libs/design-system/jest.config.ts
+  UPDATE libs/design-system/tsconfig.lib.json
+  UPDATE libs/design-system/tsconfig.spec.json
+  UPDATE libs/design-system/project.json
+  DELETE libs/shared-server/jest.config.js
+  CREATE libs/shared-server/jest.config.ts
+  UPDATE libs/shared-server/tsconfig.lib.json
+  UPDATE libs/shared-server/tsconfig.spec.json
+  UPDATE libs/shared-server/project.json
+  DELETE libs/shared-ui-components/jest.config.js
+  CREATE libs/shared-ui-components/jest.config.ts
+  UPDATE libs/shared-ui-components/tsconfig.lib.json
+  UPDATE libs/shared-ui-components/tsconfig.spec.json
+  UPDATE libs/shared-ui-components/project.json
+  DELETE libs/shared-ui-logic/jest.config.js
+  CREATE libs/shared-ui-logic/jest.config.ts
+  UPDATE libs/shared-ui-logic/tsconfig.lib.json
+  UPDATE libs/shared-ui-logic/tsconfig.spec.json
+  UPDATE libs/shared-ui-logic/project.json
+  DELETE apps/shell/jest.config.js
+  CREATE apps/shell/jest.config.ts
+  UPDATE apps/shell/tsconfig.json
+  UPDATE apps/shell/project.json
+  DELETE libs/types/jest.config.js
+  CREATE libs/types/jest.config.ts
+  UPDATE libs/types/tsconfig.lib.json
+  UPDATE libs/types/tsconfig.spec.json
+  UPDATE libs/types/project.json
+  UPDATE tsconfig.base.json
+---------------------------------------------------------
+Ran update-to-export-default from @nrwl/jest
+  Update to export default in jest config and revert jest.preset.ts to jest.preset.js
+
+  UPDATE jest.config.ts
+  UPDATE jest.preset.js
+  UPDATE apps/checkout/jest.config.ts
+  UPDATE apps/customer/jest.config.ts
+  UPDATE libs/design-system/jest.config.ts
+  UPDATE libs/shared-server/jest.config.ts
+  UPDATE libs/shared-ui-components/jest.config.ts
+  UPDATE libs/shared-ui-logic/jest.config.ts
+  UPDATE apps/shell/jest.config.ts
+  UPDATE libs/types/jest.config.ts
+  UPDATE package.json
+---------------------------------------------------------
+Ran add-default-development-configurations-14.0.0 from @nrwl/next
+  Add a default development configuration for build and serve targets.
+
+  UPDATE apps/checkout/project.json
+  UPDATE apps/customer/project.json
+  UPDATE apps/shell/project.json
+---------------------------------------------------------
+Ran add-dev-output-path from @nrwl/next
+  Add a development outputPath to avoid conflict with the production build.
+
+  UPDATE apps/checkout/project.json
+  UPDATE apps/customer/project.json
+  UPDATE apps/shell/project.json
+---------------------------------------------------------
+Ran add-gitignore-entry from @nrwl/next
+  Add .next folder to gitignore.
+
+  UPDATE .gitignore
+---------------------------------------------------------
+Ran update-dev-output-path from @nrwl/next
+  Update development outputPath to the project root.
+
+  UPDATE apps/checkout/project.json
+  UPDATE apps/customer/project.json
+  UPDATE apps/shell/project.json
+---------------------------------------------------------
+Ran update-react-18-13.10.0 from @nrwl/react
+  Update to React 18
+
+  UPDATE package.json
+---------------------------------------------------------
+Ran replace-testing-library-react-hook-14.0.0 from @nrwl/react
+  Replace deprecated '@testing-library/react-hook' package with `renderHook` from '@testing-library/react'.
+
+  UPDATE package.json
+---------------------------------------------------------
+Ran update-babel-jest-transform-option from @nrwl/react
+  Update babel-jest to include the @nrwl/react/babel preset in project jest config
+
+  UPDATE libs/design-system/jest.config.ts
+  UPDATE libs/shared-ui-components/jest.config.ts
+---------------------------------------------------------
+Ran 13-6-0-remove-old-task-runner-options from @nrwl/workspace
+  Remove old options that are no longer used
+
+  UPDATE nx.json
+  UPDATE workspace.json
+---------------------------------------------------------
+Please run npm install to ensure the correct version of Nx is installed.
+Ran 13-9-0-replace-tao-with-nx from @nrwl/workspace
+  Replace @nrwl/tao with nx
+
+  UPDATE package.json
+---------------------------------------------------------
+Ran 13-10-0-update-tasks-runner from @nrwl/workspace
+  Update the tasks runner property to import it from the nx package instead of @nrwl/worksapce
+
+  UPDATE nx.json
+---------------------------------------------------------
+
+ >  NX   Running 'npm install' to make sure necessary packages are installed
+
+
+added 2 packages, removed 3 packages, changed 1 package, and audited 1731 packages in 4s
+
+194 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+ >  NX   Successfully finished running migrations from 'migrations.json'. This workspace is up to date!
+

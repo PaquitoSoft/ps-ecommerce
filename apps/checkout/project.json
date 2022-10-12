@@ -1,5 +1,5 @@
 {
-	"root": "apps/checkout",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "apps/checkout",
 	"projectType": "application",
 	"targets": {
@@ -12,7 +12,10 @@
 				"outputPath": "dist/apps/checkout"
 			},
 			"configurations": {
-				"production": {}
+				"production": {},
+				"development": {
+					"outputPath": "apps/checkout"
+				}
 			}
 		},
 		"serve": {
@@ -26,8 +29,13 @@
 				"production": {
 					"buildTarget": "checkout:build:production",
 					"dev": false
+				},
+				"development": {
+					"buildTarget": "checkout:build:development",
+					"dev": true
 				}
-			}
+			},
+			"defaultConfiguration": "development"
 		},
 		"export": {
 			"executor": "@nrwl/next:export",
@@ -39,7 +47,7 @@
 			"executor": "@nrwl/jest:jest",
 			"outputs": ["coverage/apps/checkout"],
 			"options": {
-				"jestConfig": "apps/checkout/jest.config.js",
+				"jestConfig": "apps/checkout/jest.config.ts",
 				"passWithNoTests": true
 			}
 		},

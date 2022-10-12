@@ -23,7 +23,7 @@ export const typeDef = gql`
 		name: String!
 		sizeCode: String!
 		sizeName: String!
-		price: Int!
+		price: Float!
 		colorName: String!
 		imageUrl: String!
 	}
