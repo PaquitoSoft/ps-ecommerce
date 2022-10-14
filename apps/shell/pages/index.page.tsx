@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import { gql } from '@apollo/client';
 
 import { createApolloClient } from '@ps-ecommerce/shared-server';
+import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 
 import { Product } from '@ps-ecommerce/types'
 
@@ -108,7 +109,9 @@ function Home({ featuredProducts: { newArrivals, topSellers, trending } }: Props
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-	const apolloClient = createApolloClient();
+	const apolloClient = createApolloClient({
+		schemaExtensions: [catalogSchema]
+	});
 	const apolloQueryData = await apolloClient.query({
 		query: FeaturedProductsQuery
 	});

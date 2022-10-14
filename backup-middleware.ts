@@ -44,3 +44,15 @@ export function middleware(request: NextRequest) {
 
 // Checkout middleware# Incoming URL: /shop/cart?userId=a6012c74-fa87-470c-96c5-4cbf8fe26964&path=shop&path=cart
 // Checkout middleware# Next URL: /shop/cart?userId=a6012c74-fa87-470c-96c5-4cbf8fe26964&path=shop&path=cart
+
+
+// "build": {
+// 	"executor": "@nrwl/js:tsc",
+// 	"outputs": ["{options.outputPath}"],
+// 	"options": {
+// 		"outputPath": "dist/libs/catalog-backend",
+// 		"main": "libs/catalog-backend/src/index.ts",
+// 		"tsConfig": "libs/catalog-backend/tsconfig.lib.json",
+// 		"assets": ["libs/catalog-backend/*.md"]
+// 	}
+// },

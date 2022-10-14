@@ -1,14 +1,21 @@
 import { ApolloServer } from 'apollo-server-micro';
 import Cors from 'micro-cors';
-
-import { IncomingMessage, ServerResponse } from 'http';
-import { apolloGraphqlSchema } from '@ps-ecommerce/shared-server';
 import { NextApiRequest } from 'next';
+import { IncomingMessage, ServerResponse } from 'http';
+
+import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
+import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
+import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
+import { createApolloGraphqlSchema } from '@ps-ecommerce/shared-server';
 
 const cors = Cors();
 
 const apolloServer = new ApolloServer({
-	schema: apolloGraphqlSchema,
+	schema: createApolloGraphqlSchema([
+		catalogSchema,
+		customerSchema,
+		checkoutSchema
+	]),
 	context: ({ req }: { req: NextApiRequest }) => {
 		return {
 			userId: req.query.userId || req.cookies.uid

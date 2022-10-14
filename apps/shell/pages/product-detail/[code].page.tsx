@@ -2,6 +2,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
 
+import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { Product } from '@ps-ecommerce/types';
@@ -109,7 +110,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	const categoryCode = context.query!.grid as string;
 
 
-	const apolloClient = createApolloClient();
+	const apolloClient = createApolloClient({
+		schemaExtensions: [catalogSchema]
+	});
 	const dataPromises = [
 		apolloClient.query({
 			query: ProductQuery,

@@ -1,13 +1,12 @@
 import { GetServerSideProps } from 'next';
 
+import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
+import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
+import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
 import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { Product } from '@ps-ecommerce/types';
 
-// import SectionTitle from '@ds/section-title/section-title';
-// import TwoLayoutMainContent from '@ds/two-layout-main-content/two-layout-main-content';
-// import ProductSummary from '@components/product-summary/product-summary';
-// import HelpLinksList from '@components/help-links-list/help-links-list';
 import { SectionTitle, TwoLayoutMainContent } from '@ps-ecommerce/design-system';
 import {
 	ProductSummary,
@@ -74,7 +73,10 @@ function WishlistPage() {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userId = context.query.userId as string;
 
-	const apolloClient = createApolloClient({ userId });
+	const apolloClient = createApolloClient({
+		context: { userId },
+		schemaExtensions: [customerSchema, catalogSchema, checkoutSchema]
+	});
 	await apolloClient.query({
 		query: WishlistQuery
 	});

@@ -2,6 +2,9 @@ import { ReactElement } from 'react';
 import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
 
+import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
+import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
+import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
 import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { Breadcrumb, Order } from '@ps-ecommerce/types';
@@ -89,7 +92,10 @@ function ConfirmationPage({ order }: Props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
 	const userId = context.query.userId as string;
 
-	const apolloClient = createApolloClient({ userId });
+	const apolloClient = createApolloClient({
+		context: { userId },
+		schemaExtensions: [customerSchema, catalogSchema, checkoutSchema]
+	});
 	const queryResult = await apolloClient.query({
 		query: OrderConfirmationQuery
 	});
