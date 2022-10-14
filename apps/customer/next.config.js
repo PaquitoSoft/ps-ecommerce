@@ -15,6 +15,9 @@ const nextConfig = {
 	pageExtensions: ['page.tsx', 'route.ts', 'mid.ts'],
 	images: {
 		domains: ['assets.adidas.com']
+	},
+	experimental: {
+		manualClientBasePath: true
 	}
 };
 

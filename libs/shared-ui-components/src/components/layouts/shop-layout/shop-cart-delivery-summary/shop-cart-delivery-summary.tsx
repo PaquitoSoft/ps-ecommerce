@@ -15,7 +15,7 @@ function ShopCartDeliverySummary({ shippingAddress }: Props) {
 		<section>
 			<div className={styles.deliverySummaryTitleContainer}>
 				<h3 className={styles.deliverySummaryTitle}>PICKUP ADDRESS</h3>
-				<Link href="/delivery"><a><EditIcon /></a></Link>
+				<Link href="/shop/delivery"><a><EditIcon /></a></Link>
 			</div>
 			<div className={styles.deliverySummaryInfo}>
 				<p>{shippingAddress.name} {shippingAddress.surname}</p>

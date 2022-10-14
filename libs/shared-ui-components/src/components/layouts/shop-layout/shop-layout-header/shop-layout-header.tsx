@@ -22,7 +22,7 @@ function BreadcrumbItem(
 			{ [styles.breadcrumbItem_selected]: isSelected },
 			{ [styles.breadcrumbItem_disabled]: isDisabled}
 		)}>
-			<Link href={`/${breadcrumb.toLocaleLowerCase()}`}>
+			<Link href={`/shop/${breadcrumb.toLocaleLowerCase()}`}>
 				<a className={styles.breadcrumbItemLink}>
 					<Badge className={styles.breadcrumbIndex} value={index + 1} />
 					<span>{breadcrumb}</span>
