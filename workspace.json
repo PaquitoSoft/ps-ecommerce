@@ -2,6 +2,7 @@
 	"version": 2,
 	"projects": {
 		"catalog-backend": "libs/catalog-backend",
+		"catalog-service": "apps/catalog-service",
 		"checkout": "apps/checkout",
 		"checkout-backend": "libs/checkout-backend",
 		"checkout-e2e": "apps/checkout-e2e",
