@@ -8,6 +8,9 @@ export { createSchema as createApolloGraphqlSchema } from './infrastructure/web/
 export { createApolloClient } from './infrastructure/web/apollo/apollo-server-client';
 export type { default as ApolloContext } from './infrastructure/web/apollo/apollo-context.type';
 
+import * as bigintType from './infrastructure/web/apollo/types/bigint-gql-type';
+import * as footerLinkType from './infrastructure/web/apollo/types/footer-link-gql-type';
+
 export const repositoryTypes = Object.freeze({
 	FooterLink: 'footer-link-repo'
 });
@@ -15,3 +18,10 @@ export const repositoryTypes = Object.freeze({
 export const repositoryFactory = new RepositoryFactory({
 	[repositoryTypes.FooterLink]: MongoFooterLinkRepository
 });
+
+export const sharedGraphqlTypes = {
+	bigintType,
+	footerLinkType
+};
+
+export { connect as connectToMongo } from './infrastructure/orm/mongoose/mongoose-connection';

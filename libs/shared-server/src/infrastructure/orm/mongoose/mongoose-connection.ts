@@ -38,3 +38,18 @@ export function connectToMongo(): Promise<Connection> {
 
 	return global._efe_mongoosePromise;
 }
+
+export async function connect({ databaseUrl }: { databaseUrl: string }) {
+	console.log('MongooseConnection::connectToMongo# CONNECTING to DB...');
+
+	const _mongoose = await mongoose.connect(databaseUrl, {
+		autoIndex: process.env.NODE_ENV !== 'production'
+	});
+	console.log('MongooseConnection::connectToMongo# CONNECTED to DB!');
+
+	_mongoose.connection.on('error', error => {
+		console.error('Error in Mongo connection:', error);
+	});
+
+	return _mongoose.connection;
+}
