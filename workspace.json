@@ -10,6 +10,7 @@
 		"customer": "apps/customer",
 		"customer-backend": "libs/customer-backend",
 		"customer-e2e": "apps/customer-e2e",
+		"customer-service": "apps/customer-service",
 		"design-system": "libs/design-system",
 		"shared-server": "libs/shared-server",
 		"shared-ui-components": "libs/shared-ui-components",
