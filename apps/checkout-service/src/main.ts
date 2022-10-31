@@ -1,7 +1,7 @@
 import { connectToMongo } from "@ps-ecommerce/shared-server";
 import { startServer } from "./infrastructure/web/server";
 
-const SERVER_PORT = +process.env.PORT || 4001;
+const SERVER_PORT = +process.env.PORT || 4002;
 const DATABASE_URL = process.env.DATABASE_URL || '';
 const CATALOG_SERVICE_URL = process.env.CATALOG_SERVICE_URL || '';
 const CUSTOMER_SERVICE_URL = process.env.CUSTOMER_SERVICE_URL || '';
