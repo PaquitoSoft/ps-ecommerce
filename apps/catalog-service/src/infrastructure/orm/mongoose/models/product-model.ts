@@ -96,7 +96,7 @@ ProductSchema.statics.findPaginatedByCategory = async function({
 	// the result type we're going to return in advance so I need to populate
 	// the ID virtual property by hand
 	return  {
-		products: productsResult.map((product: any) => {
+		products: productsResult.map((product: { id?: string; _id: string }) => {
 			product.id = product._id;
 			return product;
 		}),

@@ -1,5 +1,5 @@
-import { Product } from "@ps-ecommerce/types";
-import { Repository } from '@ps-ecommerce/shared-server';
+import type { Product } from "@ps-ecommerce/types";
+import type { Repository } from '@ps-ecommerce/shared-server';
 
 export type FindProductsByCategoryCodeParams = {
 	categoryCode: string;
