@@ -1,0 +1,81 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0",
+    import: ["@key"])
+
+# Stub entity
+# We need this stub entity as our Wishlist entity will reference it
+# resolvable: false -> becuase this service does not contribute any field to that entity
+type Product @key(fields: "id", resolvable: false) {
+  id: ID!
+}
+
+type Wishlist {
+  id: ID!
+  userId: String!
+  name: String!
+  products: [Product]!
+}
+
+extend type Query {
+  wishlist: Wishlist
+}
+
+extend type Mutation {
+  addToWishlist(productId: ID!): Wishlist
+  removeFromWishlist(productId: ID!): Wishlist
+}
+
+type ShippingAddress {
+  email: String!
+  name: String!
+  surname: String!
+  addressLine: String!
+  postalCode: String!
+  city: String!
+}
+
+type CreditCard {
+  pan: String!
+  cardholder: String!
+}
+
+type PaymentData {
+  paymentMethod: String!
+  paymentDetails: CreditCard!
+}
+
+type OrderItemProduct {
+  code: String!
+  name: String!
+  sizeCode: String!
+  sizeName: String!
+  price: Float!
+  colorName: String!
+  imageUrl: String!
+}
+
+type OrderItem {
+  id: ID!
+  product: OrderItemProduct!
+  quantity: Int!
+}
+
+type Order {
+  id: String!
+  code: String!
+  userId: String!
+  items: [OrderItem]!
+  placedDate: BigInt!
+  estimatedDeliveryDate: BigInt!
+  totalUnits: Int!
+  deliveryCost: Float
+  totalAmount: Float!
+  shippingAddress: ShippingAddress!
+  paymentData: PaymentData!
+}
+
+extend type Query {
+  userOrders: [Order]!
+  userLastOrder: Order
+  order(orderCode: String!): Order
+}

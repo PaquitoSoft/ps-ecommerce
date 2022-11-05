@@ -1,0 +1,233 @@
+#! /usr/bin/env node
+
+require('dotenv').config({
+	path: require('find-config')('.env'),
+	override: true
+});
+
+const { existsSync, writeFileSync } = require('node:fs');
+const { join } = require('node:path');
+const cli = require('cac')();
+const path = require('path');
+const shell = require('shelljs');
+const chalk = require('chalk');
+const terminate = require('terminate');
+
+const APOLLO_SUPERGRAPH_REFERENCE = process.env.APOLLO_GRAPH_REF;
+
+const log = console.log;
+
+const subgraphsConfig = {
+	catalog: {
+		name: 'catalog',
+		schema: './catalog.gql',
+		serviceHost: 'http://localhost:4001'
+	},
+	customer: {
+		name: 'customer',
+		schema: './customer.gql',
+		serviceHost: 'http://localhost:4003'
+	},
+	checkout: {
+		name: 'checkout',
+		schema: './checkout.gql',
+		serviceHost: 'http://localhost:4002'
+	}
+};
+
+const roverCommands = {
+	resolveSubgraph: (subgraphConfig) => `rover graph introspect ${subgraphConfig.serviceHost}`,
+	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover graph check ${subgraphConfig.name} --schema -`,
+  buildSupergraph: (supergraphConfigFilePath) => `rover supergraph compose --config ${supergraphConfigFilePath}`,
+  initializeSubgraph: (subgraphConfig, schemaFileName) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${schemaFileName} --routing-url ${subgraphConfig.serviceUrl}`,
+	// publishSubgraph: (subgraphConfig) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${subgraphConfig.schema} --routing-url ${subgraphConfig.serviceUrl}`,
+	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover graph publish ${APOLLO_SUPERGRAPH_REFERENCE} --schema -`
+};
+
+async function startService(serviceConfig) {
+	const serviceStartedMessage = `Subgraph '${serviceConfig.name}' running at ${serviceConfig.serviceHost}`;
+	return new Promise((resolve) => {
+		const process = shell.exec(`npx nx serve ${serviceConfig.name}-service`, {
+			async: true,
+			silent: true,
+			windowsHide: true,
+			cwd: path.join(__dirname, '../../../')
+		});
+
+		process.stdout.on('data', (data) => {
+			if (data.includes(serviceStartedMessage)) {
+				resolve(process);
+			}
+		});
+	});
+}
+
+async function stopService(serviceProcessId) {
+	return new Promise((resolve, reject) => {
+		terminate(serviceProcessId, (error) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(true);
+			}
+		});
+	});
+}
+
+async function startAllServices() {
+  return Promise.all(Object.values(subgraphsConfig)
+    .map(subgraphConfig => startService(subgraphConfig))
+  );
+}
+
+async function stopAllServices(servicesProcess) {
+  return Promise.all(servicesProcess.map(processInfo => stopService(processInfo.pid)));
+}
+
+async function runRoverCommand(serviceName, command) {
+  const subgraphConfig = subgraphsConfig[serviceName];
+
+	if (!subgraphConfig) {
+		log('\n\t', chalk.red(`Provided service name is not supported: `, chalk.bold(serviceName)), '\n');
+		cli.outputHelp();
+		shell.exit(1);
+	}
+
+	log(chalk.blue(`Starting '${subgraphConfig.name}' service...`));
+	const serviceProcess = await startService(subgraphConfig);
+
+	try {
+    await command(subgraphConfig, serviceName);
+	} finally {
+		log('\n', chalk.blue(`Stopping '${subgraphConfig.name}' service...`));
+		await stopService(serviceProcess.pid);
+
+		log('\n', chalk.green('The End!'));
+	}
+}
+
+async function initialize({ service }) {
+  await runRoverCommand(service, async (subgraphConfig) => {
+    log(chalk.blue(`Pulling '${subgraphConfig.name}' service schema...`));
+    const schema = shell.exec(roverCommands.resolveSubgraph(subgraphConfig), { silent: true }).stdout;
+
+    const schemaFileName = `../schemas/schema-${subgraphConfig.name}.graphql`;
+    log(chalk.blue(`Writing '${subgraphConfig.name}' service schema to disk...`));
+		writeFileSync(schemaFileName, schema);
+
+    log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+    shell.exec(roverCommands.publishSubgraph(subgraphConfig, schemaFileName));
+  });
+}
+
+// const wait = (seconds) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
+
+async function buildSuperschema() {
+  let servicesPids = [];
+  try {
+    log('\n', chalk.blue(`Starting all services...`));
+    servicesPids = await startAllServices();
+    log(chalk.blue(`...all services started.`));
+
+    const configFilePath = join(__dirname, '../supergraph-config.yaml');
+    log('\n', chalk.blue(`Building supergraph schema file...`));
+    // const supergraphSchema = shell.exec(roverCommands.buildSupergraph(configFilePath)).stdout;
+    const processInfo = shell.exec(roverCommands.buildSupergraph(configFilePath), { silent: true });
+
+    if (processInfo.code === 0) {
+      log(chalk.blue(`Writing supergraph schema file to disk...`));
+      writeFileSync(join(__dirname, '../schemas/supergraph-schema.graphql'), processInfo.stdout);
+    } else {
+      log('\n', chalk.red(processInfo.stderr));
+    }
+
+	} finally {
+		log('\n', chalk.blue(`Stopping all services...`));
+		await stopAllServices(servicesPids);
+
+		log('\n', chalk.green('The End!'));
+	}
+}
+
+async function publish({ service }) {
+  await runRoverCommand(service, (subgraphConfig) => {
+  	log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+		shell.exec(roverCommands.publishSubgraph(subgraphConfig));
+  });
+}
+
+cli
+  .command('build', 'Builds the supergraph schema using all services subgraphs')
+  .action(buildSuperschema);
+
+cli
+  .command('initialize', 'Publish the schema for a service for the first time')
+  .option(
+		'--service <service_name>',
+		'Provide the name of the service owning the schema you want to publish'
+	)
+	.action(initialize);
+
+cli
+	.command('publish', 'Publish a subgraph schema')
+	.option(
+		'--service <service_name>',
+		'Provide the name of the service owning the schema you want to publish'
+	)
+	.action(publish);
+
+cli.usage(`
+	Requirements to use this tool:
+	  + You need to have 'rover' cli installed (https://www.apollographql.com/docs/rover/getting-started)
+	  + You need to login with that cli (command: rover config auth)
+	  + You need to have these two environment variables set:
+	    - APOLLO_KEY: Your supergraph key
+	    - APOLLO_GRAPH_REF: Your supergraph identifier
+
+	Also, you need to be loo
+`);
+cli.help();
+
+
+if (!shell.which('rover')) {
+	log(chalk.red('"rover" cli was not found. You need to install it first.'));
+	log(chalk.red('Check this URL for instructions: ', chalk.underline('https://www.apollographql.com/docs/rover/getting-started')));
+	shell.exit(1);
+}
+
+// 1. Start backend services to be able to fetch the schemas
+// const process = shell.exec('npm run dev:backend', { async: true });
+// const process = shell.exec('ls -la', { async: true, silent: true });
+// process.stdout.on('data', (data) => {
+// 	console.log('Process data:', data);
+// });
+// log('Starting service catalog...');
+// startService(subgraphsConfig.catalog).then((process) => {
+// 	console.log({ process });
+// 	log('1. Service started!', process.pid);
+// 	setTimeout(() => {
+// 		log('Killing the backend services...', process.pid);
+// 		// process.kill(-process.pid);
+// 		// const result = shell.exec(`tskill ${process.pid}`);
+// 		// log('Kill result:', result);
+// 		// const result2 = shell.exec(`tskill 9020`);
+// 		// log('Kill result2:', result);
+// 		terminate(process.pid, (err) => {
+// 			log('Process terminated', { err });
+// 			shell.exit(0);
+// 		});
+// 	}, 25000);
+
+// });
+
+// 2. Run the command
+cli.parse();
+
+// 3. Stop backend services
+// setTimeout(() => {
+// 	log('Killing the backend services...', process.pid);
+// 	// process.kill('SIGINT');
+// 	const result = shell.exec(`kill ${process.pid}`);
+// 	log('Kill result:', result);
+// 	shell.exit(0);
+// }, 15000);

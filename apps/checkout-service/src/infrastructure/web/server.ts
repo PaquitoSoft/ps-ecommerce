@@ -32,7 +32,7 @@ export async function startServer({
 			typeDefs: [
 				ShopCartType.typeDef,
 				ShippingAddressTypeDefinitions,
-				ProductTypeDefinitions,
+				// ProductTypeDefinitions,
 				OrderTypeDefinitions,
 				sharedGraphqlTypes.bigintType.typeDef
 			],
@@ -43,7 +43,6 @@ export async function startServer({
 			)
 		}),
 		context: async ({ req }) => {
-			console.log({ request: req });
 			return {
 				userId: req.query.userId || req.get('authorization'),
 			}

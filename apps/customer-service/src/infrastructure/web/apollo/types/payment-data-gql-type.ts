@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
 export const typeDef = gql`
-	type CreditCard {
+	type PaymentCreditCard {
 		pan: String!
 		cardholder: String!
 	}
 
-	type PaymentData {
+	type OrderPaymentData {
 		paymentMethod: String!
-		paymentDetails: CreditCard!
+		paymentDetails: PaymentCreditCard!
 	}
 `;

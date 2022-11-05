@@ -33,8 +33,8 @@ export const typeDef = gql`
 		totalUnits: Int!
 		deliveryCost: Float
 		totalAmount: Float!
-		shippingAddress: ShippingAddress!
-		paymentData: PaymentData!
+		shippingAddress: OrderShippingAddress!
+		paymentData: OrderPaymentData!
 	}
 
 	extend type Query {

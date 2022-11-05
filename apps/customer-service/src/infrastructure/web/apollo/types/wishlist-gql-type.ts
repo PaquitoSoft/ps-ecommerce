@@ -8,11 +8,21 @@ import getUserWishlistAction from '../../../../application/use-cases/wishlist/ge
 import removeProductFromWishlistAction from '../../../../application/use-cases/wishlist/remove-product-from-wishlist-action';
 
 export const typeDef = gql`
-	type Wishlist {
+	extend schema
+		@link(url: "https://specs.apollo.dev/federation/v2.0",
+			import: ["@key"])
+
+	# Stub entity
+	# We need this stub entity as our Wishlist entity will reference it
+	# resolvable: false -> becuase this service does not contribute any field to that entity
+	type Product @key(fields: "id", resolvable: false) {
+		id: ID!
+	}
+
+	type Wishlist @key(fields: "id") {
 		id: ID!
 		userId: String!
 		name: String!
-		# products: [Product]!
 	}
 
 	extend type Query {
@@ -73,6 +83,13 @@ const removeFromWishlist = async (
 export const resolvers = {
 	Wishlist: {
 		id: (root: { _id: unknown; id: unknown; }) => root._id || root.id
+	},
+	Product: {
+		// In this shape, this is not needed as Apollo Server provide a default one
+		// like this for every entity.
+		__resolveReference(referencedProduct) {
+			return referencedProduct;
+		}
 	},
 	Query: {
 		wishlist: getUserWishlists

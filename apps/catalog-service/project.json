@@ -12,7 +12,8 @@
 				"compiler": "tsc",
 				"outputPath": "dist/apps/catalog-service",
 				"main": "apps/catalog-service/src/main.ts",
-				"tsConfig": "apps/catalog-service/tsconfig.app.json"
+				"tsConfig": "apps/catalog-service/tsconfig.app.json",
+				"generatePackageJson": true
 			},
 			"configurations": {
 				"production": {
@@ -32,6 +33,17 @@
 					"buildTarget": "catalog-service:build:production"
 				}
 			}
+		},
+		"deploy": {
+			"builder": "nx:run-commands",
+			"options": {
+				"envFile": "./.env",
+				"commands": [
+					"nx build catalog-service",
+					"docker -l debug build -f ./apps/catalog-service/Dockerfile . -t catalog-service"
+				]
+			},
+			"parallel": false
 		},
 		"lint": {
 			"executor": "@nrwl/linter:eslint",

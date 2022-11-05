@@ -69,7 +69,7 @@ export const typeDef = gql`
 		removeFromShopCart(orderItemId: ID!): ShopCart
 		updateInShopCart(orderItemId: ID!, quantity: Int!): ShopCart
 		saveShippingAddress(shippingAddress: NewShippingAddress): ShopCart
-		checkout(paymentData: NewPaymentData): Order
+		checkout(paymentData: NewPaymentData): ClosedCart
 	}
 `;
 

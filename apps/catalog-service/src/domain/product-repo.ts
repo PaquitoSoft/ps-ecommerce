@@ -14,6 +14,7 @@ export type FindPaginatedByCategoryCodeResult = {
 }
 
 interface ProductRepository extends Repository {
+	findByProductsIds(productsIds: string[]): Promise<Product[]>;
 	findByProductCode(productCode: string): Promise<Product>;
 	findByCategoryCode({
 		categoryCode,

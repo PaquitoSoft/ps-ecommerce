@@ -1,0 +1,6 @@
+version: '3.8'
+services:
+  catalog:
+    image: catalog-service
+    ports:
+      - '4001:4001'
