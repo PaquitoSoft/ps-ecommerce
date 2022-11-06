@@ -38,12 +38,13 @@
 			"builder": "nx:run-commands",
 			"options": {
 				"envFile": "./.env",
+				"parallel": false,
 				"commands": [
 					"nx build catalog-service",
-					"docker -l debug build -f ./apps/catalog-service/Dockerfile . -t catalog-service"
+					"docker build -f ./apps/catalog-service/Dockerfile . -t paquitosoft/ecommerce_catalog-service",
+					"docker push paquitosoft/ecommerce_catalog-service:latest"
 				]
-			},
-			"parallel": false
+			}
 		},
 		"lint": {
 			"executor": "@nrwl/linter:eslint",

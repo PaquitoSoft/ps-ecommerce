@@ -12,7 +12,8 @@
 				"compiler": "tsc",
 				"outputPath": "dist/apps/checkout-service",
 				"main": "apps/checkout-service/src/main.ts",
-				"tsConfig": "apps/checkout-service/tsconfig.app.json"
+				"tsConfig": "apps/checkout-service/tsconfig.app.json",
+				"generatePackageJson": true
 			},
 			"configurations": {
 				"production": {
@@ -20,6 +21,18 @@
 					"extractLicenses": true,
 					"inspect": false
 				}
+			}
+		},
+		"deploy": {
+			"builder": "nx:run-commands",
+			"options": {
+				"envFile": "./.env",
+				"parallel": false,
+				"commands": [
+					"nx build checkout-service",
+					"docker build -f ./apps/checkout-service/Dockerfile . -t paquitosoft/ecommerce_checkout-service",
+					"docker push paquitosoft/ecommerce_checkout-service:latest"
+				]
 			}
 		},
 		"serve": {
