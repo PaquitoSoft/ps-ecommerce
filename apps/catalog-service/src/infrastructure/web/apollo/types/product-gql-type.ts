@@ -1,11 +1,25 @@
 import { gql } from '@apollo/client';
 import { Product } from '@ps-ecommerce/types';
 
-import findProductAction from '../../../../application/use-cases/product/find-product-action';
-import findProductsByCategoryAction from '../../../../application/use-cases/product/find-products-by-category-action';
 import ApolloContext from '../apollo-context';
 
+import findProductAction from '../../../../application/use-cases/product/find-product-action';
+import findProductsByProductsIdsAction from '../../../../application/use-cases/product/find-products-by-ids-action';
+import findProductsByCategoryAction from '../../../../application/use-cases/product/find-products-by-category-action';
+
 export const typeDef = gql`
+	extend schema
+		@link(url: "https://specs.apollo.dev/federation/v2.0",
+			import: ["@key"])
+
+	# Stub entity
+	# We need this stub entity as our Wishlist entity will reference it
+	# resolvable: true -> becuase this service contributes the "products" field to that entity
+	type Wishlist @key(fields: "id", resolvable: true) {
+		id: ID!
+		products: [Product]
+	}
+
 	type SeoInfo {
 		title: String!
 		keywords: String!
@@ -31,8 +45,8 @@ export const typeDef = gql`
 		availability: String!
 	}
 
-	type Product {
-		id: String!
+	type Product @key(fields: "id") {
+		id: ID!
 		code: String!
 		name: String!
 		altName: String!
@@ -144,6 +158,13 @@ export const resolvers = {
 			// @ts-ignore
 			avaialability: size.avaialability
 		}))
+	},
+	Wishlist: {
+		__resolveReference: (wishlistDocument, context: ApolloContext) => {
+			return findProductsByProductsIdsAction({ productsIds: wishlistDocument.productsIds }, {
+				productRepository: context.dataSources.product
+			});
+		}
 	},
 	Query: {
 		productsByCategory,

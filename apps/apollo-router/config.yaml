@@ -1,0 +1,13 @@
+supergraph:
+  introspection: true
+homepage:
+  enabled: false
+sandbox:
+  enabled: true
+cors:
+  origins:
+    - http://localhost:3000
+    - http://localhost:4200
+    - http://localhost:4201
+    - http://localhost:4202
+    - https://studio.apollographql.com

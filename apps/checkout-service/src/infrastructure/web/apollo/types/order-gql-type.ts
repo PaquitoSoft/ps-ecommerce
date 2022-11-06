@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export const typeDef = gql`
-	type OrderItemProduct {
+	type ClosedCartItemProduct {
 		code: String!
 		name: String!
 		sizeCode: String!
@@ -11,9 +11,9 @@ export const typeDef = gql`
 		imageUrl: String!
 	}
 
-	type OrderItem {
+	type ClosedCartItem {
 		id: ID!
-		product: OrderItemProduct!
+		product: ClosedCartItemProduct!
 		quantity: Int!
 	}
 
@@ -27,11 +27,11 @@ export const typeDef = gql`
 		paymentDetails: CreditCard!
 	}
 
-	type Order {
+	type ClosedCart {
 		id: String!
 		code: String!
 		userId: String!
-		items: [OrderItem]!
+		items: [ClosedCartItem]!
 		placedDate: BigInt!
 		estimatedDeliveryDate: BigInt!
 		totalUnits: Int!

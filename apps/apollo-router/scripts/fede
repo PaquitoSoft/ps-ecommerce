@@ -1,0 +1,155 @@
+#! /usr/bin/env node
+
+require('dotenv').config({
+	path: require('find-config')('.env'),
+	override: true
+});
+
+const { writeFileSync } = require('node:fs');
+const { join } = require('node:path');
+const cli = require('cac')();
+const path = require('path');
+const shell = require('shelljs');
+const chalk = require('chalk');
+const terminate = require('terminate');
+
+const APOLLO_SUPERGRAPH_REFERENCE = process.env.APOLLO_GRAPH_REF;
+
+const log = console.log;
+
+const subgraphsConfig = {
+	catalog: {
+		name: 'catalog',
+		serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/'
+	},
+	customer: {
+		name: 'customer',
+		serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/'
+	},
+	checkout: {
+		name: 'checkout',
+		serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/'
+	}
+};
+
+const roverCommands = {
+	resolveSubgraph: (subgraphConfig) => `rover subgraph introspect ${subgraphConfig.serviceHost}`,
+	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph check ${subgraphConfig.name} --schema -`,
+  buildSupergraph: (supergraphConfigFilePath) => `rover supergraph compose --config ${supergraphConfigFilePath}`,
+  initializeSubgraph: (subgraphConfig, schemaFileName) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${schemaFileName} --routing-url ${subgraphConfig.serviceHost}`,
+	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --routing-url ${subgraphConfig.serviceHost} --name ${subgraphConfig.name} --schema -`
+};
+
+async function startService(serviceConfig) {
+	const serviceStartedMessage = `Subgraph '${serviceConfig.name}' running`;
+	return new Promise((resolve) => {
+		const process = shell.exec(`npx nx serve ${serviceConfig.name}-service`, {
+			async: true,
+			silent: true,
+			windowsHide: true,
+			cwd: path.join(__dirname, '../../../')
+		});
+
+		process.stdout.on('data', (data) => {
+			if (data.includes(serviceStartedMessage)) {
+				resolve(process);
+			}
+		});
+	});
+}
+
+async function stopService(serviceProcessId) {
+	return new Promise((resolve, reject) => {
+		terminate(serviceProcessId, (error) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(true);
+			}
+		});
+	});
+}
+
+async function startAllServices() {
+  return Promise.all(Object.values(subgraphsConfig)
+    .map(subgraphConfig => startService(subgraphConfig))
+  );
+}
+
+async function stopAllServices(servicesProcess) {
+  return Promise.all(servicesProcess.map(processInfo => stopService(processInfo.pid)));
+}
+
+async function buildSuperschema() {
+  let servicesPids = [];
+  try {
+    log('\n', chalk.blue(`Starting all services...`));
+    servicesPids = await startAllServices();
+    log(chalk.blue(`...all services started.`));
+
+    const configFilePath = join(__dirname, './supergraph-config.yaml');
+    log('\n', chalk.blue(`Building supergraph schema file...`));
+    const processInfo = shell.exec(roverCommands.buildSupergraph(configFilePath), { silent: true });
+
+    if (processInfo.code === 0) {
+      log(chalk.blue(`Writing supergraph schema file to disk...`));
+      writeFileSync(join(__dirname, '../schemas/supergraph-schema.graphql'), processInfo.stdout);
+    } else {
+      log('\n', chalk.red(processInfo.stderr));
+    }
+
+	} finally {
+		log('\n', chalk.blue(`Stopping all services...`));
+		await stopAllServices(servicesPids);
+
+		log('\n', chalk.green('The End!'));
+	}
+}
+
+async function publish({ service }) {
+  const subgraphConfig = subgraphsConfig[service];
+
+  if (!subgraphConfig) {
+		log('\n\t', chalk.red(`Provided service name is not supported: `, chalk.bold(serviceName)), '\n');
+		cli.outputHelp();
+		shell.exit(1);
+	}
+
+  log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+	shell.exec(roverCommands.publishSubgraph(subgraphConfig));
+}
+
+
+cli
+  .command('build', 'Builds the supergraph schema using all services subgraphs')
+  .action(buildSuperschema);
+
+cli
+	.command('publish', 'Publish a subgraph schema')
+	.option(
+		'--service <service_name>',
+		'Provide the name of the service owning the schema you want to publish'
+	)
+	.action(publish);
+
+
+cli.usage(`
+	Requirements to use this tool:
+	  + You need to have 'rover' cli installed (https://www.apollographql.com/docs/rover/getting-started)
+	  + You need to login with that cli (command: rover config auth)
+	  + You need to have these two environment variables set (use a '.env' file):
+	    - APOLLO_KEY: Your supergraph key
+	    - APOLLO_GRAPH_REF: Your supergraph identifier
+
+	Also, you need to be loo
+`);
+cli.help();
+
+
+if (!shell.which('rover')) {
+	log(chalk.red('"rover" cli was not found. You need to install it first.'));
+	log(chalk.red('Check this URL for instructions: ', chalk.underline('https://www.apollographql.com/docs/rover/getting-started')));
+	shell.exit(1);
+}
+
+cli.parse();
