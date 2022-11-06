@@ -106,5 +106,7 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 	3. When asked for an URL, provide the graphql endpoint from one of your services and its name you want for it in the supergraph.
 	4. This will create a new Supergraph and add to it the subgraph of the provided service
 	5. This also creates a public Apollo Federation Router already configured
-4. Publish the rest of the subgraphs. For every other backend service run this command:
+4. Install Apollo Rover CLI:
+	1. ```curl -sSL https://rover.apollo.dev/nix/latest | sh```
+5. Publish the rest of the subgraphs. For every other backend service run this command:
 	1. ```rover subgraph introspect <service_graphql_endpoint> | rover subgraph publish <apollo_supergraph_id> --routing-url <service_graphql_endpoint> --name <subgraph_name> --schema -```
