@@ -96,3 +96,15 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 ## References
 * [Nx and Node Microservices](https://blog.nrwl.io/nx-and-node-microservices-b6df3cd1bad6)
+
+## Backend steps
+1. Develop every backend service as a graphql subgraph
+2. Deploy every backend
+3. Create Apollo Supergaph
+	1. Go to your team's dashboard (https://studio.apollographql.com/org/<team_id>/)
+	2. Click "New Supergraph" button
+	3. When asked for an URL, provide the graphql endpoint from one of your services and its name you want for it in the supergraph.
+	4. This will create a new Supergraph and add to it the subgraph of the provided service
+	5. This also creates a public Apollo Federation Router already configured
+4. Publish the rest of the subgraphs. For every other backend service run this command:
+	1. ```rover subgraph introspect <service_graphql_endpoint> | rover subgraph publish <apollo_supergraph_id> --routing-url <service_graphql_endpoint> --name <subgraph_name> --schema -```
