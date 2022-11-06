@@ -1,5 +1,4 @@
 supergraph:
-  path: /graphql
   introspection: true
 homepage:
   enabled: false

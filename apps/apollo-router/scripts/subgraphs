@@ -5,7 +5,7 @@ require('dotenv').config({
 	override: true
 });
 
-const { existsSync, writeFileSync } = require('node:fs');
+const { writeFileSync } = require('node:fs');
 const { join } = require('node:path');
 const cli = require('cac')();
 const path = require('path');
@@ -16,32 +16,36 @@ const terminate = require('terminate');
 const APOLLO_SUPERGRAPH_REFERENCE = process.env.APOLLO_GRAPH_REF;
 
 const log = console.log;
+// const wait = (seconds) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
 
 const subgraphsConfig = {
 	catalog: {
 		name: 'catalog',
 		schema: './catalog.gql',
-		serviceHost: 'http://localhost:4001'
+		// serviceHost: 'http://localhost:4001'
+    serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/'
 	},
 	customer: {
 		name: 'customer',
-		schema: './customer.gql',
-		serviceHost: 'http://localhost:4003'
+		schema: '../schemas/schema-customer.graphql',
+		// serviceHost: 'http://localhost:4003'
+    serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/'
 	},
 	checkout: {
 		name: 'checkout',
 		schema: './checkout.gql',
-		serviceHost: 'http://localhost:4002'
+		// serviceHost: 'http://localhost:4002'
+    serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/'
 	}
 };
 
 const roverCommands = {
-	resolveSubgraph: (subgraphConfig) => `rover graph introspect ${subgraphConfig.serviceHost}`,
-	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover graph check ${subgraphConfig.name} --schema -`,
+	resolveSubgraph: (subgraphConfig) => `rover subgraph introspect ${subgraphConfig.serviceHost}`,
+	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph check ${subgraphConfig.name} --schema -`,
   buildSupergraph: (supergraphConfigFilePath) => `rover supergraph compose --config ${supergraphConfigFilePath}`,
-  initializeSubgraph: (subgraphConfig, schemaFileName) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${schemaFileName} --routing-url ${subgraphConfig.serviceUrl}`,
-	// publishSubgraph: (subgraphConfig) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${subgraphConfig.schema} --routing-url ${subgraphConfig.serviceUrl}`,
-	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover graph publish ${APOLLO_SUPERGRAPH_REFERENCE} --schema -`
+  initializeSubgraph: (subgraphConfig, schemaFileName) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${schemaFileName} --routing-url ${subgraphConfig.serviceHost}`,
+	// publishSubgraph: (subgraphConfig) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${subgraphConfig.schema} --routing-url ${subgraphConfig.serviceHost}`,
+	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --routing-url ${subgraphConfig.serviceHost} --name ${subgraphConfig.name} --schema -`
 };
 
 async function startService(serviceConfig) {
@@ -107,7 +111,8 @@ async function runRoverCommand(serviceName, command) {
 }
 
 async function initialize({ service }) {
-  await runRoverCommand(service, async (subgraphConfig) => {
+  // await runRoverCommand(service, async (subgraphConfig) => {
+    const subgraphConfig = subgraphsConfig[service];
     log(chalk.blue(`Pulling '${subgraphConfig.name}' service schema...`));
     const schema = shell.exec(roverCommands.resolveSubgraph(subgraphConfig), { silent: true }).stdout;
 
@@ -115,12 +120,10 @@ async function initialize({ service }) {
     log(chalk.blue(`Writing '${subgraphConfig.name}' service schema to disk...`));
 		writeFileSync(schemaFileName, schema);
 
-    log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
-    shell.exec(roverCommands.publishSubgraph(subgraphConfig, schemaFileName));
-  });
+    // log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+    // shell.exec(roverCommands.publishSubgraph(subgraphConfig, schemaFileName));
+  // });
 }
-
-// const wait = (seconds) => new Promise(resolve => setTimeout(resolve, seconds * 1000));
 
 async function buildSuperschema() {
   let servicesPids = [];
@@ -131,7 +134,6 @@ async function buildSuperschema() {
 
     const configFilePath = join(__dirname, '../supergraph-config.yaml');
     log('\n', chalk.blue(`Building supergraph schema file...`));
-    // const supergraphSchema = shell.exec(roverCommands.buildSupergraph(configFilePath)).stdout;
     const processInfo = shell.exec(roverCommands.buildSupergraph(configFilePath), { silent: true });
 
     if (processInfo.code === 0) {
@@ -150,18 +152,27 @@ async function buildSuperschema() {
 }
 
 async function publish({ service }) {
-  await runRoverCommand(service, (subgraphConfig) => {
-  	log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
-		shell.exec(roverCommands.publishSubgraph(subgraphConfig));
-  });
+  // await runRoverCommand(service, (subgraphConfig) => {
+  // 	log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+	// 	shell.exec(roverCommands.publishSubgraph(subgraphConfig));
+  // });
+  const subgraphConfig = subgraphsConfig[service];
+  log(chalk.blue(`Publishing '${subgraphConfig.name}' service schema...`));
+	shell.exec(roverCommands.publishSubgraph(subgraphConfig));
 }
+
+cli.command('check').action(() => {
+
+  shell.exec(`rover graph fetch -l debug ${APOLLO_SUPERGRAPH_REFERENCE}`);
+
+});
 
 cli
   .command('build', 'Builds the supergraph schema using all services subgraphs')
   .action(buildSuperschema);
 
 cli
-  .command('initialize', 'Publish the schema for a service for the first time')
+  .command('init', 'Publish the schema for a service for the first time')
   .option(
 		'--service <service_name>',
 		'Provide the name of the service owning the schema you want to publish'
