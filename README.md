@@ -96,6 +96,8 @@ Visit [Nx Cloud](https://nx.app/) to learn more.
 
 ## References
 * [Nx and Node Microservices](https://blog.nrwl.io/nx-and-node-microservices-b6df3cd1bad6)
+* [Run bash scripts in Windows](https://stackoverflow.com/a/46006249/213855)
+
 
 ## Backend steps
 1. Develop every backend service as a graphql subgraph
