@@ -6,9 +6,11 @@ import { sharedGraphqlTypes } from '@ps-ecommerce/shared-server';
 
 import * as ProductType from './apollo/types/product-gql-type';
 import * as CategoryType from './apollo/types/category-gql-type';
+import * as FooterLinkType from './apollo/types/footer-link-gql-type';
 
 import MongoProductRepository from '../repositories/mongo-product-repo';
 import MongoCategoryRepository from '../repositories/mongo-category-repo';
+import MongoFooterLinkRepository from '../repositories/mongo-footer-link-repo';
 
 type TStartServerParams = {
 	port: number;
@@ -24,12 +26,14 @@ export async function startServer({
 			typeDefs: [
 				ProductType.typeDef,
 				CategoryType.typeDef,
+				FooterLinkType.typeDef,
 				sharedGraphqlTypes.bigintType.typeDef
 			],
 			resolvers: merge(
 				{},
 				ProductType.resolvers,
 				CategoryType.resolvers,
+				FooterLinkType.resolvers,
 				sharedGraphqlTypes.bigintType.resolvers
 			)
 		}),
@@ -46,7 +50,8 @@ export async function startServer({
 		dataSources: () => {
 			return {
 				product: new MongoProductRepository(),
-				category: new MongoCategoryRepository()
+				category: new MongoCategoryRepository(),
+				footerLink: new MongoFooterLinkRepository()
 			};
 		},
 	});
