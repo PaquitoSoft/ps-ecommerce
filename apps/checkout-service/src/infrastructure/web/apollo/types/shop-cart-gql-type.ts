@@ -81,7 +81,6 @@ const getUserShopCart = async (
 ) => {
 	const userId = context.userId as string;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
 	const shopCart = await getUserShopCartAction(userId, {
 		shopCartRepository: context.dataSources.shopCart
 	});
