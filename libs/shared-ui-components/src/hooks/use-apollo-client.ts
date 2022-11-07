@@ -1,36 +1,82 @@
 import { useMemo } from 'react';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { HttpLink } from '@apollo/client/link/http';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client'
+import { onError } from '@apollo/client/link/error'
+import { utils } from '@ps-ecommerce/shared-ui-logic';
 
-let apolloClient: ApolloClient<unknown> | null = null;
+const isBroswerEnvironment = typeof window === 'object';
 
-function createApolloClient() {
-	return new ApolloClient({
-		ssrMode: false,
-		link: new HttpLink({
-			uri: '/api/graphql',
-			credentials: 'same-origin'
-		}),
-		cache: new InMemoryCache()
-	});
+type TCache = Record<string, unknown>;
+type TApolloInitializationParams = {
+  endpointUrl: string;
+  initialState?: Record<string, unknown>
+};
+
+let apolloClient: ApolloClient<TCache> | undefined;
+
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message, locations, path }) => {
+      console.error(
+        `[GraphQL error]: Message ${message}, Location: ${locations}, Path: ${path}`
+      );
+    });
+  }
+
+  if (networkError) {
+    console.error(`[Network error]: ${networkError}`);
+  }
+});
+
+const authLink = new ApolloLink((operation, forward) => {
+	operation.setContext((context: { headers?: unknown; }) => ({
+		headers: {
+			...context?.headers || {},
+			'authorization': localStorage.getItem('uid') || utils.generateId(),
+			'x-foo-bar': '2001'
+		}
+	}));
+	return forward(operation);
+});
+
+const createClient = ({ endpointUrl }: { endpointUrl: string }) =>
+  new ApolloClient({
+    link: from([
+      errorLink,
+	  authLink,
+      new HttpLink({
+        uri: endpointUrl,
+        // credentials: 'same-origin'
+      })
+    ]),
+    cache: new InMemoryCache(),
+    ssrMode: !isBroswerEnvironment
+  });
+
+export function getApolloClient({ endpointUrl, initialState }: TApolloInitializationParams) {
+  // TODO: Review this reference -> https://github.com/vercel/next.js/blob/canary/examples/with-apollo/lib/apolloClient.js
+  const _apolloClient = apolloClient || createClient({ endpointUrl });
+
+  if (initialState) {
+    _apolloClient.cache.restore(initialState);
+  }
+
+  // Server side we need a different client for every request
+  if (!isBroswerEnvironment) {
+    return _apolloClient;
+  }
+
+  // Client side we can reuse the same client
+  if (!apolloClient) {
+    apolloClient = _apolloClient;
+  }
+
+  return _apolloClient;
 }
 
-function initializeApollo(initialState: unknown = null) {
-	const client = apolloClient ?? createApolloClient();
-
-	// If your page has Next.js data fetching methods that use Apollo Client,
-	// the initial state gets hydrated here
-	if (initialState) {
-		client.cache.restore(initialState);
-	}
-
-	// Create the Apollo Client once in the client
-	if (!apolloClient) apolloClient = client;
-
-	return client;
-}
-
-export default function useApollo(initialState: unknown | null) {
-	const store = useMemo(() => initializeApollo(initialState), [initialState])
+export default function useApollo({
+  endpointUrl,
+  initialState
+}: TApolloInitializationParams) {
+	const store = useMemo(() => getApolloClient({ endpointUrl, initialState }), [endpointUrl, initialState]);
 	return store;
 }
