@@ -4,7 +4,7 @@ import { gql } from '@apollo/client';
 import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
 import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
-import { createApolloClient } from '@ps-ecommerce/shared-server';
+import { createApolloClient, webUtils } from '@ps-ecommerce/shared-server';
 
 import { Order } from '@ps-ecommerce/types';
 
@@ -109,13 +109,14 @@ function OrderDetailPage({ order }: Props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const userId = context.query.userId as string;
+	const userId = webUtils.extractUserId(context.req, context.query);
 	const orderCode = context.params!.code as string;
 
 	const apolloClient = createApolloClient({
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 		context: { userId },
-		schemaExtensions: [customerSchema, catalogSchema, checkoutSchema]
 	});
+
 	const apolloQueryData = await apolloClient.query({
 		query: OrderDetailQuery,
 		variables: { orderCode }

@@ -3,10 +3,7 @@ import { useRouter } from 'next/router';
 import { gql } from '@apollo/client';
 import cx from 'classnames';
 
-import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
-import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
-import { createApolloClient } from '@ps-ecommerce/shared-server';
+import { createApolloClient, webUtils } from '@ps-ecommerce/shared-server';
 
 import { SectionTitle, Button, utilStyles } from '@ps-ecommerce/design-system';
 
@@ -123,12 +120,13 @@ function ShopCartPage() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const userId = context.query.userId as string;
+	const userId = webUtils.extractUserId(context.req, context.query);
 
 	const apolloClient = createApolloClient({
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 		context: { userId },
-		schemaExtensions: [checkoutSchema, customerSchema, catalogSchema]
 	});
+
 	await apolloClient.query({
 		query: ShopCartPageDataQuery,
 		variables: relatedProductsQueryVariables

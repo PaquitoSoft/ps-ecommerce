@@ -1,10 +1,7 @@
 import { ReactElement } from "react";
 import { GetServerSideProps } from "next";
 
-import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
-import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
-import { createApolloClient } from "@ps-ecommerce/shared-server";
+import { createApolloClient, webUtils } from "@ps-ecommerce/shared-server";
 
 import { Breadcrumb, ShopCart } from "@ps-ecommerce/types";
 
@@ -31,12 +28,13 @@ function PaymentPage() {
 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const userId = context.query.userId as string;
+	const userId = webUtils.extractUserId(context.req, context.query);
 
 	const apolloClient = createApolloClient({
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 		context: { userId },
-		schemaExtensions: [checkoutSchema, customerSchema, catalogSchema]
 	});
+
 	const queryResult = await apolloClient.query({
 		query: ShopCartQuery
 	});
