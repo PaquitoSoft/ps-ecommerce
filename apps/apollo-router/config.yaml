@@ -12,10 +12,13 @@ cors:
     - http://localhost:4201
     - http://localhost:4202
     - https://studio.apollographql.com
+  allow_credentials: true
 include_subgraph_errors:
   all: true
 headers:
   all:
     request:
       - propagate:
-          matching:  ^authorization$
+          named: "authorization"
+      - propagate:
+          named: "cookie"

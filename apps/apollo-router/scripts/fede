@@ -34,7 +34,7 @@ const subgraphsConfig = {
 
 const roverCommands = {
 	resolveSubgraph: (subgraphConfig) => `rover subgraph introspect ${subgraphConfig.serviceHost}`,
-	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph check ${subgraphConfig.name} --schema -`,
+	checkSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph check --name ${subgraphConfig.name} --schema -`,
   buildSupergraph: (supergraphConfigFilePath) => `rover supergraph compose --config ${supergraphConfigFilePath}`,
   initializeSubgraph: (subgraphConfig, schemaFileName) => `rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --name ${subgraphConfig.name} --schema ${schemaFileName} --routing-url ${subgraphConfig.serviceHost}`,
 	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --routing-url ${subgraphConfig.serviceHost} --name ${subgraphConfig.name} --schema -`
@@ -51,6 +51,7 @@ async function startService(serviceConfig) {
 		});
 
 		process.stdout.on('data', (data) => {
+      // console.log('Server start message:', data);
 			if (data.includes(serviceStartedMessage)) {
 				resolve(process);
 			}
@@ -78,6 +79,32 @@ async function startAllServices() {
 
 async function stopAllServices(servicesProcess) {
   return Promise.all(servicesProcess.map(processInfo => stopService(processInfo.pid)));
+}
+
+async function checkSubgraph({ service }) {
+  const subgraphConfig = subgraphsConfig[service];
+
+  if (!subgraphConfig) {
+		log('\n\t', chalk.red(`Provided service name is not supported: `, chalk.bold(serviceName)), '\n');
+		cli.outputHelp();
+		shell.exit(1);
+	}
+
+  let processInfo = [];
+  try {
+    log('\n', chalk.blue(`Starting ${service} service...`));
+    processInfo = await startService(subgraphConfig)
+    log(chalk.blue(`...service started.`));
+
+    log(chalk.blue(`Checking subgraph.`));
+    shell.exec(roverCommands.checkSubgraph(subgraphConfig));
+
+	} finally {
+		log('\n', chalk.blue(`Stopping ${service} service...`));
+		await stopService(processInfo.pid);
+
+		log('\n', chalk.green('The End!'));
+	}
 }
 
 async function buildSuperschema() {
@@ -119,6 +146,14 @@ async function publish({ service }) {
 	shell.exec(roverCommands.publishSubgraph(subgraphConfig));
 }
 
+
+cli
+	.command('check', 'Check a subgraph schema')
+	.option(
+		'--service <service_name>',
+		'Provide the name of the service owning the schema you want to publish'
+	)
+	.action(checkSubgraph);
 
 cli
   .command('build', 'Builds the supergraph schema using all services subgraphs')
