@@ -24,4 +24,7 @@ export const sharedGraphqlTypes = {
 	footerLinkType
 };
 
+export * as webUtils from './infrastructure/web/utils';
+export * as webServer from './infrastructure/web/server';
+
 export { connect as connectToMongo } from './infrastructure/orm/mongoose/mongoose-connection';

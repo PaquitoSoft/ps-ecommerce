@@ -1,24 +1,35 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { SchemaLink } from '@apollo/client/link/schema';
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache, from } from '@apollo/client';
 
 import ApolloContext from './apollo-context.type';
-import { createSchema, SchemaExtensions } from './schema';
+
+const buildAuthLink = (appContext?: ApolloContext) => new ApolloLink((operation, forward) => {
+	operation.setContext((context: { headers?: Record<string, string>; }) => ({
+		headers: {
+			...context?.headers || {},
+			'authorization': `Bearer ${appContext?.userId}`
+		}
+	}));
+	return forward(operation);
+});
 
 export function createApolloClient(
 	{
-		context = {},
-		schemaExtensions
+		endpointUrl,
+		context = {}
 	}: {
+		endpointUrl?: string;
 		context?: ApolloContext;
-		schemaExtensions?: SchemaExtensions[];
 	}
 ) {
 	return new ApolloClient({
 		ssrMode: true,
-		link: new SchemaLink({
-			schema: createSchema(schemaExtensions || []),
-			context
-		}),
+		link: from([
+			buildAuthLink(context),
+			new HttpLink({
+				uri: endpointUrl,
+				// credentials: 'same-origin'
+			})
+		]),
 		cache: new InMemoryCache()
 	});
 }
