@@ -1,6 +1,7 @@
 {
 	"version": 2,
 	"projects": {
+		"apollo-gateway": "apps/apollo-gateway",
 		"catalog-backend": "libs/catalog-backend",
 		"catalog-service": "apps/catalog-service",
 		"checkout": "apps/checkout",

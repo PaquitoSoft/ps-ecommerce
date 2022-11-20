@@ -1,0 +1,358 @@
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION)
+{
+  query: Query
+  mutation: Mutation
+}
+
+directive @join__field(graph: join__Graph!, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+scalar BigInt
+  @join__type(graph: CATALOG)
+  @join__type(graph: CHECKOUT)
+  @join__type(graph: CUSTOMER)
+
+type Category
+  @join__type(graph: CATALOG)
+{
+  id: ID!
+  code: String!
+  name: String!
+  isHidden: Boolean
+  subcategories: [Category]
+}
+
+type ClosedCart
+  @join__type(graph: CHECKOUT)
+{
+  id: String!
+  code: String!
+  userId: String!
+  items: [ClosedCartItem]!
+  placedDate: BigInt!
+  estimatedDeliveryDate: BigInt!
+  totalUnits: Int!
+  deliveryCost: Float
+  totalAmount: Float!
+  shippingAddress: ShippingAddress!
+  paymentData: PaymentData!
+}
+
+type ClosedCartItem
+  @join__type(graph: CHECKOUT)
+{
+  id: ID!
+  product: ClosedCartItemProduct!
+  quantity: Int!
+}
+
+type ClosedCartItemProduct
+  @join__type(graph: CHECKOUT)
+{
+  code: String!
+  name: String!
+  sizeCode: String!
+  sizeName: String!
+  price: Float!
+  colorName: String!
+  imageUrl: String!
+}
+
+type Color
+  @join__type(graph: CATALOG)
+{
+  name: String
+  imageUrl: String
+  productId: String
+}
+
+type CreditCard
+  @join__type(graph: CHECKOUT)
+{
+  pan: String!
+  cardholder: String!
+}
+
+type FeaturedProducts
+  @join__type(graph: CATALOG)
+{
+  newArrivals: [Product]!
+  topSellers: [Product]!
+  trending: [Product]!
+}
+
+type FooterLink
+  @join__type(graph: CATALOG)
+{
+  title: String!
+  links: [LinkInfo]!
+}
+
+scalar join__FieldSet
+
+enum join__Graph {
+  CATALOG @join__graph(name: "catalog", url: "http://localhost:4001/")
+  CHECKOUT @join__graph(name: "checkout", url: "http://localhost:4002/")
+  CUSTOMER @join__graph(name: "customer", url: "http://localhost:4003/")
+}
+
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type LinkInfo
+  @join__type(graph: CATALOG)
+{
+  name: String!
+  href: String!
+}
+
+type Mutation
+  @join__type(graph: CHECKOUT)
+  @join__type(graph: CUSTOMER)
+{
+  addToShopCart(productCode: String!, sizeCode: String!): ShopCart @join__field(graph: CHECKOUT)
+  removeFromShopCart(orderItemId: ID!): ShopCart @join__field(graph: CHECKOUT)
+  updateInShopCart(orderItemId: ID!, quantity: Int!): ShopCart @join__field(graph: CHECKOUT)
+  saveShippingAddress(shippingAddress: NewShippingAddress): ShopCart @join__field(graph: CHECKOUT)
+  checkout(paymentData: NewPaymentData): ClosedCart @join__field(graph: CHECKOUT)
+  addToWishlist(productId: ID!): Wishlist @join__field(graph: CUSTOMER)
+  removeFromWishlist(productId: ID!): Wishlist @join__field(graph: CUSTOMER)
+}
+
+input NewCreditCard
+  @join__type(graph: CHECKOUT)
+{
+  pan: String!
+  cardholder: String!
+  expirationDate: String!
+  cvv: String!
+}
+
+input NewPaymentData
+  @join__type(graph: CHECKOUT)
+{
+  paymentMethod: String!
+  paymentDetails: NewCreditCard!
+}
+
+input NewShippingAddress
+  @join__type(graph: CHECKOUT)
+{
+  email: String!
+  name: String!
+  surname: String!
+  addressLine: String!
+  postalCode: String!
+  city: String!
+}
+
+type Order
+  @join__type(graph: CUSTOMER)
+{
+  id: String!
+  code: String!
+  userId: String!
+  items: [OrderItem]!
+  placedDate: BigInt!
+  estimatedDeliveryDate: BigInt!
+  totalUnits: Int!
+  deliveryCost: Float
+  totalAmount: Float!
+  shippingAddress: OrderShippingAddress!
+  paymentData: OrderPaymentData!
+}
+
+type OrderItem
+  @join__type(graph: CUSTOMER)
+{
+  id: ID!
+  product: OrderItemProduct!
+  quantity: Int!
+}
+
+type OrderItemProduct
+  @join__type(graph: CUSTOMER)
+{
+  code: String!
+  name: String!
+  sizeCode: String!
+  sizeName: String!
+  price: Float!
+  colorName: String!
+  imageUrl: String!
+}
+
+type OrderPaymentData
+  @join__type(graph: CUSTOMER)
+{
+  paymentMethod: String!
+  paymentDetails: PaymentCreditCard!
+}
+
+type OrderShippingAddress
+  @join__type(graph: CUSTOMER)
+{
+  email: String!
+  name: String!
+  surname: String!
+  addressLine: String!
+  postalCode: String!
+  city: String!
+}
+
+type PaginatedProductsResult
+  @join__type(graph: CATALOG)
+{
+  products: [Product]!
+  totalCount: Int!
+}
+
+type PaymentCreditCard
+  @join__type(graph: CUSTOMER)
+{
+  pan: String!
+  cardholder: String!
+}
+
+type PaymentData
+  @join__type(graph: CHECKOUT)
+{
+  paymentMethod: String!
+  paymentDetails: CreditCard!
+}
+
+type Product
+  @join__type(graph: CATALOG, key: "id")
+{
+  id: ID!
+  code: String!
+  name: String!
+  altName: String!
+  categoryName: String!
+  gridImages: [String]!
+  seo: SeoInfo
+  colorName: String!
+  colors: [Color]!
+  description: ProductDescription
+  specs: [String]!
+  price: Float
+  detailImages: [String]
+  sizes: [Size]
+}
+
+type ProductDescription
+  @join__type(graph: CATALOG)
+{
+  assetUrl: String
+  title: String!
+  subtitle: String!
+  text: String!
+}
+
+type Query
+  @join__type(graph: CATALOG)
+  @join__type(graph: CHECKOUT)
+  @join__type(graph: CUSTOMER)
+{
+  productsByCategory(categoryCode: String!, start: Int, count: Int, randomValues: Boolean): PaginatedProductsResult! @join__field(graph: CATALOG)
+  featuredProducts(count: Int): FeaturedProducts! @join__field(graph: CATALOG)
+  product(productCode: String!): Product @join__field(graph: CATALOG)
+  categoriesTree: [Category] @join__field(graph: CATALOG)
+  category(categoryCode: String!): Category @join__field(graph: CATALOG)
+  footerLinks: [FooterLink] @join__field(graph: CATALOG)
+  shopCart: ShopCart @join__field(graph: CHECKOUT)
+  userOrders: [Order]! @join__field(graph: CUSTOMER)
+  userLastOrder: Order @join__field(graph: CUSTOMER)
+  order(orderCode: String!): Order @join__field(graph: CUSTOMER)
+  wishlist: Wishlist @join__field(graph: CUSTOMER)
+}
+
+type SeoInfo
+  @join__type(graph: CATALOG)
+{
+  title: String!
+  keywords: String!
+  description: String!
+}
+
+type ShippingAddress
+  @join__type(graph: CHECKOUT)
+{
+  email: String!
+  name: String!
+  surname: String!
+  addressLine: String!
+  postalCode: String!
+  city: String!
+}
+
+type ShopCart
+  @join__type(graph: CHECKOUT)
+{
+  id: ID!
+  userId: String!
+  items: [ShopCartItem]
+  totalUnits: Int!
+  estimatedDeliveryCost: Int!
+  totalAmount: Int!
+  shippingAddress: ShippingAddress
+}
+
+type ShopCartItem
+  @join__type(graph: CHECKOUT)
+{
+  id: ID!
+  product: ShopCartProduct!
+  quantity: Int!
+}
+
+type ShopCartProduct
+  @join__type(graph: CHECKOUT)
+{
+  id: ID!
+  code: String!
+  name: String!
+  sizeCode: String!
+  sizeName: String!
+  price: Float!
+  colorName: String!
+  imageUrl: String!
+}
+
+type Size
+  @join__type(graph: CATALOG)
+{
+  code: String!
+  name: String!
+  availability: String!
+}
+
+type Wishlist
+  @join__type(graph: CATALOG, key: "id", resolvable: true)
+  @join__type(graph: CUSTOMER, key: "id")
+{
+  id: ID!
+  products: [Product] @join__field(graph: CATALOG)
+  userId: String! @join__field(graph: CUSTOMER)
+  name: String! @join__field(graph: CUSTOMER)
+}
