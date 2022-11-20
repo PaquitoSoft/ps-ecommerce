@@ -48,7 +48,10 @@ export const ProductSchema = new mongoose.Schema<Product, IProductModel>({
 	sizes: [{
 		code: String,
 		name: String,
-		avaialability: String
+		avaialability: {
+			type: String,
+			alias: 'availability'
+		},
 	}],
 	categories: { type: [mongoose.Types.ObjectId], default: [], index: true }
 }, {

@@ -10,19 +10,15 @@ import removeProductFromWishlistAction from '../../../../application/use-cases/w
 export const typeDef = gql`
 	extend schema
 		@link(url: "https://specs.apollo.dev/federation/v2.0",
-			import: ["@key"])
-
-	# Stub entity
-	# We need this stub entity as our Wishlist entity will reference it
-	# resolvable: false -> becuase this service does not contribute any field to that entity
-	type Product @key(fields: "id", resolvable: false) {
-		id: ID!
-	}
+			import: ["@key", "@inaccessible"])
 
 	type Wishlist @key(fields: "id") {
 		id: ID!
 		userId: String!
 		name: String!
+		# We need this field to be accesible by other subgraphs (Catalog to resolve the products)
+		# but we don't want it to be in the public supegraph API
+		productsIds: [String] @inaccessible
 	}
 
 	extend type Query {
@@ -35,7 +31,7 @@ export const typeDef = gql`
 	}
 `;
 
-const getUserWishlists = async (
+const getUserWishlist = async (
 	_root: unknown,
 	_args: unknown,
 	context: ApolloContext,
@@ -84,15 +80,8 @@ export const resolvers = {
 	Wishlist: {
 		id: (root: { _id: unknown; id: unknown; }) => root._id || root.id
 	},
-	Product: {
-		// In this shape, this is not needed as Apollo Server provide a default one
-		// like this for every entity.
-		__resolveReference(referencedProduct) {
-			return referencedProduct;
-		}
-	},
 	Query: {
-		wishlist: getUserWishlists
+		wishlist: getUserWishlist
 	},
 	Mutation: {
 		addToWishlist,

@@ -2,7 +2,7 @@ import { buildSubgraphSchema } from '@apollo/subgraph';
 import { ApolloServer/*, gql*/ } from'apollo-server';
 import merge from 'lodash.merge';
 
-import { sharedGraphqlTypes } from '@ps-ecommerce/shared-server';
+import { sharedGraphqlTypes, webServer } from '@ps-ecommerce/shared-server';
 
 import * as OrderType from './apollo/types/order-gql-type';
 import * as WishlistType from './apollo/types/wishlist-gql-type';
@@ -16,37 +16,18 @@ type TStartServerParams = {
 	port: number;
 };
 
-export async function startServer({
+export function startServer({
 	port
 }: TStartServerParams) {
-	const server = new ApolloServer({
-		cors: true,
-		introspection: true,
-		schema: buildSubgraphSchema({
-			typeDefs: [
-				OrderType.typeDef,
-				WishlistType.typeDef,
-				PaymentDataType.typeDef,
-				ShippingAddressType.typeDef,
-				sharedGraphqlTypes.bigintType.typeDef
-			],
-			resolvers: merge(
-				{},
-				OrderType.resolvers,
-				WishlistType.resolvers,
-				sharedGraphqlTypes.bigintType.resolvers
-			)
-		}),
-		context: async ({ req }) => {
-			return {
-				userId: req.query.userId || req.get('authorization'),
-			}
-		},
-		// Our GraphQL repositories are using GraphQLDataSource package which implements
-		// Apollo DataSources but it does not explicitly use it in its base class so
-		// the types does not match although the code is fine
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
+	return webServer.startServer({
+		serviceName: 'checkout',
+		port,
+		typesConfiguration: [
+			OrderType,
+			WishlistType,
+			PaymentDataType,
+			ShippingAddressType,
+		],
 		dataSources: () => {
 			return {
 				order: new MongoOrderRepository(),
@@ -54,12 +35,53 @@ export async function startServer({
 			};
 		},
 	});
-
-	try {
-		const { url } = await server.listen({ port });
-		console.log(`🚀 Subgraph 'customer' running at ${url}`);
-		return server;
-	} catch (error) {
-		console.error(error);
-	}
 };
+
+// export async function startServer({
+// 	port
+// }: TStartServerParams) {
+// 	const server = new ApolloServer({
+// 		cors: true,
+// 		introspection: true,
+// 		schema: buildSubgraphSchema({
+// 			typeDefs: [
+// 				OrderType.typeDef,
+// 				WishlistType.typeDef,
+// 				PaymentDataType.typeDef,
+// 				ShippingAddressType.typeDef,
+// 				sharedGraphqlTypes.bigintType.typeDef
+// 			],
+// 			resolvers: merge(
+// 				{},
+// 				OrderType.resolvers,
+// 				WishlistType.resolvers,
+// 				sharedGraphqlTypes.bigintType.resolvers
+// 			)
+// 		}),
+// 		context: async ({ req }) => {
+// 			const auth = req.get('authorization');
+// 			return {
+// 				userId: auth?.split(' ')[1],
+// 			}
+// 		},
+// 		// Our GraphQL repositories are using GraphQLDataSource package which implements
+// 		// Apollo DataSources but it does not explicitly use it in its base class so
+// 		// the types does not match although the code is fine
+// 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// 		// @ts-ignore
+// 		dataSources: () => {
+// 			return {
+// 				order: new MongoOrderRepository(),
+// 				wishlist: new MongoWishlistRepository()
+// 			};
+// 		},
+// 	});
+
+// 	try {
+// 		const { url } = await server.listen({ port });
+// 		console.log(`🚀 Subgraph 'customer' running at ${url}`);
+// 		return server;
+// 	} catch (error) {
+// 		console.error(error);
+// 	}
+// };

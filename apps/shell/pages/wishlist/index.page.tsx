@@ -1,9 +1,6 @@
 import { GetServerSideProps } from 'next';
 
-import { graphqlSchemaExtensions as customerSchema } from '@ps-ecommerce/customer-backend';
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
-import { graphqlSchemaExtensions as checkoutSchema } from '@ps-ecommerce/checkout-backend';
-import { createApolloClient } from '@ps-ecommerce/shared-server';
+import { createApolloClient, webUtils } from '@ps-ecommerce/shared-server';
 
 import { Product } from '@ps-ecommerce/types';
 
@@ -71,11 +68,13 @@ function WishlistPage() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-	const userId = context.query.userId as string;
+	// TODO: Perhaps it's better to pass the context to apollo client
+	// factory and let it extract the userId?
+	const userId = webUtils.extractUserId(context.req, context.query);
 
 	const apolloClient = createApolloClient({
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 		context: { userId },
-		schemaExtensions: [customerSchema, catalogSchema, checkoutSchema]
 	});
 	await apolloClient.query({
 		query: WishlistQuery

@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
 	const apolloClient = createApolloClient({
-		schemaExtensions: [catalogSchema]
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 	});
 	const dataPromises = [
 		apolloClient.query({

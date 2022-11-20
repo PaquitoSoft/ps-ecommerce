@@ -110,7 +110,7 @@ function Home({ featuredProducts: { newArrivals, topSellers, trending } }: Props
 
 export const getStaticProps: GetStaticProps = async () => {
 	const apolloClient = createApolloClient({
-		schemaExtensions: [catalogSchema]
+		endpointUrl: process.env.NEXT_PUBLIC_APOLLO_ROUTER_URL,
 	});
 	const apolloQueryData = await apolloClient.query({
 		query: FeaturedProductsQuery

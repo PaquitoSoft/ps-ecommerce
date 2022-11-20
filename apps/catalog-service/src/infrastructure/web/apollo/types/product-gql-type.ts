@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client';
-import { Product } from '@ps-ecommerce/types';
 
 import ApolloContext from '../apollo-context';
 
@@ -10,14 +9,15 @@ import findProductsByCategoryAction from '../../../../application/use-cases/prod
 export const typeDef = gql`
 	extend schema
 		@link(url: "https://specs.apollo.dev/federation/v2.0",
-			import: ["@key"])
+			import: ["@key", "@external", "@requires"])
 
 	# Stub entity
 	# We need this stub entity as our Wishlist entity will reference it
 	# resolvable: true -> becuase this service contributes the "products" field to that entity
 	type Wishlist @key(fields: "id", resolvable: true) {
 		id: ID!
-		products: [Product]
+		productsIds: [String] @external
+		products: [Product] @requires(fields: "productsIds")
 	}
 
 	type SeoInfo {
@@ -150,20 +150,19 @@ const productDetails = async (
 
 export const resolvers = {
 	Product: {
-		id: (root: { _id?: unknown; id?: unknown; }) => root._id || root.id,
-		sizes: (root: Product) => root.sizes.map((size) => ({
-			code: size.code,
-			name: size.name,
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			avaialability: size.avaialability
-		}))
+		id: (root: { _id?: unknown; id?: unknown; }) => root._id || root.id
 	},
 	Wishlist: {
-		__resolveReference: (wishlistDocument, context: ApolloContext) => {
-			return findProductsByProductsIdsAction({ productsIds: wishlistDocument.productsIds }, {
+		// In this resolver shape, this is not needed as Apollo Server provide a default one
+		// like this for every entity.
+		__resolveReference(wishlistDocument) {
+			return wishlistDocument;
+		},
+		products: async (wishlistDocument, _, context: ApolloContext) => {
+			const products = await findProductsByProductsIdsAction({ productsIds: wishlistDocument.productsIds }, {
 				productRepository: context.dataSources.product
 			});
+			return products || [];
 		}
 	},
 	Query: {
