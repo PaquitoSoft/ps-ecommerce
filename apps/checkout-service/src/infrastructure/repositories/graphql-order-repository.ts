@@ -40,13 +40,16 @@ const CREATE_ORDER_MUTATION = gql`
 class GraphqlOrderRepository extends GraphQLDataSource<ApolloContext> implements OrderRepository {
 	constructor(endpointUrl: string) {
 		super();
-		super.baseUrl = endpointUrl;
+		super.baseURL = endpointUrl;
 	}
 
-	// TODO: Fix this type
-	willSendRequest(request: any) {
-		console.log('GraphQLProductRepo::willSendRequest# Request:', { request });
-		request.headers.authorization = super.context.userId;
+	willSendRequest(request: { headers?: Record<string, string>}) {
+		if (!request.headers) {
+			request.headers = {};
+		}
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		request.headers.authorization = this.context.userId;
 	}
 
 	async create(order: Order): Promise<Order> {

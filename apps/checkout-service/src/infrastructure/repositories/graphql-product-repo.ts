@@ -22,27 +22,27 @@ const GET_PRODUCT_QUERY = gql`
 	}
 `;
 
-// class BridgeDataSource extends GraphQLDataSource<ApolloContext>{}
-
 class GraphqlProductRepository extends GraphQLDataSource<ApolloContext> implements ProductRepository {
 	constructor(endpointUrl: string) {
 		super();
-		super.baseUrl = endpointUrl;
+		super.baseURL = endpointUrl;
 	}
 
-	// TODO: Fix this type
-	willSendRequest(request: any) {
-		console.log('GraphQLProductRepo::willSendRequest# Request:', { request });
-		request.headers.authorization = super.context.userId;
+	willSendRequest(request: { headers?: Record<string, string>}) {
+		if (!request.headers) {
+			request.headers = {};
+		}
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		request.headers.authorization = this.context.userId;
 	}
 
 	async findByProductCode(productCode: string): Promise<Product> {
-		const response = super.query(GET_PRODUCT_QUERY, {
+		const response = await super.query(GET_PRODUCT_QUERY, {
 			variables: {
 				productCode
 			}
 		});
-
 		return response.data.product;
 	}
 }
