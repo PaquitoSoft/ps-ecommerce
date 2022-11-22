@@ -1,19 +1,50 @@
-import { v4 as uuiv4 } from 'uuid';
-import type { Order, PaymentData } from '@ps-ecommerce/types';
+import type { Order, PaymentData, ShopCart } from '@ps-ecommerce/types';
 
 import type ShopCartRepository from '../../../domain/shop-cart-repo';
 import type OrderRepository from '../../../domain/order-repo';
+import type CustomerNewOrder from '../../../types/customer-new-order';
 
 type Repositories = {
 	shopCartRepository: ShopCartRepository;
 	orderRepository: OrderRepository;
 };
 
-function getRandomDeliveryDate() {
-	const d = new Date();
-	const randomDays = Math.random() * (5 - 1) + 1; // Ger a random day between 1 and 5
-	d.setDate(d.getDate() + Math.trunc(randomDays));
-	return d;
+function createCustomerOrder({ shopCart, paymentData, userId }: {
+	shopCart: ShopCart,
+	paymentData: PaymentData,
+	userId: string,
+}): CustomerNewOrder {
+	return {
+		userId,
+		items: shopCart.items.map(item => ({
+			quantity: item.quantity,
+			product: {
+				code: item.product.code,
+				name: item.product.name,
+				sizeCode: item.product.sizeCode,
+				sizeName: item.product.sizeName,
+				price: item.product.price,
+				colorName: item.product.colorName,
+				imageUrl: item.product.imageUrl
+			}
+		})),
+
+		shippingAddress: {
+			email: shopCart.shippingAddress!.email,
+			name: shopCart.shippingAddress!.name,
+			surname: shopCart.shippingAddress!.surname,
+			addressLine: shopCart.shippingAddress!.addressLine,
+			postalCode: shopCart.shippingAddress!.postalCode,
+			city: shopCart.shippingAddress!.city,
+		},
+		paymentData: {
+			paymentMethod: paymentData.paymentMethod,
+			paymentDetails: {
+				cardholder: paymentData.paymentDetails.cardholder,
+				pan: `**** **** **** ${paymentData.paymentDetails.pan.substring(paymentData.paymentDetails.pan.length - 4)}`
+			}
+		},
+	};
 }
 
 async function checkoutAction(
@@ -27,36 +58,12 @@ async function checkoutAction(
 		throw new Error('Shop cart not found');
 	}
 
-	const totals = shopCart.items.reduce<{ units: number, amount: number }>((agg, item) => {
-		return {
-			units: agg.units + item.quantity,
-			amount: agg.amount + item.quantity * item.product.price,
-		}
-	}, { units: 0, amount: 0 });
-
-	const order: Order = {
-		id: '',
-		code: uuiv4().split('-')[0].toUpperCase(),
-		deliveryCost: 0,
-		placedDate: Date.now(),
-		estimatedDeliveryDate: getRandomDeliveryDate().getTime(),
-		userId,
-		items: shopCart.items,
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		shippingAddress: shopCart.shippingAddress!,
-		paymentData: {
-			...paymentData,
-			paymentDetails: {
-				...paymentData.paymentDetails,
-				pan: `**** **** **** ${paymentData.paymentDetails.pan.substring(paymentData.paymentDetails.pan.length - 4)}`
-			}
-		},
-		totalUnits: totals.units,
-		totalAmount: totals.amount
-	};
-
 	const [newOrder] = await Promise.all([
-		orderRepository.create(order),
+		orderRepository.create(createCustomerOrder({
+			shopCart,
+			paymentData,
+			userId
+		})),
 		shopCartRepository.removeUserCart(userId)
 	]);
 

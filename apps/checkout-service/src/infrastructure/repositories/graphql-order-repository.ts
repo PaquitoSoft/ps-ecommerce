@@ -2,18 +2,31 @@ import { Order } from '@ps-ecommerce/types';
 import { GraphQLDataSource } from 'apollo-datasource-graphql';
 import { gql } from 'apollo-server';
 import OrderRepository from '../../domain/order-repo';
+import CustomerNewOrder from '../../types/customer-new-order';
 import ApolloContext from '../web/apollo/apollo-context';
 
 const CREATE_ORDER_MUTATION = gql`
-	mutation CreateOrder($order: Order!) {
-		createOrder(order: $order) {
+	mutation CreateOrder($newOrder: NewOrder!) {
+		createOrder(newOrder: $newOrder) {
 			id
 			code
 			deliveryCost
 			placedDate
 			estimatedDeliveryDate
-			userId,
-			items
+			userId
+			items {
+				id
+				quantity
+				product {
+					code
+					name
+					sizeCode
+					sizeName
+					price
+					colorName
+					imageUrl
+				}
+			}
 			shippingAddress {
 				email
 				name
@@ -27,8 +40,6 @@ const CREATE_ORDER_MUTATION = gql`
 				paymentDetails {
 					pan
 					cardholder
-					expirationDate
-					cvv
 				}
 			}
 			totalUnits
@@ -52,10 +63,10 @@ class GraphqlOrderRepository extends GraphQLDataSource<ApolloContext> implements
 		request.headers.authorization = this.context.userId;
 	}
 
-	async create(order: Order): Promise<Order> {
+	async create(newOrder: CustomerNewOrder): Promise<Order> {
 		const response = await super.mutation(CREATE_ORDER_MUTATION, {
 			variables: {
-				order
+				newOrder
 			}
 		});
 
