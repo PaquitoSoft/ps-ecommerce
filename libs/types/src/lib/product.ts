@@ -41,6 +41,7 @@ type Product = {
 	detailImages: string[];
 	sizes: Size[];
 	categories: mongoose.Types.ObjectId[];
+	isPopular: boolean;
 };
 
 export default Product;

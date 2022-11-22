@@ -24,6 +24,13 @@
 	fill: var(--color-black);
 }
 
+.productSummaryOnFireStamp {
+	position: absolute;
+	padding: var(--spacer-010);
+	bottom: 0;
+	right: 0;
+}
+
 .productInfo {
 	position: relative;
 	padding: var(--spacer-010) var(--spacer-010) var(--spacer-020) var(--spacer-010);

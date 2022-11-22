@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Product } from "@ps-ecommerce/types";
 
 import ProductImage from "../product-image/product-image";
-import { FavoriteIcon } from "@ps-ecommerce/design-system";
+import { FavoriteIcon, Stamp } from "@ps-ecommerce/design-system";
 
 import styles from './product-summary.module.css';
 
@@ -49,6 +49,13 @@ function ProductSummary({
 					>
 						<FavoriteIcon />
 					</span>
+					{
+						product.isPopular ?
+						<span className={styles.productSummaryOnFireStamp}>
+							<Stamp>POPULAR</Stamp>
+						</span> :
+						null
+					}
 				</div>
 				<div className={styles.productInfo}>
 					<div className={styles.productPrice}>{product.price} €</div>
