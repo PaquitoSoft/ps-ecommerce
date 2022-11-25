@@ -9,9 +9,18 @@ import removeProductFromCartAction from '../../../../application/use-cases/shop-
 import updateProductInCartAction from '../../../../application/use-cases/shop-cart/update-product-in-cart-action';
 import saveShippingAddressInCartAction from '../../../../application/use-cases/shop-cart/save-shipping-address-in-cart-action';
 import checkoutAction from '../../../../application/use-cases/shop-cart/checkout-action';
-
+import getIsProductPopularAction from '../../../../application/use-cases/shop-cart/get-is-product-popular-action';
 
 export const typeDef = gql`
+	extend schema
+		@link(url: "https://specs.apollo.dev/federation/v2.0",
+			import: ["@key", "@external", "@requires"])
+
+	type Product @key(fields: "code", resolvable: true) {
+		code: String!
+		isPopular: Boolean!
+	}
+
 	type ShopCartProduct {
 		id: ID!
 		code: String!
@@ -99,8 +108,6 @@ const addToShopCart = async (
 	const productCode = args.productCode;
 	const sizeCode = args.sizeCode;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
-	// const productRepository = await CatalogRepositoryFactory.build<ProductRepository>(CatalogRepositoryTypes.Product);
 	const shopCart = await addToShopCartAction(userId, productCode, sizeCode, {
 		shopCartRepository: context.dataSources.shopCart,
 		productRepository: context.dataSources.product
@@ -119,7 +126,6 @@ const removeFromShopCart = async (
 	const userId = context.userId as string;
 	const orderItemId = args.orderItemId;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
 	const shopCart = await removeProductFromCartAction(userId, orderItemId, {
 		shopCartRepository: context.dataSources.shopCart
 	});
@@ -139,7 +145,6 @@ const updateInShopCart = async (
 	const orderItemId = args.orderItemId;
 	const quantity = args.quantity;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
 	const shopCart = await updateProductInCartAction(userId, orderItemId, quantity, {
 		shopCartRepository: context.dataSources.shopCart
 	});
@@ -157,7 +162,6 @@ const saveShippingAddress = async (
 	const userId = context.userId as string;
 	const shippingAddress = args.shippingAddress;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
 	const shopCart = await saveShippingAddressInCartAction(userId, shippingAddress, {
 		shopCartRepository: context.dataSources.shopCart
 	});
@@ -175,8 +179,6 @@ const checkout = async (
 	const userId = context.userId as string;
 	const paymentData = args.paymentData;
 
-	// const shopCartRepository = await CheckoutRepositoryFactory.build<ShopCartRepository>(CheckoutRepositoryTypes.ShopCart);
-	// const orderRepository = await CustomerRepositoryFactory.build<OrderRepository>(CustomerRepositoryTypes.Order);
 	const newOrder = await checkoutAction(userId, paymentData, {
 		shopCartRepository: context.dataSources.shopCart,
 		orderRepository: context.dataSources.order
@@ -185,9 +187,20 @@ const checkout = async (
 	return newOrder;
 };
 
+const isPopularProduct = (
+	productRepresentation: { code: string },
+	_args: unknown,
+	context: ApolloContext
+) => getIsProductPopularAction(productRepresentation.code, {
+	shopCartRepository: context.dataSources.shopCart
+});
+
 export const resolvers = {
 	ShopCart: {
 		id: (root: { _id: unknown; id: unknown; }) => root._id || root.id
+	},
+	Product: {
+		isPopular: isPopularProduct
 	},
 	Query: {
 		shopCart: getUserShopCart

@@ -45,7 +45,7 @@ export const typeDef = gql`
 		availability: String!
 	}
 
-	type Product @key(fields: "id") {
+	type Product @key(fields: "id") @key(fields: "code") {
 		id: ID!
 		code: String!
 		name: String!
