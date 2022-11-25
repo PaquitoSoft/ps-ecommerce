@@ -2,7 +2,6 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
 
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { Product } from '@ps-ecommerce/types';
