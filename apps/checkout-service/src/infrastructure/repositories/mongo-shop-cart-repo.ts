@@ -49,7 +49,7 @@ class MongoShopCartRepository extends DataSource implements ShopCartRepository {
 		return userShopCart.delete();
 	}
 
-	async countCartsWithProducts(productCode: string): Promise<number> {
+	async countCartsWithProduct(productCode: string): Promise<number> {
 		return ShopCartModel.find({ 'items.product.code': productCode }).count();
 	}
 };

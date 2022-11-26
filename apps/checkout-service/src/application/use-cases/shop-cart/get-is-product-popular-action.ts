@@ -6,7 +6,7 @@ async function getUserShopCartAction(
 	productCode: string,
 	{ shopCartRepository }: { shopCartRepository: ShopCartRepository }
 ): Promise<boolean> {
-	const shopCartsCount = await shopCartRepository.countCartsWithProducts(productCode);
+	const shopCartsCount = await shopCartRepository.countCartsWithProduct(productCode);
 
 	return shopCartsCount > POPULAR_PRODUCT_CARTS_THRESHOLD;
 }

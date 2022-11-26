@@ -6,7 +6,7 @@ interface ShopCartRepository extends Repository {
 	createUserCart(shopCart: ShopCart): Promise<ShopCart>;
 	updateUserCart(userId: string, shopCart: ShopCart): Promise<ShopCart>;
 	removeUserCart(userId: string): Promise<void>;
-	countCartsWithProducts(productCode: string): Promise<number>;
+	countCartsWithProduct(productCode: string): Promise<number>;
 };
 
 export default ShopCartRepository;
