@@ -3,7 +3,6 @@ import { GetStaticProps } from 'next';
 import { gql } from '@apollo/client';
 
 import { createApolloClient } from '@ps-ecommerce/shared-server';
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 
 import { Product } from '@ps-ecommerce/types'
 

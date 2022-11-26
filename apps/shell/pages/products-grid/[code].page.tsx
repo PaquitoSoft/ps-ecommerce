@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { GetServerSideProps } from 'next';
 import { gql } from '@apollo/client';
 
-import { graphqlSchemaExtensions as catalogSchema } from '@ps-ecommerce/catalog-backend';
 import { createApolloClient } from '@ps-ecommerce/shared-server';
 
 import { Product, Category } from '@ps-ecommerce/types'
