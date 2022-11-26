@@ -24,31 +24,24 @@ type Props = {
 }
 
 const FeaturedProductsQuery = gql`
+	fragment FeatureProductFields on Product {
+		id
+		code
+		name
+		altName
+		gridImages
+		price
+	}
 	query FeaturedProductsQuery($count: Int) {
 		featuredProducts(count: $count) {
 			newArrivals {
-				id
-				code
-				name
-				altName
-				gridImages
-				price
+				...FeatureProductFields
 			}
 			topSellers {
-				id
-				code
-				name
-				altName
-				gridImages
-				price
+				...FeatureProductFields
 			}
 			trending {
-				id
-				code
-				name
-				altName
-				gridImages
-				price
+				...FeatureProductFields
 			}
 		}
 	}
