@@ -39,8 +39,11 @@ export function connectToMongo(): Promise<Connection> {
 	return global._efe_mongoosePromise;
 }
 
-export async function connect({ databaseUrl }: { databaseUrl: string }) {
+export async function connect({ databaseUrl, debug }: { databaseUrl: string; debug?: boolean; }) {
 	console.log('MongooseConnection::connectToMongo# CONNECTING to DB...');
+	if (debug) {
+		mongoose.set('debug', true);
+	}
 
 	const _mongoose = await mongoose.connect(databaseUrl, {
 		autoIndex: process.env.NODE_ENV !== 'production'
