@@ -20,9 +20,8 @@ type TStartServerParams = {
 };
 
 const authPlugin = {
-	async serverWillStart() {
-		console.log('----> Server starting up!');
-	},
+	// eslint-disable-next-line @typescript-eslint/no-empty-function
+	async serverWillStart() {},
 	willSendResponse(
 		requestContext: unknown
 	) {
@@ -30,6 +29,23 @@ const authPlugin = {
 		return Promise.resolve(true);
 	}
 };
+
+const loggerPlugin = {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	async requestDidStart(requestContext: any) {
+	  console.log('Request started! Query:\n' + requestContext.request.query);
+	  console.log('Request started! Operation Name:\n' + requestContext.request.operationName);
+	  console.log('Request started! Variables:\n' + JSON.stringify(requestContext.request.variables, null, 2));
+
+	  return {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		async parsingDidStart() {},
+
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
+		async validationDidStart() {},
+	  };
+	},
+  };
 
 export async function startServer({
 	serviceName,
@@ -41,6 +57,7 @@ export async function startServer({
 		cors: true,
 		introspection: true,
 		plugins: [
+			// loggerPlugin,
 			authPlugin
 		],
 		schema: buildSubgraphSchema({
