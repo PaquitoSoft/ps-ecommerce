@@ -20,15 +20,18 @@ const log = console.log;
 const subgraphsConfig = {
 	catalog: {
 		name: 'catalog',
-		serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/'
+		serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/',
+		localPort: 4001
 	},
 	customer: {
 		name: 'customer',
-		serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/'
+		serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/',
+		localPort: 4003
 	},
 	checkout: {
 		name: 'checkout',
-		serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/'
+		serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/',
+		localPort: 4002
 	}
 };
 
@@ -40,10 +43,29 @@ const roverCommands = {
 	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --routing-url ${subgraphConfig.serviceHost} --name ${subgraphConfig.name} --schema -`
 };
 
+async function isLocalServerStarted(port) {
+  try {
+    const response = await fetch(`http://localhost:${port}`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ query: 'query { __typename }' }),
+      signal: AbortSignal.timeout(1000)
+    });
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
 async function startService(serviceConfig) {
 	const serviceStartedMessage = `Subgraph '${serviceConfig.name}' running`;
-	return new Promise((resolve) => {
-		const process = shell.exec(`npx nx serve ${serviceConfig.name}-service`, {
+	return new Promise(async (resolve) => {
+    const isServiceStarted = await isLocalServerStarted(serviceConfig.localPort);
+    if (isServiceStarted) {
+      resolve();
+    }
+
+    const process = shell.exec(`npx nx serve ${serviceConfig.name}-service`, {
 			async: true,
 			silent: true,
 			windowsHide: true,
@@ -90,7 +112,7 @@ async function checkSubgraph({ service }) {
 		shell.exit(1);
 	}
 
-  let processInfo = [];
+  let processInfo;
   try {
     log('\n', chalk.blue(`Starting ${service} service...`));
     processInfo = await startService(subgraphConfig)
@@ -101,7 +123,9 @@ async function checkSubgraph({ service }) {
 
 	} finally {
 		log('\n', chalk.blue(`Stopping ${service} service...`));
-		await stopService(processInfo.pid);
+    if (processInfo) {
+      await stopService(processInfo.pid);
+    }
 
 		log('\n', chalk.green('The End!'));
 	}
@@ -127,7 +151,7 @@ async function buildSuperschema() {
 
 	} finally {
 		log('\n', chalk.blue(`Stopping all services...`));
-		await stopAllServices(servicesPids);
+    await stopAllServices(servicesPids.filter(Boolean));
 
 		log('\n', chalk.green('The End!'));
 	}
