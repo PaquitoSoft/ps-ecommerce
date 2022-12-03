@@ -7,6 +7,7 @@ require('dotenv').config({
 
 const { writeFileSync } = require('node:fs');
 const { join } = require('node:path');
+const { request } = require('node:http');
 const cli = require('cac')();
 const path = require('path');
 const shell = require('shelljs');
@@ -43,18 +44,25 @@ const roverCommands = {
 	publishSubgraph: (subgraphConfig) => `${roverCommands.resolveSubgraph(subgraphConfig)} | rover subgraph publish ${APOLLO_SUPERGRAPH_REFERENCE} --routing-url ${subgraphConfig.serviceHost} --name ${subgraphConfig.name} --schema -`
 };
 
-async function isLocalServerStarted(port) {
-  try {
-    const response = await fetch(`http://localhost:${port}`, {
+function isLocalServerStarted(port) {
+  return new Promise((resolve) => {
+    const req = request(`http://localhost:${port}/`, {
+      headers: {
+        'content-type': 'application/json'
+      },
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ query: 'query { __typename }' }),
-      signal: AbortSignal.timeout(1000)
+      timeout: 1000
+    }, (response) => {
+      // response.setEncoding('utf8');
+      response.on('data', () => false);
+      response.on('end', () => {
+        resolve(response.statusCode === 200);
+      });
     });
-    return response.ok;
-  } catch (error) {
-    return false;
-  }
+    req.write(JSON.stringify({ query: 'query { __typename }' }));
+    req.end();
+    req.on('error', () => resolve(false));
+  });
 }
 
 async function startService(serviceConfig) {
@@ -62,7 +70,7 @@ async function startService(serviceConfig) {
 	return new Promise(async (resolve) => {
     const isServiceStarted = await isLocalServerStarted(serviceConfig.localPort);
     if (isServiceStarted) {
-      resolve();
+      return resolve();
     }
 
     const process = shell.exec(`npx nx serve ${serviceConfig.name}-service`, {
@@ -78,6 +86,9 @@ async function startService(serviceConfig) {
 				resolve(process);
 			}
 		});
+    // process.stderr.on('data', (data) => {
+    //   log(chalk.red(data));
+    // });
 	});
 }
 
