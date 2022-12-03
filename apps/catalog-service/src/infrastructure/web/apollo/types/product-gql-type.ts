@@ -148,6 +148,17 @@ const productDetails = async (
 	return product;
 };
 
+const wishlistProductsResolver = async (
+	wishlistDocument,
+	_,
+	context: ApolloContext
+) => {
+	const products = await findProductsByProductsIdsAction({ productsIds: wishlistDocument.productsIds }, {
+		productRepository: context.dataSources.product
+	});
+	return products || [];
+}
+
 export const resolvers = {
 	Product: {
 		id: (root: { _id?: unknown; id?: unknown; }) => root._id || root.id
@@ -158,12 +169,7 @@ export const resolvers = {
 		__resolveReference(wishlistDocument) {
 			return wishlistDocument;
 		},
-		products: async (wishlistDocument, _, context: ApolloContext) => {
-			const products = await findProductsByProductsIdsAction({ productsIds: wishlistDocument.productsIds }, {
-				productRepository: context.dataSources.product
-			});
-			return products || [];
-		}
+		products: wishlistProductsResolver
 	},
 	Query: {
 		productsByCategory,
