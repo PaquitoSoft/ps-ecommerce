@@ -205,5 +205,11 @@ export const resolvers = {
 	Query: {
 		shopCart: getUserShopCart
 	},
-	Mutation: { addToShopCart, removeFromShopCart, updateInShopCart, saveShippingAddress, checkout }
+	Mutation: {
+		addToShopCart,
+		removeFromShopCart,
+		updateInShopCart,
+		saveShippingAddress,
+		checkout
+	}
 };
