@@ -18,7 +18,8 @@
 		"shared-ui-logic": "libs/shared-ui-logic",
 		"shell": "apps/shell",
 		"shell-e2e": "apps/shell-e2e",
-		"types": "libs/types"
+		"types": "libs/types",
+		"wishlist-service": "apps/wishlist-service"
 	},
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
