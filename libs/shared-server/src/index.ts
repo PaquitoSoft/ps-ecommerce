@@ -28,3 +28,5 @@ export * as webUtils from './infrastructure/web/utils';
 export * as webServer from './infrastructure/web/server';
 
 export { connect as connectToMongo } from './infrastructure/orm/mongoose/mongoose-connection';
+
+export { extractUserId as extractUserIdFromRequest } from './infrastructure/web/utils';
