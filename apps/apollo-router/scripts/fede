@@ -33,7 +33,12 @@ const subgraphsConfig = {
 		name: 'checkout',
 		serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/',
 		localPort: 4002
-	}
+	},
+  wishlist: {
+    name: 'wishlist',
+    serviceHost: '',
+    localPort: 4004
+  }
 };
 
 const roverCommands = {
@@ -81,14 +86,14 @@ async function startService(serviceConfig) {
 		});
 
 		process.stdout.on('data', (data) => {
-      // console.log('Server start message:', data);
+      console.log('Server start message:', data);
 			if (data.includes(serviceStartedMessage)) {
 				resolve(process);
 			}
 		});
-    // process.stderr.on('data', (data) => {
-    //   log(chalk.red(data));
-    // });
+    process.stderr.on('data', (data) => {
+      log(chalk.red(data));
+    });
 	});
 }
 
