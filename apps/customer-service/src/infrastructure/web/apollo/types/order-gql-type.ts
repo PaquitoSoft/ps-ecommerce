@@ -9,6 +9,10 @@ import getUserOrdersAction from "../../../../application/use-cases/order/get-use
 import createOrderAction from "../../../../application/use-cases/order/create-order-action";
 
 export const typeDef = gql`
+	extend schema
+		@link(url: "https://specs.apollo.dev/federation/v2.0",
+			import: ["@inaccessible"])
+
 	type OrderItemProduct {
 		code: String!
 		name: String!
