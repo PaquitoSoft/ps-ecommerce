@@ -32,6 +32,10 @@ const nextConfig = {
 		{
 			source: '/profile/:path*',
 			destination: `${CUSTOMER_URL}/profile/:path*`
+		},
+		{
+			source: '/wishlist',
+			destination: `${CUSTOMER_URL}/profile/wishlist`
 		}
 	]
 };
