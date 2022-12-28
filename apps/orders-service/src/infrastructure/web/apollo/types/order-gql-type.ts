@@ -1,12 +1,12 @@
-import { gql } from "@apollo/client";
-import { Order } from "@ps-ecommerce/types";
+import { gql } from '@apollo/client';
+import { Order } from '@ps-ecommerce/types';
 
 import ApolloContext from '../apollo-context';
 
-import getUserLastOrdersAction from "../../../../application/use-cases/order/get-user-last-order-action";
-import getUserOrderAction from "../../../../application/use-cases/order/get-user-order-action";
-import getUserOrdersAction from "../../../../application/use-cases/order/get-user-orders-action";
-import createOrderAction from "../../../../application/use-cases/order/create-order-action";
+import getUserLastOrdersAction from '../../../../application/use-cases/order/get-user-last-order-action';
+import getUserOrderAction from '../../../../application/use-cases/order/get-user-order-action';
+import getUserOrdersAction from '../../../../application/use-cases/order/get-user-orders-action';
+import createOrderAction from '../../../../application/use-cases/order/create-order-action';
 
 export const typeDef = gql`
 	extend schema
@@ -103,7 +103,7 @@ const getUserOrdersList = async (
 	const userId = context.userId;
 
 	const orders = await getUserOrdersAction(userId, {
-		orderRepository: context.dataSources.order
+		orderRepository: context.dataSources.order,
 	});
 
 	return orders;
@@ -118,7 +118,7 @@ const getUserOrderDetails = async (
 	const orderCode = args.orderCode;
 
 	const order = await getUserOrderAction(userId, orderCode, {
-		orderRepository: context.dataSources.order
+		orderRepository: context.dataSources.order,
 	});
 
 	return order;
@@ -132,7 +132,7 @@ const getUserLastOrder = async (
 	const userId = context.userId as string;
 
 	const orders = await getUserLastOrdersAction(userId, {
-		orderRepository: context.dataSources.order
+		orderRepository: context.dataSources.order,
 	});
 
 	return orders;
@@ -144,20 +144,20 @@ const createOrder = (
 	context: ApolloContext
 ) => {
 	return createOrderAction(args.newOrder, {
-		orderRepository: context.dataSources.order
+		orderRepository: context.dataSources.order,
 	});
 };
 
 export const resolvers = {
 	Order: {
-		id: (root: { _id: unknown; id: unknown; }) => root._id || root.id
+		id: (root: { _id: unknown; id: unknown }) => root._id || root.id,
 	},
 	Query: {
 		userOrders: getUserOrdersList,
 		userLastOrder: getUserLastOrder,
-		order: getUserOrderDetails
+		order: getUserOrderDetails,
 	},
 	Mutation: {
-		createOrder
-	}
+		createOrder,
+	},
 };

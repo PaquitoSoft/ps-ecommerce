@@ -3,8 +3,8 @@ import type OrderRepository from '../../../domain/order-repo';
 
 type ApolloContext = GenericContext & {
 	dataSources: {
-		order: OrderRepository
-	}
+		order: OrderRepository;
+	};
 };
 
 export default ApolloContext;

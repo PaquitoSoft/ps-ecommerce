@@ -1,5 +1,5 @@
-import { connectToMongo } from "@ps-ecommerce/shared-server";
-import { startServer } from "./infrastructure/web/server";
+import { connectToMongo } from '@ps-ecommerce/shared-server';
+import { startServer } from './infrastructure/web/server';
 
 const SERVER_PORT = +process.env.PORT || 4003;
 const DATABASE_URL = process.env.DATABASE_URL || '';
@@ -10,7 +10,7 @@ async function start() {
 
 	// 2. Start GraphQL server
 	await startServer({
-		port: SERVER_PORT
+		port: SERVER_PORT,
 	});
 }
 

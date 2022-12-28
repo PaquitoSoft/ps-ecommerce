@@ -1,8 +1,8 @@
-import { DataSource } from "apollo-datasource";
-import { Order } from "@ps-ecommerce/types";
+import { DataSource } from 'apollo-datasource';
+import { Order } from '@ps-ecommerce/types';
 
-import OrderModel from "../orm/mongoose/models/order-model";
-import OrderRepository from "../../domain/order-repo";
+import OrderModel from '../orm/mongoose/models/order-model';
+import OrderRepository from '../../domain/order-repo';
 
 class MongoOrderRepository extends DataSource implements OrderRepository {
 	async create(order: Order): Promise<Order> {
@@ -15,7 +15,9 @@ class MongoOrderRepository extends DataSource implements OrderRepository {
 	}
 
 	async getLastUserOrder(userId: string): Promise<Order> {
-		const order = await OrderModel.findOne({ userId }, null, { sort: { placedDate: -1 } });
+		const order = await OrderModel.findOne({ userId }, null, {
+			sort: { placedDate: -1 },
+		});
 		return order;
 	}
 

@@ -5,8 +5,8 @@
 	"scripts": {
 		"__dev": "npm run dev:graphql-router & nx run-many --target=serve --all=true --parallel=true",
 		"dev:frontend": "nx run-many --target=serve --projects=shell,customer-frontend,checkout-frontend --parallel=true",
-		"dev:backend": "npm run dev:graphql-router & nx run-many --target=serve --projects=catalog-service,customer-service,wishlist-service,checkout-service --parallel=true --maxParallel=5",
-		"dev:graphql-router": "./apps/apollo-router/router --log info --config ./apps/apollo-router/config.yaml --supergraph ./apps/apollo-router/schemas/supergraph-schema.graphql",
+		"dev:backend": "npm run dev:graphql-router & nx run-many --target=serve --projects=catalog-service,orders-service,wishlist-service,checkout-service --parallel=true --maxParallel=5",
+		"dev:graphql-router": "./apps/apollo-router/router --hot-reload --log info --config ./apps/apollo-router/config.yaml --supergraph ./apps/apollo-router/schemas/supergraph-schema.graphql",
 		"start": "nx serve",
 		"build": "nx build",
 		"test": "nx test",

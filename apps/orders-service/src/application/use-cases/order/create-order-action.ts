@@ -14,12 +14,15 @@ async function createOrderAction(
 	newOrder: NewOrder,
 	{ orderRepository }: { orderRepository: OrderRepository }
 ): Promise<Order> {
-	const totals = newOrder.items.reduce<{ units: number, amount: number }>((agg, item) => {
-		return {
-			units: agg.units + item.quantity,
-			amount: agg.amount + item.quantity * item.product.price,
-		}
-	}, { units: 0, amount: 0 });
+	const totals = newOrder.items.reduce<{ units: number; amount: number }>(
+		(agg, item) => {
+			return {
+				units: agg.units + item.quantity,
+				amount: agg.amount + item.quantity * item.product.price,
+			};
+		},
+		{ units: 0, amount: 0 }
+	);
 
 	return orderRepository.create({
 		...newOrder,

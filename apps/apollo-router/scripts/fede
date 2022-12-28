@@ -24,8 +24,8 @@ const subgraphsConfig = {
 		serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/',
 		localPort: 4001
 	},
-	customer: {
-		name: 'customer',
+	orders: {
+		name: 'orders',
 		serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/',
 		localPort: 4003
 	},

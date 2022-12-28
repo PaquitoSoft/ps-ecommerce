@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@apollo/client';
 
 // TODO: This is duplicated here and in the checkout service
 export const typeDef = gql`

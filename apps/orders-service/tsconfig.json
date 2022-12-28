@@ -4,7 +4,7 @@
 		"outDir": "../../dist/out-tsc",
 		"module": "commonjs",
 		"target": "es2021",
-		"esModuleInterop": true,
+		"esModuleInterop": true
 	},
 	"files": [],
 	"include": [],

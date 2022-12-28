@@ -10,21 +10,15 @@ type TStartServerParams = {
 	port: number;
 };
 
-export function startServer({
-	port
-}: TStartServerParams) {
+export function startServer({ port }: TStartServerParams) {
 	return webServer.startServer({
-		serviceName: 'customer',
+		serviceName: 'orders',
 		port,
-		typesConfiguration: [
-			OrderType,
-			PaymentDataType,
-			ShippingAddressType,
-		],
+		typesConfiguration: [OrderType, PaymentDataType, ShippingAddressType],
 		dataSources: () => {
 			return {
-				order: new MongoOrderRepository()
+				order: new MongoOrderRepository(),
 			};
 		},
 	});
-};
+}
