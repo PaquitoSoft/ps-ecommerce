@@ -28,11 +28,11 @@
 @media (min-width: 960px) {
 	.profilePageOrdersList {
 		padding-right: 50%;
-	}	
+	}
 }
 
 @media (min-width: 1600px) {
 	.profilePageOrdersList {
 		padding-right: 66%;
-	}	
+	}
 }

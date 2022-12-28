@@ -8,7 +8,11 @@ import { createApolloClient, webUtils } from '@ps-ecommerce/shared-server';
 
 import { Order } from '@ps-ecommerce/types';
 
-import { FormattedDate, SectionTitle, TwoLayoutMainContent } from '@ps-ecommerce/design-system';
+import {
+	FormattedDate,
+	SectionTitle,
+	TwoLayoutMainContent,
+} from '@ps-ecommerce/design-system';
 import { HelpLinksList } from '@ps-ecommerce/shared-ui-components';
 
 import OrderDetailsDetailsSection from './order-details-details-section/order-details-details-section';
@@ -70,13 +74,24 @@ function OrderDetailPage({ order }: Props) {
 				<SectionTitle as="h1">Order details</SectionTitle>
 
 				<div className={styles.orderDetailsDelivery}>
-					<p>Estimated delivery: <FormattedDate timestamp={order.estimatedDeliveryDate} /></p>
-					<p>You will be able to track your order once we ship it from our warehouse.</p>
+					<p>
+						Estimated delivery:{' '}
+						<FormattedDate
+							timestamp={order.estimatedDeliveryDate}
+						/>
+					</p>
+					<p>
+						You will be able to track your order once we ship it
+						from our warehouse.
+					</p>
 				</div>
 
 				<ul className={styles.orderDetailsItemsList}>
 					{order.items.map((item) => (
-						<OrderDetailsItemListRow key={item.id} orderItem={item} />
+						<OrderDetailsItemListRow
+							key={item.id}
+							orderItem={item}
+						/>
 					))}
 				</ul>
 
@@ -100,7 +115,7 @@ function OrderDetailPage({ order }: Props) {
 						{ href: '#', text: 'Promotions & Vouchers' },
 						{ href: '#', text: 'Returns & refunds' },
 						{ href: '#', text: 'Accounts & Newsletter' },
-						{ href: '#', text: 'Company information' }
+						{ href: '#', text: 'Company information' },
 					]}
 				/>
 			</section>
@@ -119,14 +134,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	const apolloQueryData = await apolloClient.query({
 		query: OrderDetailQuery,
-		variables: { orderCode }
+		variables: { orderCode },
 	});
 
 	return {
 		props: {
-			order: apolloQueryData.data.order
-		}
+			order: apolloQueryData.data.order,
+		},
 	};
-}
+};
 
 export default OrderDetailPage;

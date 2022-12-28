@@ -14,11 +14,11 @@ const nextConfig = {
 	poweredByHeader: false,
 	pageExtensions: ['page.tsx', 'route.ts', 'mid.ts'],
 	images: {
-		domains: ['assets.adidas.com']
+		domains: ['assets.adidas.com'],
 	},
 	experimental: {
-		manualClientBasePath: true
-	}
+		manualClientBasePath: true,
+	},
 };
 
 module.exports = withNx(nextConfig);

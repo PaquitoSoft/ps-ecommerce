@@ -1,6 +1,7 @@
 {
+	"name": "customer-frontend",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/customer",
+	"sourceRoot": "apps/customer-frontend",
 	"projectType": "application",
 	"targets": {
 		"build": {
@@ -8,30 +9,30 @@
 			"outputs": ["{options.outputPath}"],
 			"defaultConfiguration": "production",
 			"options": {
-				"root": "apps/customer",
-				"outputPath": "dist/apps/customer"
+				"root": "apps/customer-frontend",
+				"outputPath": "dist/apps/customer-frontend"
 			},
 			"configurations": {
 				"production": {},
 				"development": {
-					"outputPath": "apps/customer"
+					"outputPath": "apps/customer-frontend"
 				}
 			}
 		},
 		"serve": {
 			"executor": "@nrwl/next:server",
 			"options": {
-				"buildTarget": "customer:build",
+				"buildTarget": "customer-frontend:build",
 				"dev": true,
 				"port": 4202
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "customer:build:production",
+					"buildTarget": "customer-frontend:build:production",
 					"dev": false
 				},
 				"development": {
-					"buildTarget": "customer:build:development",
+					"buildTarget": "customer-frontend:build:development",
 					"dev": true
 				}
 			},
@@ -40,14 +41,14 @@
 		"export": {
 			"executor": "@nrwl/next:export",
 			"options": {
-				"buildTarget": "customer:build:production"
+				"buildTarget": "customer-frontend:build:production"
 			}
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/apps/customer"],
+			"outputs": ["coverage/apps/customer-frontend"],
 			"options": {
-				"jestConfig": "apps/customer/jest.config.ts",
+				"jestConfig": "apps/customer-frontend/jest.config.ts",
 				"passWithNoTests": true
 			}
 		},
@@ -55,7 +56,9 @@
 			"executor": "@nrwl/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/customer/**/*.{ts,tsx,js,jsx}"]
+				"lintFilePatterns": [
+					"apps/customer-frontend/**/*.{ts,tsx,js,jsx}"
+				]
 			}
 		}
 	},
