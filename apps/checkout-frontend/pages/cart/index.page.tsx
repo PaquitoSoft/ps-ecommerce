@@ -9,18 +9,29 @@ import { SectionTitle, Button, utilStyles } from '@ps-ecommerce/design-system';
 
 import ShopCartItemComponent from './shop-cart-item/shop-cart-item';
 
-import { ShopCartTotals, ShopCartFragment } from '@ps-ecommerce/shared-ui-components';
+import {
+	ShopCartTotals,
+	ShopCartFragment,
+} from '@ps-ecommerce/shared-ui-components';
 import useCart from './use-cart';
 
 import styles from './cart.module.css';
 
 const ShopCartPageDataQuery = gql`
 	${ShopCartFragment}
-	query ShopCartPageDataQuery($categoryCode: String!, $count: Int, $randomValues: Boolean) {
+	query ShopCartPageDataQuery(
+		$categoryCode: String!
+		$count: Int
+		$randomValues: Boolean
+	) {
 		shopCart {
 			...ShopCartFields
 		}
-		productsByCategory(categoryCode: $categoryCode, count: $count, randomValues: $randomValues) {
+		productsByCategory(
+			categoryCode: $categoryCode
+			count: $count
+			randomValues: $randomValues
+		) {
 			products {
 				id
 				code
@@ -36,10 +47,16 @@ const ShopCartPageDataQuery = gql`
 const relatedProductsQueryVariables = {
 	categoryCode: 'top_sellers',
 	count: 8,
-	randomValues: true
+	randomValues: true,
 };
 
-function CheckoutButton({ className, isFullWidth = false }: { className?: string, isFullWidth?: boolean }) {
+function CheckoutButton({
+	className,
+	isFullWidth = false,
+}: {
+	className?: string;
+	isFullWidth?: boolean;
+}) {
 	const router = useRouter();
 
 	return (
@@ -58,18 +75,33 @@ function EmptyCart() {
 	const router = useRouter();
 	return (
 		<div>
-			<SectionTitle as="h1" size="large">Your bag is empty</SectionTitle>
-			<p className={styles.shopCartSubtitle}>Once you add something to your bag - it will appear here. Ready to get started?</p>
-			<Button className={utilStyles.marginTop_15} onClick={() => router.push('/')}>Get started</Button>
+			<SectionTitle as="h1" size="large">
+				Your bag is empty
+			</SectionTitle>
+			<p className={styles.shopCartSubtitle}>
+				Once you add something to your bag - it will appear here. Ready
+				to get started?
+			</p>
+			<Button
+				className={utilStyles.marginTop_15}
+				onClick={() => router.push('/')}
+			>
+				Get started
+			</Button>
 		</div>
-	)
+	);
 }
 
 function ShopCartPage() {
 	const {
-		actions: { onUpdateItem, onRemoveItem, isShopCartItemInWishlist, onWishlistSelectionUpdate },
-		state: { shopCart }
-	} =  useCart();
+		actions: {
+			onUpdateItem,
+			onRemoveItem,
+			isShopCartItemInWishlist,
+			onWishlistSelectionUpdate,
+		},
+		state: { shopCart },
+	} = useCart();
 	// const { data: { productsByCategory: { products: topSellerProducts} } } = useQuery(ShopCartPageDataQuery, {
 	// 	variables: relatedProductsQueryVariables
 	// });
@@ -87,17 +119,27 @@ function ShopCartPage() {
 			<section className={styles.shopCartContents}>
 				<SectionTitle as="h1">Your bag</SectionTitle>
 				<div className={styles.shopCartSubtitle}>
-					TOTAL ({shopCart.totalUnits} items) <span className={styles.shopCartTotalAmount}>{shopCart.totalAmount} €</span>
+					TOTAL ({shopCart.totalUnits} items){' '}
+					<span className={styles.shopCartTotalAmount}>
+						{shopCart.totalAmount} €
+					</span>
 				</div>
 				<ul className={styles.shopCartItems}>
 					{shopCart.items.map((item) => (
-						<li key={item.id} className={utilStyles.marginBottom_40}>
+						<li
+							key={item.id}
+							className={utilStyles.marginBottom_40}
+						>
 							<ShopCartItemComponent
 								item={item}
 								onUpdateItem={onUpdateItem}
 								onRemoveItem={onRemoveItem}
-								isInWishlist={isShopCartItemInWishlist(item.product.id)}
-								onWishlistSelectionUpdate={onWishlistSelectionUpdate}
+								isInWishlist={isShopCartItemInWishlist(
+									item.product.id
+								)}
+								onWishlistSelectionUpdate={
+									onWishlistSelectionUpdate
+								}
 							/>
 						</li>
 					))}
@@ -112,7 +154,13 @@ function ShopCartPage() {
 				</section> */}
 			</section>
 			<section className={styles.shopCartTotals}>
-				<CheckoutButton className={cx(utilStyles.marginTop_40, utilStyles.marginBottom_40)} isFullWidth />
+				<CheckoutButton
+					className={cx(
+						utilStyles.marginTop_40,
+						utilStyles.marginBottom_40
+					)}
+					isFullWidth
+				/>
 				<ShopCartTotals shopCart={shopCart} />
 			</section>
 		</div>
@@ -129,15 +177,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 	await apolloClient.query({
 		query: ShopCartPageDataQuery,
-		variables: relatedProductsQueryVariables
+		variables: relatedProductsQueryVariables,
 	});
 
 	return {
 		props: {
-			initialApolloState: apolloClient.cache.extract()
-		}
+			initialApolloState: apolloClient.cache.extract(),
+		},
 	};
-}
-
+};
 
 export default ShopCartPage;

@@ -1,5 +1,6 @@
-html, input {
-	font-family: "AdihausDIN", Helvetica, Arial, sans-serif;
+html,
+input {
+	font-family: 'AdihausDIN', Helvetica, Arial, sans-serif;
 	fill: var(--color-white);
 }
 

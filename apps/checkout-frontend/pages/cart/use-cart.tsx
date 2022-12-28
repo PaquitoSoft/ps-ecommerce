@@ -1,14 +1,14 @@
 import { useShopCart, useWishlist } from '@ps-ecommerce/shared-ui-components';
 
-import { ShopCartItem } from "@ps-ecommerce/types";
+import { ShopCartItem } from '@ps-ecommerce/types';
 
 function useCart() {
 	const {
 		state: { shopCart },
-		actions: { updateItemInCart, removeFromCart }
+		actions: { updateItemInCart, removeFromCart },
 	} = useShopCart();
 	const {
-		actions: { isProductInWishlist,	handleProductSelection }
+		actions: { isProductInWishlist, handleProductSelection },
 	} = useWishlist();
 
 	const onUpdateItem = (orderItem: ShopCartItem, quantity: number) => {
@@ -27,8 +27,8 @@ function useCart() {
 			isShopCartItemInWishlist: isProductInWishlist,
 			onUpdateItem,
 			onRemoveItem,
-			onWishlistSelectionUpdate
-		}
+			onWishlistSelectionUpdate,
+		},
 	};
 }
 

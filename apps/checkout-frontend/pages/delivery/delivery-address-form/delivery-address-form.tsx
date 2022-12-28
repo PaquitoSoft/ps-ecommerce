@@ -18,7 +18,7 @@ function DeliveryAddressForm({ shippingAddress, onSubmit }: Props) {
 			surname: formValues.surname,
 			addressLine: formValues.addressLine,
 			postalCode: formValues.postalCode,
-			city: formValues.city
+			city: formValues.city,
 		});
 	};
 	return (
@@ -52,7 +52,10 @@ function DeliveryAddressForm({ shippingAddress, onSubmit }: Props) {
 					<Field
 						name="postalCode"
 						component={FormTextField}
-						validate={validations.validate([validations.onlyNumbers, validations.fixedLength(5)])}
+						validate={validations.validate([
+							validations.onlyNumbers,
+							validations.fixedLength(5),
+						])}
 						label="Postal Code"
 					/>
 					<Field name="city" component={FormTextField} label="City" />
@@ -62,7 +65,9 @@ function DeliveryAddressForm({ shippingAddress, onSubmit }: Props) {
 						isDisabled={isSubmitting || isValidating}
 						className={utilStyles.marginTop_40}
 						testId="save-shipping-button"
-					>REVIEW & PAY</Button>
+					>
+						REVIEW & PAY
+					</Button>
 				</Form>
 			)}
 		</Formik>
@@ -70,4 +75,3 @@ function DeliveryAddressForm({ shippingAddress, onSubmit }: Props) {
 }
 
 export default DeliveryAddressForm;
-

@@ -1,6 +1,7 @@
 {
+	"name": "checkout-frontend",
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/checkout",
+	"sourceRoot": "apps/checkout-frontend",
 	"projectType": "application",
 	"targets": {
 		"build": {
@@ -8,30 +9,30 @@
 			"outputs": ["{options.outputPath}"],
 			"defaultConfiguration": "production",
 			"options": {
-				"root": "apps/checkout",
-				"outputPath": "dist/apps/checkout"
+				"root": "apps/checkout-frontend",
+				"outputPath": "dist/apps/checkout-frontend"
 			},
 			"configurations": {
 				"production": {},
 				"development": {
-					"outputPath": "apps/checkout"
+					"outputPath": "apps/checkout-frontend"
 				}
 			}
 		},
 		"serve": {
 			"executor": "@nrwl/next:server",
 			"options": {
-				"buildTarget": "checkout:build",
+				"buildTarget": "checkout-frontend:build",
 				"dev": true,
 				"port": 4201
 			},
 			"configurations": {
 				"production": {
-					"buildTarget": "checkout:build:production",
+					"buildTarget": "checkout-frontend:build:production",
 					"dev": false
 				},
 				"development": {
-					"buildTarget": "checkout:build:development",
+					"buildTarget": "checkout-frontend:build:development",
 					"dev": true
 				}
 			},
@@ -40,14 +41,14 @@
 		"export": {
 			"executor": "@nrwl/next:export",
 			"options": {
-				"buildTarget": "checkout:build:production"
+				"buildTarget": "checkout-frontend:build:production"
 			}
 		},
 		"test": {
 			"executor": "@nrwl/jest:jest",
-			"outputs": ["coverage/apps/checkout"],
+			"outputs": ["coverage/apps/checkout-frontend"],
 			"options": {
-				"jestConfig": "apps/checkout/jest.config.ts",
+				"jestConfig": "apps/checkout-frontend/jest.config.ts",
 				"passWithNoTests": true
 			}
 		},
@@ -55,7 +56,9 @@
 			"executor": "@nrwl/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/checkout/**/*.{ts,tsx,js,jsx}"]
+				"lintFilePatterns": [
+					"apps/checkout-frontend/**/*.{ts,tsx,js,jsx}"
+				]
 			}
 		}
 	},

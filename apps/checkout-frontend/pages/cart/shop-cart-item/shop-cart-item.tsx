@@ -5,7 +5,12 @@ import { utils } from '@ps-ecommerce/shared-ui-logic';
 import { ShopCartItem } from '@ps-ecommerce/types';
 
 import { ProductImage } from '@ps-ecommerce/shared-ui-components';
-import { FormSelect, IconButton, CloseIcon, FavoriteIcon } from '@ps-ecommerce/design-system';
+import {
+	FormSelect,
+	IconButton,
+	CloseIcon,
+	FavoriteIcon,
+} from '@ps-ecommerce/design-system';
 
 import styles from './shop-cart-item.module.css';
 
@@ -16,7 +21,7 @@ type Props = {
 	onUpdateItem(item: ShopCartItem, quantity: number): void;
 	onRemoveItem(item: ShopCartItem): void;
 	onWishlistSelectionUpdate(item: ShopCartItem): void;
-}
+};
 
 function ShopCartItemComponent({
 	item,
@@ -24,7 +29,7 @@ function ShopCartItemComponent({
 	className,
 	onUpdateItem,
 	onRemoveItem,
-	onWishlistSelectionUpdate
+	onWishlistSelectionUpdate,
 }: Props) {
 	return (
 		<div className={cx(styles.shopCartItem, className)}>
@@ -45,7 +50,9 @@ function ShopCartItemComponent({
 						>
 							<span>{item.product.name}</span>
 						</a>
-						<span className={styles.itemDetailsPrice}>{item.quantity * item.product.price} €</span>
+						<span className={styles.itemDetailsPrice}>
+							{item.quantity * item.product.price} €
+						</span>
 					</div>
 					<div>
 						<span>Size: {item.product.sizeName}</span>
@@ -58,18 +65,24 @@ function ShopCartItemComponent({
 						onChange={(value) => onUpdateItem(item, +value)}
 					>
 						{utils.createArray(10).map((_, index) => (
-							<option key={index} value={index + 1}>{index + 1}</option>
+							<option key={index} value={index + 1}>
+								{index + 1}
+							</option>
 						))}
 					</FormSelect>
 				</div>
 			</div>
 			<div className={styles.itemActions}>
-				<IconButton className={styles.itemActionIcon} size="small" onClick={() => onRemoveItem(item)}>
+				<IconButton
+					className={styles.itemActionIcon}
+					size="small"
+					onClick={() => onRemoveItem(item)}
+				>
 					<CloseIcon />
 				</IconButton>
 				<IconButton
 					className={cx(styles.itemActionIcon, {
-						[styles.shopCartItemInWishlist]: isInWishlist
+						[styles.shopCartItemInWishlist]: isInWishlist,
 					})}
 					size="small"
 					onClick={() => onWishlistSelectionUpdate(item)}

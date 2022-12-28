@@ -1,24 +1,25 @@
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 import { useShopCart } from '@ps-ecommerce/shared-ui-components';
 
-import { PaymentData } from "@ps-ecommerce/types";
+import { PaymentData } from '@ps-ecommerce/types';
 
 function usePayment() {
 	const router = useRouter();
-	const { actions: { checkout } } = useShopCart();
+	const {
+		actions: { checkout },
+	} = useShopCart();
 
 	const onFormSubmit = async (paymentData: PaymentData) => {
 		await checkout(paymentData);
-		router.push("/confirmation");
+		router.push('/confirmation');
 	};
 
 	return {
 		actions: {
-			onFormSubmit
-		}
+			onFormSubmit,
+		},
 	};
-
 }
 
 export default usePayment;

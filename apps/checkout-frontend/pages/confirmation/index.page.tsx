@@ -14,7 +14,7 @@ import {
 	WarehouseIcon,
 	ShippingIcon,
 	CheckmarkIcon,
-	utilStyles
+	utilStyles,
 } from '@ps-ecommerce/design-system';
 
 import styles from './confirmation.module.css';
@@ -34,14 +34,22 @@ const OrderConfirmationQuery = gql`
 	}
 `;
 
-function NextStep({ icon, title, children }: { icon: ReactElement, title: string, children: ReactElement | string }) {
+function NextStep({
+	icon,
+	title,
+	children,
+}: {
+	icon: ReactElement;
+	title: string;
+	children: ReactElement | string;
+}) {
 	return (
 		<li className={styles.confirmationPageNextStep}>
-			<div className={styles.confirmationPageNextStepIcon}>
-				{icon}
-			</div>
+			<div className={styles.confirmationPageNextStepIcon}>{icon}</div>
 			<div>
-			<h3 className={styles.confirmationPageNextStepTitle}>{title}</h3>
+				<h3 className={styles.confirmationPageNextStepTitle}>
+					{title}
+				</h3>
 				<p>{children}</p>
 			</div>
 		</li>
@@ -53,32 +61,61 @@ function ConfirmationPage({ order }: Props) {
 		<section className={styles.confirmationPage}>
 			<div className={styles.confirmationPageInfo}>
 				<div className={styles.confirmationPageBlock}>
-					<SectionTitle as="h1" className={utilStyles.marginBottom_20}>We&apos;ve received your order</SectionTitle>
-					<MessageBanner className={styles.confirmationPageSuccessBanner}>
+					<SectionTitle
+						as="h1"
+						className={utilStyles.marginBottom_20}
+					>
+						We&apos;ve received your order
+					</SectionTitle>
+					<MessageBanner
+						className={styles.confirmationPageSuccessBanner}
+					>
 						Your order is being processed
 					</MessageBanner>
-					<p className={utilStyles.marginTop_15}>Order number: <span data-test-id="order-code">{order.code}</span></p>
+					<p className={utilStyles.marginTop_15}>
+						Order number:{' '}
+						<span data-test-id="order-code">{order.code}</span>
+					</p>
 					<p className={utilStyles.marginTop_15}>
 						<span>Thanks for buying with us!&nbsp;</span>
-						<span>We will send you a confirmation email shortly to: <span className={styles.confirmationPageUserEmail}>{order.shippingAddress.email}</span></span>
+						<span>
+							We will send you a confirmation email shortly to:{' '}
+							<span className={styles.confirmationPageUserEmail}>
+								{order.shippingAddress.email}
+							</span>
+						</span>
 					</p>
 				</div>
 				<div className={utilStyles.marginTop_40}>
-					<SectionTitle className={utilStyles.marginBottom_20}>NEXT STEPS</SectionTitle>
+					<SectionTitle className={utilStyles.marginBottom_20}>
+						NEXT STEPS
+					</SectionTitle>
 					<ol className={styles.confirmationPageNextStepsList}>
 						<NextStep icon={<WarehouseIcon />} title="Preparation">
-							Your items will be collected and sent from our warehouse.
+							Your items will be collected and sent from our
+							warehouse.
 						</NextStep>
 						<NextStep icon={<ShippingIcon />} title="Shipping">
-							We will ship your order and you will receieve and email with a tracking link.
+							We will ship your order and you will receieve and
+							email with a tracking link.
 						</NextStep>
 						<NextStep icon={<CheckmarkIcon />} title="Delivery">
-							You will receive your order in the address you provided to us.
+							You will receive your order in the address you
+							provided to us.
 						</NextStep>
 					</ol>
 					<p>
 						<span>Any further questions?&nbsp;</span>
-						<span>Find the answers in our <a className={styles.confirmationPageHelpPageLink} href="#">help page</a>.</span>
+						<span>
+							Find the answers in our{' '}
+							<a
+								className={styles.confirmationPageHelpPageLink}
+								href="#"
+							>
+								help page
+							</a>
+							.
+						</span>
 					</p>
 				</div>
 			</div>
@@ -95,26 +132,29 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 	});
 
 	const queryResult = await apolloClient.query({
-		query: OrderConfirmationQuery
+		query: OrderConfirmationQuery,
 	});
 
 	return {
 		props: {
-			order: queryResult.data.userLastOrder
-		}
+			order: queryResult.data.userLastOrder,
+		},
 	};
-}
+};
 
-ConfirmationPage.getLayout = function getLayout(page: ReactElement, pageProps: any) {
+ConfirmationPage.getLayout = function getLayout(
+	page: ReactElement,
+	pageProps: any
+) {
 	const sidebarContent = (
 		<HelpLinksList
 			title="Do you need help?"
-			titleSize='tiny'
+			titleSize="tiny"
 			links={[
 				{ href: '#', text: 'When will arrive my order?' },
 				{ href: '#', text: 'Can I return my order?' },
 				{ href: '#', text: 'Do I need an account to place an order?' },
-				{ href: '#', text: 'How can I use my discount?' }
+				{ href: '#', text: 'How can I use my discount?' },
 			]}
 		/>
 	);
@@ -128,6 +168,6 @@ ConfirmationPage.getLayout = function getLayout(page: ReactElement, pageProps: a
 			{page}
 		</ShopLayout>
 	);
-}
+};
 
 export default ConfirmationPage;

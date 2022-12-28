@@ -7,11 +7,11 @@
 			"executor": "@nrwl/cypress:cypress",
 			"options": {
 				"cypressConfig": "apps/checkout-e2e/cypress.json",
-				"devServerTarget": "checkout:serve"
+				"devServerTarget": "checkout-frontend:serve"
 			},
 			"configurations": {
 				"production": {
-					"devServerTarget": "checkout:serve:production"
+					"devServerTarget": "checkout-frontend:serve:production"
 				}
 			}
 		},
@@ -24,5 +24,5 @@
 		}
 	},
 	"tags": [],
-	"implicitDependencies": ["checkout"]
+	"implicitDependencies": ["checkout-frontend"]
 }
