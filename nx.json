@@ -36,7 +36,7 @@
       }
     }
   },
-  "defaultProject": "shell",
+  "defaultProject": "catalog-frontend",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {

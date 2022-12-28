@@ -3,6 +3,7 @@
 	"projects": {
 		"apollo-gateway": "apps/apollo-gateway",
 		"catalog-backend": "libs/catalog-backend",
+		"catalog-frontend": "apps/catalog-frontend",
 		"catalog-service": "apps/catalog-service",
 		"checkout-backend": "libs/checkout-backend",
 		"checkout-e2e": "apps/checkout-e2e",
@@ -16,7 +17,6 @@
 		"shared-server": "libs/shared-server",
 		"shared-ui-components": "libs/shared-ui-components",
 		"shared-ui-logic": "libs/shared-ui-logic",
-		"shell": "apps/shell",
 		"shell-e2e": "apps/shell-e2e",
 		"types": "libs/types",
 		"wishlist-service": "apps/wishlist-service"
