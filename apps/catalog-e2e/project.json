@@ -1,12 +1,13 @@
 {
 	"$schema": "../../node_modules/nx/schemas/project-schema.json",
-	"sourceRoot": "apps/shell-e2e/src",
+	"name": "catalog-e2e",
+	"sourceRoot": "apps/catalog-e2e/src",
 	"projectType": "application",
 	"targets": {
 		"e2e": {
 			"executor": "@nrwl/cypress:cypress",
 			"options": {
-				"cypressConfig": "apps/shell-e2e/cypress.json",
+				"cypressConfig": "apps/catalog-e2e/cypress.json",
 				"devServerTarget": "catalog-frontend:serve"
 			},
 			"configurations": {
@@ -19,7 +20,7 @@
 			"executor": "@nrwl/linter:eslint",
 			"outputs": ["{options.outputFile}"],
 			"options": {
-				"lintFilePatterns": ["apps/shell-e2e/**/*.{js,ts}"]
+				"lintFilePatterns": ["apps/catalog-e2e/**/*.{js,ts}"]
 			}
 		}
 	},
