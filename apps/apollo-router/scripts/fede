@@ -21,22 +21,22 @@ const log = console.log;
 const subgraphsConfig = {
 	catalog: {
 		name: 'catalog',
-		serviceHost: 'https://ecommerce-catalog-service-negb2.ondigitalocean.app/',
+		serviceHost: 'https://catalog-service.onrender.com',
 		localPort: 4001
 	},
 	orders: {
 		name: 'orders',
-		serviceHost: 'https://ecommerce-customer-service-egqus.ondigitalocean.app/',
+		serviceHost: 'https://orders-service-639f.onrender.com',
 		localPort: 4003
 	},
 	checkout: {
 		name: 'checkout',
-		serviceHost: 'https://ecommerce-checkout-service-i3ajw.ondigitalocean.app/',
+		serviceHost: 'https://checkout-service.onrender.com',
 		localPort: 4002
 	},
   wishlist: {
     name: 'wishlist',
-    serviceHost: '',
+    serviceHost: 'https://wishlist-service.onrender.com',
     localPort: 4004
   }
 };
