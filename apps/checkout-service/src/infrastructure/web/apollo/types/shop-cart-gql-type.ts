@@ -16,7 +16,7 @@ export const typeDef = gql`
 		@link(url: "https://specs.apollo.dev/federation/v2.0",
 			import: ["@key", "@external", "@requires"])
 
-	type Product @key(fields: "code", resolvable: true) {
+	type Product @key(fields: "code") {
 		code: String!
 		isPopular: Boolean!
 	}
