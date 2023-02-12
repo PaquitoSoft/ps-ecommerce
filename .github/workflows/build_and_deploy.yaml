@@ -26,37 +26,6 @@ jobs:
             orders: apps/orders-service/**
             wishlist: apps/wishlist-service/**
 
-#   dependencies:
-#     needs: changes
-#     # Only run this step if there are any package affected
-#     if: needs.changes.outputs.packages != '[]'
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/setup-node@v3
-#         with:
-#           node-version: 16
-
-#       - uses: actions/download-artifact@v3
-#         with:
-#           name: workspace-${{ github.sha }}
-
-#       - name: Uncompress workspace
-#         run: |
-#           tar -xvzf workspace-${{ github.sha }}.tar.gz
-#           rm workspace-${{ github.sha }}.tar.gz
-
-#       - name: Install dependencies
-#         run: npm ci
-
-#       - name: Compress workspace
-#         run: tar -cvzf workspace-${{ github.sha }}.tar.gz ${{ github.workspace }}
-
-#       - uses: actions/upload-artifact@v3
-#         with:
-#           name: workspace-${{ github.sha }}
-#           path: workspace-${{ github.sha }}.tar.gz
-#           retention-days: 1
-
   build_and_deploy:
     needs: changes
     if: needs.changes.outputs.packages != '[]'
@@ -81,39 +50,27 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}-A
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
         continue-on-error: true
         run: npm ci
 
-    #   - uses: actions/download-artifact@v3
-    #     with:
-    #       name: workspace-${{ github.sha }}
+      - name: Build service
+        run: npx nx build ${{ matrix.package }}-service
 
-    #   - name: Uncompress workspace
-    #     run: |
-    #       tar -xvzf workspace-${{ github.sha }}.tar.gz
-    #       rm workspace-${{ github.sha }}.tar.gz
+      - name: Build docker image
+        run: docker build -f ./apps/${{ matrix.package }}-service/Dockerfile . -t paquitosoft/ecommerce_${{ matrix.package }}-service
 
-      - run: ls
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+    	with:
+    	  username: ${{ secrets.DOCKER_USERNAME }}
+    	  password: ${{ secrets.DOCKER_PASSWORD }}
 
-
-    #   - name: Build service
-    #     run: npx nx build ${{ matrix.package }}-service
-
-    #   - name: Build docker image
-    #     run: docker build -f ./apps/${{ matrix.package }}-service/Dockerfile . -t paquitosoft/ecommerce_${{ matrix.package }}-service
-
-    #   - name: Login to Docker Hub
-    #     uses: docker/login-action@v2
-    # 	with:
-    # 	  username: ${{ secrets.DOCKER_USERNAME }}
-    # 	  password: ${{ secrets.DOCKER_PASSWORD }}
-
-    #   - name: Deploy image to Docker Hub
-    # 	run: docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
+      - name: Deploy image to Docker Hub
+    	run: docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
         # run: |
         #     docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         #     docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
