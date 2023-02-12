@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 
-COPY ./dist/apps/customer-service .
+COPY ./dist/apps/orders-service .
 
 ENV PORT=4003
 

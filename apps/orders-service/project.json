@@ -29,9 +29,9 @@
 				"envFile": "./.env",
 				"parallel": false,
 				"commands": [
-					"nx build customer-service",
-					"docker build -f ./apps/orders-service/Dockerfile . -t paquitosoft/ecommerce_customer-service",
-					"docker push paquitosoft/ecommerce_customer-service:latest"
+					"nx build orders-service",
+					"docker build -f ./apps/orders-service/Dockerfile . -t paquitosoft/ecommerce_orders-service",
+					"docker push paquitosoft/ecommerce_orders-service:latest"
 				]
 			}
 		},
