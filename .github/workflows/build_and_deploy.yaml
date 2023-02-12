@@ -21,10 +21,10 @@ jobs:
         id: filter
         with:
           filters: |
-            catalog: app/catalog-service
-            checkout: app/checkout-service
-            orders: app/orders-service
-            wishlist: app/wishlist-service
+            catalog: apps/catalog-service
+            checkout: apps/checkout-service
+            orders: apps/orders-service
+            wishlist: apps/wishlist-service
 
   build:
     needs: changes
