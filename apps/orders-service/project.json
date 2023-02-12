@@ -31,7 +31,7 @@
 				"commands": [
 					"nx build orders-service",
 					"docker build -f ./apps/orders-service/Dockerfile . -t paquitosoft/ecommerce_orders-service",
-					"docker push paquitosoft/ecommerce_orders-service:latest_"
+					"docker push paquitosoft/ecommerce_orders-service:latest"
 				]
 			}
 		},
