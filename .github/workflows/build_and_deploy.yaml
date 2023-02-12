@@ -17,10 +17,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Compress workspace
+        run: tar -cvzf workspace-${{ github.sha }}.tar.gz ${{ github.workspace }}
+
       - uses: actions/upload-artifact@v3
         with:
           name: workspace-${{ github.sha }}
-          path: ${{ github.workspace }}
+          path: workspace-${{ github.sha }}.tar.gz
           retention-days: 1
 
       - uses: dorny/paths-filter@v2
@@ -46,13 +49,21 @@ jobs:
         with:
           name: workspace-${{ github.sha }}
 
+      - name: Uncompress workspace
+        run: |
+          tar -xvzf workspace-${{ github.sha }}.tar.gz
+          rm workspace-${{ github.sha }}.tar.gz
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Compress workspace
+        run: tar -cvzf workspace-${{ github.sha }}.tar.gz ${{ github.workspace }}
 
       - uses: actions/upload-artifact@v3
         with:
           name: workspace-${{ github.sha }}
-          path: ${{ github.workspace }}
+          path: workspace-${{ github.sha }}.tar.gz
           retention-days: 1
 
   build_and_deploy:
@@ -69,6 +80,11 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: workspace-${{ github.sha }}
+
+      - name: Uncompress workspace
+        run: |
+          tar -xvzf workspace-${{ github.sha }}.tar.gz
+          rm workspace-${{ github.sha }}.tar.gz
 
       - run: ls -R
 
