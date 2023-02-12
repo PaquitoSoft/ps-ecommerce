@@ -30,7 +30,7 @@
 				"commands": [
 					"nx build wishlist-service",
 					"docker build -f ./apps/wishlist-service/Dockerfile . -t paquitosoft/ecommerce_wishlist-service",
-					"docker push paquitosoft/ecommerce_wishlist-service:latest"
+					"docker push paquitosoft/ecommerce_wishlist-service:latest_"
 				]
 			}
 		},
