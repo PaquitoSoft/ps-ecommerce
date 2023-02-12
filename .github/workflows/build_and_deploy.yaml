@@ -48,9 +48,6 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
-      - name: List node modules
-        run: ls
-
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -74,6 +71,3 @@ jobs:
 
       - name: Deploy image to Docker Hub
         run: docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
-
-      - name: List node modules - B
-        run: ls
