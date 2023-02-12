@@ -1,4 +1,4 @@
-name: Deploy Orders service
+name: Deploy backend services
 
 run-name: Deploying backend services on behalf of ${{ github.actor }}
 
