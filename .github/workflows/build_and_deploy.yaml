@@ -35,6 +35,7 @@ jobs:
     steps:
 #       - run: echo "🔎 The name of your branch is ${{ matrix.package }} and your repository is ${{ github.repository }}."
       - run: echo "🔎 The name of your branch is '${{ needs.changes.outputs }}'."
+      - run: echo "🔎 The name of your branch is '${{ fromJSON(needs.changes.outputs) }}'."
       - run: echo "🔎 The name of your branch is '${{ needs.changes.outputs.packages }}'."
 
 #   build:
