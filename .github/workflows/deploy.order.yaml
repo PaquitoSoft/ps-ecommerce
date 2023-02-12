@@ -38,6 +38,11 @@ jobs:
         
         - name: Build docker image
           run: docker build -f ./apps/checkout-service/Dockerfile . -t paquitosoft/ecommerce_checkout-service
+        
+        - name: Deploy image to Docker Hub
+          run: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker push paquitosoft/ecommerce_checkout-service:latest
 
         # - name: Build and push service Docker image to registry
         #   run: npx nx run orders-service:deploy
