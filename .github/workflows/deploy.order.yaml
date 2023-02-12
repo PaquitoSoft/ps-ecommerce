@@ -32,6 +32,9 @@ jobs:
 
         - name: Install dependencies
           run: npm ci
+        
+        - name: Build service
+          run: npx nx build checkout-service
 
         # - name: Build and push service Docker image to registry
         #   run: npx nx run orders-service:deploy
