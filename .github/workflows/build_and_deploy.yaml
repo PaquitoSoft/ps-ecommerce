@@ -1,6 +1,6 @@
 name: Deploy Orders service
 
-run-name: ${{ github.actor }} is deploying Orders service
+run-name: Deploying backend services on behalf of ${{ github.actor }}
 
 on:
   push:
