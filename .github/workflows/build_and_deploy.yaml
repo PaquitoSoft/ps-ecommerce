@@ -52,6 +52,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
+	  - run: ls node_modules
+
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
         continue-on-error: true
