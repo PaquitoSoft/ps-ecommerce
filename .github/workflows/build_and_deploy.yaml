@@ -58,8 +58,8 @@ jobs:
 #           retention-days: 1
 
   build_and_deploy:
-    needs: dependencies
-    # if: needs.changes.outputs.packages != '[]'
+    needs: changes
+    if: needs.changes.outputs.packages != '[]'
     # Build an array with the affected packages
     strategy:
       matrix:
