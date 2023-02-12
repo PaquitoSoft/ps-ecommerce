@@ -30,7 +30,7 @@ jobs:
     needs: changes
     strategy:
       matrix:
-        package: ${{ fromJSON(needs.changes.outputs.packages) }}
+        package: ${{ fromJSON(needs.changes.filter.outputs.packages) }}
     runs-on: ubuntu-latest
     steps:
       - run: echo "🔎 The name of your branch is ${{ matrix.package }} and your repository is ${{ github.repository }}."
