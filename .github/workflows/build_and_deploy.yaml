@@ -26,16 +26,41 @@ jobs:
             orders: apps/orders-service/**
             wishlist: apps/wishlist-service/**
 
-  build:
+  dependencies:
     needs: changes
+    # Only run this step if there are any package affected
     if: needs.changes.outputs.packages != '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm ci
+
+  build_and_deploy:
+    needs: dependencies
+    # if: needs.changes.outputs.packages != '[]'
+	# Build an array with the affected packages
     strategy:
       matrix:
         package: ${{ fromJSON(needs.changes.outputs.packages) }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🔎 The name of your branch is '${{ needs.changes.outputs.packages }}'."
-      - run: echo "🔎 Deploying service '${{ matrix.package }}'."
+      - run: echo "🚀 Deploying service '${{ matrix.package }}'."
+
+      - name: Build service
+        run: npx nx build ${{ matrix.package }}-service
+
+      - name: Build docker image
+        run: docker build -f ./apps/${{ matrix.package }}-service/Dockerfile . -t paquitosoft/ecommerce_${{ matrix.package }}-service
+
+      - name: Deploy image to Docker Hub
+        run: |
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
+
 
 #   build:
 #     runs-on: ubuntu-latest
