@@ -73,7 +73,9 @@ jobs:
         run: docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
 
       - name: Deploy image to production environment
-        run: caprover deploy -h ${{ secrets.PRODUCTION_SERVER_HOST }} -p ${{ secrets.DEPLOYMENT_TOKEN }} -a ps-ecommerce-${{ matrix.package }}-service -i paquitosoft/ecommerce_${{ matrix.package }}-service:latest
+        run: |
+          npm i -g caprover
+          caprover deploy -h ${{ secrets.PRODUCTION_SERVER_HOST }} -p ${{ secrets.DEPLOYMENT_TOKEN }} -a ps-ecommerce-${{ matrix.package }}-service -i paquitosoft/ecommerce_${{ matrix.package }}-service:latest
         # uses: caprover/deploy-from-github@1.1.2
         # with:
         #   server: ${{ secrets.PRODUCTION_SERVER_HOST }}
