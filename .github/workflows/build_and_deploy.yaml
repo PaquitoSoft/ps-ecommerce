@@ -81,7 +81,7 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}-A
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
@@ -97,7 +97,7 @@ jobs:
     #       tar -xvzf workspace-${{ github.sha }}.tar.gz
     #       rm workspace-${{ github.sha }}.tar.gz
 
-      - run: ls -R
+      - run: ls
 
 
     #   - name: Build service
