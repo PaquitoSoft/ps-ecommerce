@@ -1,0 +1,73 @@
+name: Deploy Orders service
+
+run-name: ${{ github.actor }} is deploying Orders service
+
+on:
+  push:
+    branches:
+      - main
+  merge:
+    branches:
+	  - main
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+	permissions:
+	  pull-requests: read
+	outputs:
+	  packages: ${{ steps.filter.outputs.changes}}
+	steps:
+	  - uses: dorny/paths-filter@v2
+	    id: filter
+		with: |
+		  catalog: app/catalog-service
+		  checkout: app/checkout-service
+		  orders: app/orders-service
+		  wishlist: app/wishlist-service
+
+  build:
+    needs: changes
+	strategy:
+	  matrix:
+	    package: ${{ fromJSON(needs.changes.outputs.packages) }}
+    runs-on: ubuntu-latest
+	steps:
+	  - run: echo "🔎 The name of your branch is ${{ matrix.package }} and your repository is ${{ github.repository }}."
+
+#   build:
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 10
+
+#     steps:
+#         - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+#         - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+#         - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+
+#         - uses: actions/checkout@v3
+
+#         - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+#         - run: echo "🖥️ The workflow is now ready to build your code on the runner."
+#         - name: List files in the repository
+#           run: |
+#             ls ${{ github.workspace }}
+#         - run: echo "🍏 This job's status is ${{ job.status }}."
+
+#         - uses: actions/setup-node@v3
+#           with:
+#             node-version: 16
+
+#         - name: Install dependencies
+#           run: npm ci
+
+#         - name: Build service
+#           run: npx nx build checkout-service
+
+#         - name: Build docker image
+#           run: docker build -f ./apps/checkout-service/Dockerfile . -t paquitosoft/ecommerce_checkout-service
+
+#         - name: Deploy image to Docker Hub
+#           run: |
+#             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+#             docker push paquitosoft/ecommerce_checkout-service:latest
+
