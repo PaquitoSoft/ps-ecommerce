@@ -31,7 +31,7 @@
 				"commands": [
 					"nx build checkout-service",
 					"docker build -f ./apps/checkout-service/Dockerfile . -t paquitosoft/ecommerce_checkout-service",
-					"docker push paquitosoft/ecommerce_checkout-service:latest"
+					"docker push paquitosoft/ecommerce_checkout-service:latest_"
 				]
 			}
 		},
