@@ -39,10 +39,6 @@ jobs:
 
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
       - name: Cache node modules
         id: cache-npm
         uses: actions/cache@v3
@@ -54,6 +50,10 @@ jobs:
 
       - name: List node modules
         run: ls
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Install dependencies
         if: steps.cache-npm.outputs.cache-hit != 'true'
@@ -74,3 +74,6 @@ jobs:
 
       - name: Deploy image to Docker Hub
         run: docker push paquitosoft/ecommerce_${{ matrix.package }}-service:latest
+
+      - name: List node modules - B
+        run: ls
