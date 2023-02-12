@@ -84,7 +84,7 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
-        if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        if: steps.cache-npm.outputs.cache-hit != 'true'
         continue-on-error: true
         run: npm ci
 
@@ -154,4 +154,3 @@ jobs:
 #           run: |
 #             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 #             docker push paquitosoft/ecommerce_checkout-service:latest
-
