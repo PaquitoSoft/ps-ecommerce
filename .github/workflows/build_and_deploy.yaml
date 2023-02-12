@@ -42,7 +42,7 @@ jobs:
   build_and_deploy:
     needs: dependencies
     # if: needs.changes.outputs.packages != '[]'
-	# Build an array with the affected packages
+    # Build an array with the affected packages
     strategy:
       matrix:
         package: ${{ fromJSON(needs.changes.outputs.packages) }}
