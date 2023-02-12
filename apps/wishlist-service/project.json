@@ -22,6 +22,18 @@
 				}
 			}
 		},
+    "deploy": {
+			"builder": "nx:run-commands",
+			"options": {
+				"envFile": "./.env",
+				"parallel": false,
+				"commands": [
+					"nx build wishlist-service",
+					"docker build -f ./apps/wishlist-service/Dockerfile . -t paquitosoft/ecommerce_wishlist-service",
+					"docker push paquitosoft/ecommerce_wishlist-service:latest"
+				]
+			}
+		},
 		"serve": {
 			"executor": "@nrwl/js:node",
 			"options": {
