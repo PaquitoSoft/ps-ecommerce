@@ -35,6 +35,9 @@ jobs:
         
         - name: Build service
           run: npx nx build checkout-service
+        
+        - name: Build docker image
+          run: docker build -f ./apps/checkout-service/Dockerfile . -t paquitosoft/ecommerce_checkout-service
 
         # - name: Build and push service Docker image to registry
         #   run: npx nx run orders-service:deploy
