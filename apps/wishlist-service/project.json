@@ -12,7 +12,8 @@
 				"compiler": "tsc",
 				"outputPath": "dist/apps/wishlist-service",
 				"main": "apps/wishlist-service/src/main.ts",
-				"tsConfig": "apps/wishlist-service/tsconfig.app.json"
+				"tsConfig": "apps/wishlist-service/tsconfig.app.json",
+				"generatePackageJson": true
 			},
 			"configurations": {
 				"production": {
