@@ -17,11 +17,12 @@ jobs:
     steps:
       - uses: dorny/paths-filter@v2
         id: filter
-        with: |
-          catalog: app/catalog-service
-          checkout: app/checkout-service
-          orders: app/orders-service
-          wishlist: app/wishlist-service
+        with:
+          filters: |
+            catalog: app/catalog-service
+            checkout: app/checkout-service
+            orders: app/orders-service
+            wishlist: app/wishlist-service
 
   build:
     needs: changes
