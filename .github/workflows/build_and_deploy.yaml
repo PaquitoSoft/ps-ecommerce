@@ -1,4 +1,4 @@
-name: Deploy backend services
+name: Deploy backend service
 
 run-name: Deploying backend services on behalf of ${{ github.actor }}
 
@@ -8,32 +8,32 @@ on:
       - main
   merge:
     branches:
-	  - main
+      - main
 
 jobs:
   changes:
     runs-on: ubuntu-latest
-	permissions:
-	  pull-requests: read
-	outputs:
-	  packages: ${{ steps.filter.outputs.changes}}
-	steps:
-	  - uses: dorny/paths-filter@v2
-	    id: filter
-		with: |
-		  catalog: app/catalog-service
-		  checkout: app/checkout-service
-		  orders: app/orders-service
-		  wishlist: app/wishlist-service
+    permissions:
+      pull-requests: read
+    outputs:
+      packages: ${{ steps.filter.outputs.changes}}
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with: |
+          catalog: app/catalog-service
+          checkout: app/checkout-service
+          orders: app/orders-service
+          wishlist: app/wishlist-service
 
   build:
     needs: changes
-	strategy:
-	  matrix:
-	    package: ${{ fromJSON(needs.changes.outputs.packages) }}
+    strategy:
+      matrix:
+        package: ${{ fromJSON(needs.changes.outputs.packages) }}
     runs-on: ubuntu-latest
-	steps:
-	  - run: echo "🔎 The name of your branch is ${{ matrix.package }} and your repository is ${{ github.repository }}."
+    steps:
+      - run: echo "🔎 The name of your branch is ${{ matrix.package }} and your repository is ${{ github.repository }}."
 
 #   build:
 #     runs-on: ubuntu-latest
