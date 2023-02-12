@@ -42,7 +42,7 @@
 				"commands": [
 					"nx build catalog-service",
 					"docker build -f ./apps/catalog-service/Dockerfile . -t paquitosoft/ecommerce_catalog-service",
-					"docker push paquitosoft/ecommerce_catalog-service:latest"
+					"docker push paquitosoft/ecommerce_catalog-service:latest_"
 				]
 			}
 		},
